@@ -27,3 +27,6 @@ Thumbs.db
 # Build deps
 node_modules/
 package-lock.json
+
+# Original source documents
+book/
