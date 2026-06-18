@@ -1,0 +1,15 @@
+:root {
+  --color-page: #f5f0e8;
+  --color-card: #faf7f2;
+  --color-text-primary: #3d2b1f;
+  --color-text-secondary: #8b7355;
+  --color-text-faint: #a09080;
+  --color-border: #c4a882;
+  --color-divider: #e8dcc8;
+
+  --font-serif: 'Noto Serif TC', 'Noto Serif SC', 'Songti SC', 'PMingLiU', '新細明體', serif;
+  --font-size-body: 18px;
+  --font-size-small: 13px;
+  --font-size-quote: 22px;
+  --line-height-body: 2.0;
+}
