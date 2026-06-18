@@ -1,0 +1,135 @@
+.cover-inner {
+  position: relative;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  background: linear-gradient(180deg,
+    #f0ebe0 0%,
+    #f5f0e8 30%,
+    #f5f0e8 70%,
+    #ede4d4 100%);
+}
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cloud breathing animation */
+.cloud-1 { animation: cloudBreathe 5s ease-in-out infinite; }
+.cloud-2 { animation: cloudBreathe 4s ease-in-out 1s infinite; }
+.cloud-3 { animation: cloudBreathe 6s ease-in-out 2s infinite; }
+
+@keyframes cloudBreathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Geese flying animation */
+.geese-group {
+  animation: geeseFly 40s linear infinite;
+}
+
+@keyframes geeseFly {
+  from { transform: translateX(480px); }
+  to   { transform: translateX(-200px); }
+}
+
+/* Slow parallax drift on mountains */
+.layer-mountains-far {
+  animation: driftSlow 60s ease-in-out infinite alternate;
+}
+.layer-mountains-mid {
+  animation: driftSlow 45s ease-in-out 5s infinite alternate;
+}
+
+@keyframes driftSlow {
+  from { transform: translateX(-8px); }
+  to   { transform: translateX(8px); }
+}
+
+/* Quote */
+.cover-quote {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  padding: 0 32px;
+}
+
+.quote-line {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-quote);
+  font-weight: 300;
+  color: var(--color-text-primary);
+  line-height: 2.2;
+  letter-spacing: 0.15em;
+  text-align: center;
+  opacity: 0;
+  animation: quoteFadeIn 2s ease-out forwards;
+}
+
+.quote-line:last-child {
+  animation-delay: 0.8s;
+}
+
+@keyframes quoteFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Site name */
+.cover-site-name {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 2;
+}
+
+.site-cn {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-small);
+  color: var(--color-text-faint);
+  letter-spacing: 0.4em;
+}
+
+.site-en {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.2em;
+  margin-top: 4px;
+}
+
+/* Click anywhere hint (small arrow indicator bottom-center) */
+.cover-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  border-right: 1px solid var(--color-text-faint);
+  border-bottom: 1px solid var(--color-text-faint);
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0.3;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.45; }
+}
