@@ -1,0 +1,98 @@
+/* src/css/shelf.css */
+.shelf-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+/* Book card — mimics a physical book */
+.book-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:active {
+  transform: scale(0.97);
+}
+
+.book-cover {
+  position: relative;
+  width: 180px;
+  height: 260px;
+  background: linear-gradient(135deg, #faf7f2 0%, #f5f0e8 100%);
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  box-shadow:
+    2px 2px 8px rgba(0,0,0,0.08),
+    0 0 0 1px rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Book spine shadow */
+.book-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.08) 0%,
+    rgba(0,0,0,0.03) 50%,
+    transparent 100%);
+  border-right: 1px solid rgba(0,0,0,0.06);
+}
+
+.book-face {
+  text-align: center;
+  padding: 32px 24px;
+  margin-left: 8px;
+}
+
+.book-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.15em;
+  line-height: 1.6;
+}
+
+.book-subtitle {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  margin-top: 8px;
+  letter-spacing: 0.12em;
+  font-style: italic;
+}
+
+.book-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px auto;
+}
+
+.book-author {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.2em;
+}
+
+.entry-hint {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-small);
+  color: var(--color-text-faint);
+  letter-spacing: 0.15em;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
