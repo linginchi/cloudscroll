@@ -1,6 +1,7 @@
 (function() {
   const bg = document.getElementById('cover-bg');
-  if (!bg) return;
+  const cover = document.getElementById('cover-page');
+  if (!bg || !cover) return;
 
   bg.innerHTML = `
     <!-- Layer 1: Far mountains (distant, faint) -->
@@ -71,10 +72,11 @@
       </g>
     </svg>
   `;
-})();
 
-// Click anywhere on cover to navigate to shelf
-document.getElementById('cover-page').addEventListener('click', function() {
-  sessionStorage.setItem('transition', 'cover-to-shelf');
-  window.location.href = 'shelf.html';
-});
+  bg.setAttribute('aria-hidden', 'true');
+
+  cover.addEventListener('click', function() {
+    sessionStorage.setItem('transition', 'cover-to-shelf');
+    window.location.href = 'shelf.html';
+  });
+})();
