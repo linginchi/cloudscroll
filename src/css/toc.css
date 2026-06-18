@@ -1,0 +1,76 @@
+/* src/css/toc.css */
+
+.toc-heading-zh {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 0.2em;
+}
+
+.toc-heading-en {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-small);
+  color: var(--color-text-faint);
+  text-align: center;
+  margin-bottom: 0;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.toc-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px auto;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--color-divider);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toc-item:active {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.toc-item:last-child {
+  border-bottom: none;
+}
+
+.toc-item-zh {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--color-text-primary);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+}
+
+.toc-item-en {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.toc-item-num {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  margin-right: 8px;
+  flex-shrink: 0;
+}

@@ -63,6 +63,27 @@ html, body {
   letter-spacing: 0.3em;
 }
 
+/* Header with left/right layout */
+.page-header .header-left {
+  float: left;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.2em;
+}
+
+.page-header .header-right {
+  float: right;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.2em;
+}
+
+.page-header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
 /* Content area — flex grow to fill space */
 .page-content {
   flex: 1;
