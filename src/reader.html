@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>閱讀 — 雲箋文舍</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reader.css">
+</head>
+<body>
+  <div class="page" id="reader-page">
+    <div class="page-inner">
+      <div class="page-header">
+        <span class="article-title" id="article-title">文章標題</span>
+        <div class="lang-toggle" id="lang-toggle">
+          <span class="lang-option active" data-lang="zh">中</span>
+          <span class="lang-sep">|</span>
+          <span class="lang-option" data-lang="en">EN</span>
+        </div>
+      </div>
+      <div class="page-content reader-content">
+        <div class="book-container" id="book-container">
+          <!-- Underneath page (next/prev) -->
+          <div class="book-page page-under" id="page-under"></div>
+          <!-- Top page being read/flipped -->
+          <div class="book-page page-top" id="page-top">
+            <div class="page-text" id="page-text"></div>
+          </div>
+        </div>
+        <div class="page-progress" id="page-progress">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+      <div class="page-footer">
+        <span class="book-name"><span class="lang-zh">雲箋文舍</span><span class="lang-en" style="display:none">Cloudscroll</span></span>
+        <span class="page-num" id="page-num">1 / 1</span>
+      </div>
+    </div>
+  </div>
+  <script src="js/reader.js"></script>
+</body>
+</html>

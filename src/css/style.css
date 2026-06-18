@@ -13,8 +13,6 @@ html, body {
   background: #2a2018;
   font-family: var(--font-serif);
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 /* Page container — each "page" is a full-screen container */
@@ -120,4 +118,10 @@ html, body {
 
 .page-footer .page-num {
   letter-spacing: 0.08em;
+}
+
+/* Restrict user-select to decorative pages only */
+.page:not(#reader-page) {
+  user-select: none;
+  -webkit-user-select: none;
 }

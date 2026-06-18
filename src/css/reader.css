@@ -1,0 +1,167 @@
+/* src/css/reader.css */
+.reader-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4px;
+  overflow: hidden;
+}
+
+/* Book container — contains the pages for flipping */
+.book-container {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  perspective: 1200px;
+  overflow: hidden;
+}
+
+/* Individual page in the book */
+.book-page {
+  position: absolute;
+  inset: 0;
+  padding: 20px 16px;
+  background: var(--color-card);
+  border: 1px solid var(--color-divider);
+  border-radius: 2px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Top page (the one being read) — sits above the under page */
+.page-top {
+  z-index: 2;
+  transform-origin: left center;
+  transition: transform 0.45s ease-in-out;
+}
+
+.page-top.flipping {
+  transform: rotateY(-180deg);
+  pointer-events: none;
+}
+
+.page-top.flipping-back {
+  transform: rotateY(180deg);
+  pointer-events: none;
+}
+
+/* Under page (next page content) */
+.page-under {
+  z-index: 1;
+}
+
+.page-under .page-text {
+  color: var(--color-text-faint);
+}
+
+/* Page text styling */
+.page-text {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+  overflow-y: auto;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.page-text p {
+  margin-bottom: 1.2em;
+  text-indent: 2em;
+  text-align: justify;
+}
+
+.page-text p:first-child {
+  margin-top: 0;
+}
+
+/* Language toggle */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11px;
+}
+
+.lang-option {
+  cursor: pointer;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  transition: color 0.2s ease;
+  padding: 2px 4px;
+}
+
+.lang-option.active {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.lang-sep {
+  color: var(--color-border);
+}
+
+/* Progress bar */
+.page-progress {
+  height: 2px;
+  background: var(--color-divider);
+  margin: 4px 0;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--color-border);
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+/* Touch hint areas */
+.touch-area-left,
+.touch-area-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 35%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.touch-area-left {
+  left: 0;
+}
+
+.touch-area-right {
+  right: 0;
+}
+
+/* Scrollbar */
+.book-page .page-text::-webkit-scrollbar {
+  width: 2px;
+}
+
+.book-page .page-text::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 1px;
+}
+
+/* Page flip shadow */
+.page-top.flipping::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 30px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Selected text override — reader pages allow text selection */
+#reader-page .page-text {
+  user-select: text;
+  -webkit-user-select: text;
+}
