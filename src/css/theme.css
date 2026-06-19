@@ -8,8 +8,17 @@
   --color-divider: #e8dcc8;
 
   --font-serif: 'Noto Serif TC', 'Noto Serif SC', 'Songti SC', 'PMingLiU', '新細明體', serif;
+  --font-heading: 'SourceHanSerifTC', var(--font-serif);
   --font-size-body: 18px;
   --font-size-small: 13px;
   --font-size-quote: 22px;
   --line-height-body: 2.0;
+}
+
+@font-face {
+  font-family: 'SourceHanSerifTC';
+  src: url('../fonts/SourceHanSerifTC-Heavy.subset.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }

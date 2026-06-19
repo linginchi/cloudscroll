@@ -6,34 +6,36 @@
   <title>閱讀 — 雲箋文舍</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/reader.css">
+  <link rel="stylesheet" href="css/book.css">
 </head>
 <body>
   <div class="page" id="reader-page">
-    <div class="page-inner">
-      <div class="page-header">
-        <span class="article-title" id="article-title">文章標題</span>
-        <div class="lang-toggle" id="lang-toggle">
+    <div class="page-inner reader-page-inner">
+      <!-- 頂欄 -->
+      <div class="reader-topbar">
+        <a class="reader-back" id="reader-back" href="toc.html">← 目錄</a>
+        <span class="reader-title" id="article-title">文章標題</span>
+        <div class="reader-lang" id="lang-toggle">
           <span class="lang-option active" data-lang="zh">中</span>
           <span class="lang-sep">|</span>
           <span class="lang-option" data-lang="en">EN</span>
         </div>
       </div>
-      <div class="page-content reader-content">
-        <div class="book-container" id="book-container">
-          <!-- Underneath page (next/prev) -->
-          <div class="book-page page-under" id="page-under"></div>
-          <!-- Top page being read/flipped -->
-          <div class="book-page page-top" id="page-top">
-            <div class="page-text" id="page-text"></div>
-          </div>
-        </div>
-        <div class="page-progress" id="page-progress">
+
+      <!-- 滾動閱讀區 -->
+      <div class="reader-scroll" id="reader-scroll">
+        <div class="reader-inner" id="reader-inner"></div>
+      </div>
+
+      <!-- 底部 -->
+      <div class="reader-bottom">
+        <div class="reader-progress" id="reader-progress">
           <div class="progress-bar" id="progress-bar"></div>
         </div>
-      </div>
-      <div class="page-footer">
-        <span class="book-name"><span class="lang-zh">雲箋文舍</span><span class="lang-en" style="display:none">Cloudscroll</span></span>
-        <span class="page-num" id="page-num">1 / 1</span>
+        <div class="reader-meta">
+          <span class="book-name">雲箋文舍</span>
+          <span class="page-num" id="page-num">—</span>
+        </div>
       </div>
     </div>
   </div>

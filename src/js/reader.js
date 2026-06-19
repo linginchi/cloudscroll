@@ -1,317 +1,255 @@
 // src/js/reader.js
+// 連續滾動閱讀模式 — 從 JSON 載入文章，圖文混排，董橋風格
 (function() {
   'use strict';
 
   // ---- DOM refs ----
-  var pageTop = document.getElementById('page-top');
-  var pageUnder = document.getElementById('page-under');
-  var pageText = document.getElementById('page-text');
-  var pageUnderText = pageUnder ? pageUnder.querySelector('.page-text') : null;
-  var pageNum = document.getElementById('page-num');
-  var progressBar = document.getElementById('progress-bar');
+  var scrollEl = document.getElementById('reader-scroll');
+  var innerEl = document.getElementById('reader-inner');
   var articleTitle = document.getElementById('article-title');
   var langToggle = document.getElementById('lang-toggle');
   var langOptions = langToggle ? langToggle.querySelectorAll('.lang-option') : null;
-  var bookContainer = document.getElementById('book-container');
+  var pageNum = document.getElementById('page-num');
+  var progressBar = document.getElementById('progress-bar');
 
-  if (!pageTop || !pageUnder || !pageText || !pageUnderText || !pageNum || !progressBar) return;
+  if (!scrollEl || !innerEl) return;
 
   // ---- State ----
   var currentLang = 'zh';
-  var currentPage = 0;
-  var allPages = [];
-  var isFlipping = false;
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var hasMoved = false;
-
-  // ---- Article data ----
+  var masterData = null;
   var articleData = null;
-  try {
-    var stored = sessionStorage.getItem('currentArticle');
-    if (stored) {
-      articleData = JSON.parse(stored);
-    }
-  } catch (e) { /* ignore */ }
+  var articleBlocks = null;
+  var articleBlocksEn = null;
+  var totalArticles = 0;
+  var articleIndex = -1;
 
-  if (!articleData || !articleData.id) {
-    // Fallback: use first article
-    articleData = {
-      id: '01-wuyi-mountain',
-      zh: '武夷山紀行',
-      en: 'A Journey to Wuyi Mountain'
+  // ---- 載入 master data ----
+  function loadMasterData(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'book/data.json', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try { masterData = JSON.parse(xhr.responseText); callback(null); }
+        catch(e) { callback(e); }
+      } else { callback(new Error('Failed to load book/data.json')); }
     };
+    xhr.onerror = function() { callback(new Error('Network error')); };
+    xhr.send();
   }
 
-  // Update title
-  if (articleTitle) {
-    articleTitle.textContent = articleData.zh;
+  // ---- 載入文章 JSON ----
+  function loadArticleBlocks(articleId, lang, callback) {
+    var suffix = lang === 'en' ? 'en-' : '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'book/' + suffix + articleId + '.json', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try { var data = JSON.parse(xhr.responseText); callback(null, data.blocks || []); }
+        catch(e) { callback(e); }
+      } else if (lang === 'en') { callback(null, null); }
+      else { callback(new Error('Failed to load')); }
+    };
+    xhr.onerror = function() { callback(new Error('Network error')); };
+    xhr.send();
   }
 
-  function getArticleKey() {
-    return 'article_' + articleData.id + '_' + currentLang;
+  // ---- 從 master 找文章摘要 ----
+  function getArticleSummary(articleId) {
+    if (!masterData) return null;
+    for (var i = 0; i < masterData.articles.length; i++) {
+      if (masterData.articles[i].id === articleId) {
+        articleIndex = i;
+        totalArticles = masterData.articles.length;
+        return masterData.articles[i];
+      }
+    }
+    return null;
   }
 
-  // ---- Content data (hardcoded sample content for each article) ----
-  var articlesContent = {
-    '01-wuyi-mountain': [
-      '武夷山位於福建省西北部，是聯合國教科文組織世界文化與自然遺產。我曾兩度造訪這座名山，每一次都有不同的感受。第一次是春末，滿山杜鵑盛開，紅白相間，像是為這座千年名山披上了一件彩衣。',
-      '第二次是深秋，山上的楓葉紅了，夾雜在蒼翠的松柏之間，層林盡染，美不勝收。登臨天遊峰，俯瞰九曲溪蜿蜒如帶，竹筏點點，遊人如織。',
-      '九曲溪發源於武夷山自然保護區，全長約十公里，因河道彎曲而得名。乘坐竹筏順流而下，兩岸峰巒疊嶂，景色變幻，移步換景，令人目不暇給。',
-      '筏工是當地的茶農，一邊撐筏一邊為我們講述武夷山的傳說。玉女峰與大王峰的愛情故事，至今仍在山間流傳。'
-    ],
-    'default': [
-      '這是《我的人生旅行》中的一篇遊記。作者林樺以細膩的筆觸記錄了旅途中的所見所聞，將自然風光與人文情懷融為一體。',
-      '每篇文章都承載著作者對人生的感悟和對自然的熱愛。從江南水鄉到西北大漠，從雪山之巔到海島之濱，足跡遍布祖國的大好河山。',
-      '感謝您閱讀這些文字。希望通過這些遊記，您能感受到作者筆下山川的壯美與人生的況味。正如蘇東坡所言：「人生如逆旅，我亦是行人。」',
-      '讓我們一起翻開書頁，跟隨作者的腳步，開始這場跨越時空的人生旅行。每一篇文章都是一扇窗，讓我們看到不同的風景，體會不同的人生。'
-    ]
-  };
+  // ---- 初始化 ----
+  function init() {
+    // Get article info
+    try {
+      var stored = sessionStorage.getItem('currentArticle');
+      if (stored) articleData = JSON.parse(stored);
+    } catch(e) {}
 
-  // Generate EN content
-  var articlesContentEN = {};
-  var enMap = {
-    '01-wuyi-mountain': [
-      'Mount Wuyi is located in northwestern Fujian Province, a UNESCO World Cultural and Natural Heritage site. I have visited this famous mountain twice, each time with a different feeling.',
-      'The first visit was in late spring, when the mountains were covered with blooming azaleas in red and white, like a colorful garment draped over this millennium-old mountain.',
-      'The second visit was in deep autumn, when the maple leaves had turned red, intermingling with the verdant pines and cypresses, creating a breathtaking tapestry.',
-      'Riding a bamboo raft down the winding Nine-Bend Stream, with peaks towering on both sides, the scenery changed with every turn.'
-    ],
-    'default': [
-      'This is a travel essay from "My Life\'s Journey". Author Lin Hua records his observations and experiences with delicate brushstrokes, blending natural scenery with human sentiment.',
-      'Each article carries the author\'s reflections on life and love for nature. From the water towns of Jiangnan to the deserts of the Northwest, from snowy peaks to coastal islands.',
-      'Thank you for reading these words. Through these travel essays, may you feel the grandeur of the landscapes and the flavor of life as described by the author.',
-      'As Su Dongpo said: "Life is like a journey, and I am but a traveler." Let us turn the pages together and follow the author on this journey across time and space.'
-    ]
-  };
+    if (!articleData || !articleData.id) {
+      var params = new URLSearchParams(window.location.search);
+      var idFromUrl = params.get('id');
+      if (idFromUrl) articleData = { id: idFromUrl, zh: '文章', en: 'Article' };
+      else articleData = { id: '00-preface', zh: '自序', en: 'Preface' };
+    }
 
-  function getContent(lang) {
-    var key = articleData.id;
-    var source = lang === 'zh' ? articlesContent : articlesContentEN;
-    return source[key] || source['default'];
-  }
+    if (articleTitle) articleTitle.textContent = articleData.zh;
 
-  // ---- Content pagination ----
-  function paginateContent(paragraphs) {
-    var pages = [];
-    var currentPage = [];
+    innerEl.innerHTML = '<div class="loading-state">載入中…</div>';
 
-    paragraphs.forEach(function(p) {
-      // If the paragraph alone is too long, split it
-      if (p.length > 300) {
-        if (currentPage.length > 0) {
-          pages.push(currentPage);
-          currentPage = [];
-        }
-        // Split long paragraph into chunks
-        var chunks = splitLongParagraph(p);
-        chunks.forEach(function(chunk) {
-          pages.push(['<p>' + chunk + '</p>']);
-        });
-      } else {
-        currentPage.push('<p>' + p + '</p>');
-        // Check if current page is full
-        var totalLen = currentPage.join('').length;
-        if (totalLen > 500 || currentPage.length >= 4) {
-          pages.push(currentPage);
-          currentPage = [];
+    loadMasterData(function(err) {
+      if (!err && masterData) {
+        var fullInfo = getArticleSummary(articleData.id);
+        if (fullInfo) {
+          articleData = fullInfo;
+          if (articleTitle) articleTitle.textContent = articleData.zh;
         }
       }
+
+      loadArticleBlocks(articleData.id, 'zh', function(err2, blocks) {
+        if (err2 || !blocks || blocks.length === 0) {
+          innerEl.innerHTML = '<div class="loading-state" style="color:#999">❌ 無法載入文章內容</div>';
+          return;
+        }
+        articleBlocks = blocks;
+
+        loadArticleBlocks(articleData.id, 'en', function(err3, enBlocks) {
+          articleBlocksEn = enBlocks;
+        });
+
+        renderAll();
+      });
     });
-
-    if (currentPage.length > 0) {
-      pages.push(currentPage);
-    }
-
-    if (pages.length === 0) {
-      pages.push(['<p>（未完待續）</p>']);
-    }
-
-    return pages;
   }
 
-  function splitLongParagraph(text) {
-    var chunks = [];
-    var size = 150;
-    for (var i = 0; i < text.length; i += size) {
-      chunks.push(text.slice(i, i + size));
+  // ---- 渲染完整文章 ----
+  function renderAll() {
+    var blocks = currentLang === 'en' && articleBlocksEn ? articleBlocksEn : articleBlocks;
+    if (!blocks) blocks = articleBlocks;
+
+    var html = '';
+
+    // 章節扉頁
+    html += buildChapterCover();
+
+    // 正文
+    html += '<div class="book-content">';
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+
+      if (block.type === 'text') {
+        var text = block.content;
+        var className = '';
+        if (/^【.*】/.test(text.trim())) {
+          className = 'section-title';
+        }
+        var pClass = className ? ' class="' + className + '"' : '';
+        html += '<p' + pClass + '>' + escapeHtml(text) + '</p>';
+      }
+      else if (block.type === 'image') {
+        html += '<div class="book-image-wrapper">' +
+          '<img src="book/' + block.src + '" alt="" loading="lazy">' +
+          '</div>';
+      }
     }
-    return chunks;
-  }
 
-  // ---- Render page ----
-  function renderPages() {
-    var content = getContent(currentLang);
-    allPages = paginateContent(content);
-    currentPage = 0;
-    showPage(0, false);
-  }
+    html += '</div>'; // book-content
 
-  function showPage(index, animate) {
-    if (index < 0 || index >= allPages.length) return;
-    currentPage = index;
+    // 篇尾
+    html += '<div class="chapter-end">— ◆ —</div>';
 
-    // Set top page content
-    pageText.innerHTML = allPages[currentPage].join('');
-
-    // Set under page content (next or prev)
-    var underIndex = currentPage < allPages.length - 1 ? currentPage + 1 : null;
-    if (underIndex !== null) {
-      pageUnderText.innerHTML = allPages[underIndex].join('');
-    } else {
-      pageUnderText.innerHTML = '<p style="color:var(--color-text-faint);text-align:center;">— 本篇完 —</p>';
-    }
+    innerEl.innerHTML = html;
 
     updateProgress();
   }
 
-  function updateProgress() {
-    var total = allPages.length;
-    var pct = total > 1 ? Math.round(((currentPage + 1) / total) * 100) : 100;
-    pageNum.textContent = (currentPage + 1) + ' / ' + total;
-    progressBar.style.width = pct + '%';
-  }
+  // ---- 章節扉頁 ----
+  function buildChapterCover() {
+    var zh = articleData.zh || '';
+    var en = articleData.en || '';
+    var enTitle = articleData.en || '';
+    var subtitle = currentLang === 'en' ? (articleData.en_subtitle || '') : (articleData.subtitle || '');
+    var authorLine = currentLang === 'en' ? 'Lin Hua' : '林 樺';
 
-  // ---- Page flip ----
-  function flipForward() {
-    if (isFlipping) return;
-    if (currentPage >= allPages.length - 1) return;
-
-    isFlipping = true;
-
-    // Set under page to next content
-    var nextIndex = currentPage + 1;
-    if (nextIndex < allPages.length) {
-      pageUnderText.innerHTML = allPages[nextIndex].join('');
-    } else {
-      pageUnderText.innerHTML = '<p style="color:var(--color-text-faint);text-align:center;">— 本篇完 —</p>';
+    var num = '';
+    if (articleData.id === '00-preface') {}
+    else if (articleIndex >= 2) {
+      num = currentLang === 'en' ? 'Essay ' + (articleIndex - 2) : '第 ' + (articleIndex - 2) + ' 篇';
     }
 
-    pageTop.classList.add('flipping');
-
-    setTimeout(function() {
-      currentPage = nextIndex;
-      pageText.innerHTML = allPages[currentPage].join('');
-      pageTop.classList.remove('flipping');
-
-      // Update under page
-      var underNext = currentPage + 1;
-      if (underNext < allPages.length) {
-        pageUnderText.innerHTML = allPages[underNext].join('');
-      } else {
-        pageUnderText.innerHTML = '<p style="color:var(--color-text-faint);text-align:center;">— 本篇完 —</p>';
-      }
-
-      updateProgress();
-      isFlipping = false;
-    }, 500);
+    return '<div class="chapter-cover' + (currentLang === 'en' ? ' chapter-cover-en-mode' : '') + '">' +
+      (num ? '<div class="chapter-cover-num">' + num + '</div>' : '') +
+      '<div class="chapter-cover-zh">' + escapeHtml(currentLang === 'en' ? enTitle : zh) + '</div>' +
+      (en && currentLang === 'zh' ? '<div class="chapter-cover-en">' + escapeHtml(en) + '</div>' : '') +
+      '<div class="chapter-cover-line"></div>' +
+      (subtitle ? '<p class="chapter-cover-sub">' + escapeHtml(subtitle) + '</p>' : '') +
+      '<div class="chapter-cover-author">' + authorLine + '</div>' +
+      '</div>';
   }
 
-  function flipBackward() {
-    if (isFlipping) return;
-    if (currentPage <= 0) return;
+  // ---- 進度 ----
+  function updateProgress() {
+    // Use scroll position to calculate progress
+    function onScroll() {
+      var scrollTop = scrollEl.scrollTop;
+      var scrollHeight = scrollEl.scrollHeight - scrollEl.clientHeight;
+      var pct = scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
+      progressBar.style.width = pct + '%';
+      pageNum.textContent = pct + '%';
+    }
 
-    isFlipping = true;
-
-    // Set under page to current content (it will be revealed)
-    pageUnderText.innerHTML = allPages[currentPage].join('');
-    // Set top page to prev content
-    var prevIndex = currentPage - 1;
-    pageText.innerHTML = allPages[prevIndex].join('');
-
-    // We need to show the page flipping back from the left
-    // First reset, then apply transform
-    pageTop.classList.remove('flipping');
-    // Force reflow
-    void pageTop.offsetWidth;
-    pageTop.classList.add('flipping-back');
-
-    setTimeout(function() {
-      currentPage = prevIndex;
-      pageText.innerHTML = allPages[currentPage].join('');
-      pageTop.classList.remove('flipping-back');
-
-      var underNext = currentPage + 1;
-      if (underNext < allPages.length) {
-        pageUnderText.innerHTML = allPages[underNext].join('');
-      } else {
-        pageUnderText.innerHTML = '<p style="color:var(--color-text-faint);text-align:center;">— 本篇完 —</p>';
-      }
-
-      updateProgress();
-      isFlipping = false;
-    }, 500);
+    scrollEl.removeEventListener('scroll', onScroll);
+    scrollEl.addEventListener('scroll', onScroll, { passive: true });
+    // Initial update
+    setTimeout(onScroll, 100);
   }
 
-  // ---- Touch events ----
-  if (bookContainer) {
-    bookContainer.addEventListener('touchstart', function(e) {
-      var touch = e.touches[0];
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-      hasMoved = false;
-    }, { passive: true });
-
-    bookContainer.addEventListener('touchmove', function(e) {
-      hasMoved = true;
-    }, { passive: true });
-
-    bookContainer.addEventListener('touchend', function(e) {
-      if (hasMoved) {
-        // Swipe detected during move
-        return;
-      }
-
-      // Tap — determine left/right area
-      var touch = e.changedTouches[0];
-      var rect = bookContainer.getBoundingClientRect();
-      var x = touch.clientX - rect.left;
-      var midX = rect.width / 2;
-
-      if (x < midX) {
-        flipBackward();
-      } else {
-        flipForward();
-      }
-    }, { passive: true });
-  }
-
-  // ---- Language toggle ----
+  // ---- 語言切換 ----
   if (langToggle && langOptions) {
     langOptions.forEach(function(opt) {
       opt.addEventListener('click', function() {
         var lang = this.getAttribute('data-lang');
         if (lang === currentLang) return;
-
         currentLang = lang;
         langOptions.forEach(function(o) { o.classList.remove('active'); });
         this.classList.add('active');
 
-        // Update title
+        // 頂欄雙語
         if (articleTitle) {
-          articleTitle.textContent = lang === 'zh' ? articleData.zh : articleData.en;
+          articleTitle.textContent = lang === 'zh' ? articleData.zh : (articleData.en || articleData.zh);
+        }
+        var backLink = document.getElementById('reader-back');
+        if (backLink) {
+          backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
         }
 
-        // Update footer
-        var langZh = document.querySelector('.lang-zh');
-        var langEn = document.querySelector('.lang-en');
-        if (langZh && langEn) {
-          if (lang === 'zh') {
-            langZh.style.display = 'inline';
-            langEn.style.display = 'none';
+        var bookNameEl = document.querySelector('.reader-meta .book-name');
+        if (bookNameEl) {
+          bookNameEl.textContent = lang === 'zh' ? '雲箋文舍' : 'Cloudscroll';
+        }
+
+        if (lang === 'en') {
+          if (articleBlocksEn) {
+            scrollEl.scrollTop = 0;
+            renderAll();
           } else {
-            langZh.style.display = 'none';
-            langEn.style.display = 'inline';
+            loadArticleBlocks(articleData.id, 'en', function(err, enBlocks) {
+              if (enBlocks) {
+                articleBlocksEn = enBlocks;
+                scrollEl.scrollTop = 0;
+                renderAll();
+              } else {
+                langOptions.forEach(function(o) { o.classList.remove('active'); });
+                document.querySelector('.lang-option[data-lang="zh"]').classList.add('active');
+                currentLang = 'zh';
+                alert('英文版翻譯尚未完成，將繼續顯示中文。');
+              }
+            });
           }
+        } else {
+          scrollEl.scrollTop = 0;
+          renderAll();
         }
-
-        // Re-render pages
-        renderPages();
       });
     });
   }
 
-  // ---- Initialize ----
-  renderPages();
-  updateProgress();
+  // ---- Helpers ----
+  function escapeHtml(text) {
+    if (!text) return '';
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---- Start ----
+  init();
+
 })();

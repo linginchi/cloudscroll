@@ -2,11 +2,7 @@
   position: relative;
   padding: 0;
   border: 2px solid var(--color-border);
-  background: linear-gradient(180deg,
-    #f0ebe0 0%,
-    #f5f0e8 30%,
-    #f5f0e8 70%,
-    #ede4d4 100%);
+  background: #e8dcc8;
 }
 
 .cover-bg {
@@ -27,22 +23,59 @@
   50% { opacity: 0.8; }
 }
 
-/* Geese flying animation */
+/* Geese flying right with flapping wings */
 .geese-group {
-  animation: geeseFly 40s linear infinite;
+  animation: geeseFly 35s linear infinite;
 }
 
 @keyframes geeseFly {
-  from { transform: translateX(480px); }
-  to   { transform: translateX(-200px); }
+  from { transform: translateX(-200px); }
+  to   { transform: translateX(480px); }
+}
+
+/* Wing flap animation — each goose group has left/right wings */
+.goose {
+  display: inline-block;
+}
+
+.wing-left {
+  animation: wingFlap 0.6s ease-in-out infinite alternate;
+  transform-origin: 4px 0px;
+}
+
+.wing-right {
+  animation: wingFlap 0.6s ease-in-out infinite alternate-reverse;
+  transform-origin: 4px 0px;
+}
+
+/* Second V: smaller geese need adjusted origin */
+.goose-5 .wing-left, .goose-5 .wing-right,
+.goose-6 .wing-left, .goose-6 .wing-right,
+.goose-7 .wing-left, .goose-7 .wing-right {
+  transform-origin: 3px 0px;
+}
+
+@keyframes wingFlap {
+  0%   { transform: rotate(-35deg) scaleY(1); }
+  50%  { transform: rotate(15deg)  scaleY(0.8); }
+  100% { transform: rotate(-35deg) scaleY(1); }
 }
 
 /* Slow parallax drift on mountains */
 .layer-mountains-far {
   animation: driftSlow 60s ease-in-out infinite alternate;
+  will-change: transform;
 }
 .layer-mountains-mid {
   animation: driftSlow 45s ease-in-out 5s infinite alternate;
+  will-change: transform;
+}
+.layer-mountains-near {
+  animation: driftSlow 55s ease-in-out 3s infinite alternate;
+  will-change: transform;
+}
+.layer-sunset-glow {
+  will-change: transform;
 }
 
 @keyframes driftSlow {
@@ -63,9 +96,9 @@
 }
 
 .quote-line {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: var(--font-size-quote);
-  font-weight: 300;
+  font-weight: 700;
   color: var(--color-text-primary);
   line-height: 2.2;
   letter-spacing: 0.15em;
@@ -100,8 +133,9 @@
 }
 
 .site-cn {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: var(--font-size-small);
+  font-weight: 700;
   color: var(--color-text-faint);
   letter-spacing: 0.4em;
 }

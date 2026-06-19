@@ -1,0 +1,204 @@
+/* src/css/book.css
+   董橋風格：典雅、疏朗、古樸
+   紙色 #faf7f2，正文 18px，行高 2.0，首行縮進 2em
+   圖片居中，圓角，留白
+   章節扉頁裝飾
+*/
+
+/* ===== 讀者頁整體 ===== */
+
+/* 章節扉頁 — 文章之始 */
+.chapter-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 20px 36px;
+  min-height: 40vh;
+}
+
+.chapter-cover .chapter-cover-num {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.3em;
+  margin-bottom: 12px;
+}
+
+.chapter-cover .chapter-cover-zh {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.15em;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.chapter-cover .chapter-cover-en {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.chapter-cover .chapter-cover-line {
+  width: 40px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 auto;
+}
+
+.chapter-cover .chapter-cover-author {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.3em;
+  margin-top: 16px;
+}
+
+/* 英文模式扉頁：使用 serif 字體 */
+.chapter-cover-en-mode .chapter-cover-zh {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+.chapter-cover-en-mode .chapter-cover-author {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+/* ===== 正文內容（董橋風格）===== */
+.book-content {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 2.2;
+  color: var(--color-text-primary);
+  padding: 4px 0;
+}
+
+.book-content p {
+  margin-bottom: 1.4em;
+  text-indent: 2em;
+  text-align: justify;
+  letter-spacing: 0.02em;
+}
+
+/* 無縮排的特殊段落（如圖片後的說明） */
+.book-content p.no-indent {
+  text-indent: 0;
+}
+
+/* 引用或詩詞，居中 */
+.book-content p.quote-poem {
+  text-indent: 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  margin: 1.8em 0;
+  letter-spacing: 0.08em;
+}
+
+/* 子標題（如「【陽明山國家公園】」） */
+.book-content p.section-title {
+  text-indent: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  margin: 1.6em 0 0.8em;
+  letter-spacing: 0.12em;
+}
+
+/* ===== 圖片 ===== */
+.book-image-wrapper {
+  margin: 0.8em auto;
+  text-align: center;
+  clear: both;
+  max-width: 100%;
+}
+
+.book-image-wrapper img {
+  max-width: 100%;
+  max-height: 75vh;
+  height: auto;
+  width: auto;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: inline-block;
+  object-fit: contain;
+}
+
+/* 多圖並排（同一段落的多張圖） */
+.book-image-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 1.2em auto;
+}
+
+.book-image-group .book-image-wrapper {
+  margin: 0;
+  flex: 0 0 auto;
+  max-width: 46%;
+}
+
+.book-image-group .book-image-wrapper img {
+  max-width: 100%;
+}
+
+/* ===== 章節尾裝飾 ===== */
+.chapter-end {
+  text-align: center;
+  padding: 2em 0;
+  color: var(--color-text-faint);
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* ===== 閱讀進度 ===== */
+.book-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2px;
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  font-family: var(--font-serif);
+}
+
+/* ===== 響應式 ===== */
+@media (max-width: 400px) {
+  .book-content {
+    font-size: 16px;
+    line-height: 2.0;
+  }
+
+  .chapter-cover .chapter-cover-zh {
+    font-size: 20px;
+  }
+
+  .book-image-group .book-image-wrapper {
+    max-width: 100%;
+  }
+}
+
+/* 高解析度螢幕微調 */
+@media (min-width: 768px) {
+  .book-content {
+    font-size: 19px;
+    line-height: 2.2;
+  }
+}

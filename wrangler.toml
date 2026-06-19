@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration
+name = "cloudscroll"
+
+# Build command
+[build]
+command = "npm run build"
+directory = "dist"
+
+# Production branch
+[env.production]
+branch = "main"

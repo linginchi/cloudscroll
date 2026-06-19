@@ -53,9 +53,9 @@
 }
 
 .book-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-primary);
   letter-spacing: 0.15em;
   line-height: 1.6;

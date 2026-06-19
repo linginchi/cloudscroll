@@ -1,9 +1,9 @@
 /* src/css/toc.css */
 
 .toc-heading-zh {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-primary);
   text-align: center;
   margin-bottom: 4px;
@@ -51,8 +51,9 @@
 }
 
 .toc-item-zh {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 17px;
+  font-weight: 700;
   color: var(--color-text-primary);
   letter-spacing: 0.1em;
   line-height: 1.5;
@@ -67,10 +68,80 @@
   font-style: italic;
 }
 
+.toc-item-sub {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.05em;
+  margin-top: 1px;
+  line-height: 1.4;
+}
+
 .toc-item-num {
   font-family: var(--font-serif);
   font-size: 11px;
   color: var(--color-text-faint);
   margin-right: 8px;
   flex-shrink: 0;
+}
+
+/* Chapter header */
+.toc-chapter-header {
+  padding: 16px 4px 6px;
+  list-style: none;
+}
+
+.toc-chapter-zh {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.15em;
+}
+
+.toc-chapter-en {
+  font-family: var(--font-serif);
+  font-size: 10px;
+  color: var(--color-text-faint);
+  font-style: italic;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-top: 2px;
+}
+
+.toc-item-preface {
+  border-bottom: 1px solid var(--color-divider);
+  margin-bottom: 4px;
+}
+
+.toc-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text-faint);
+  font-size: 14px;
+  list-style: none;
+}
+
+/* Home link in header */
+.header-left .home-link {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--color-text-faint);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+.header-left .home-link:hover {
+  color: var(--color-text-primary);
+}
+
+/* Language toggle in TOC header */
+.toc-lang-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 11px;
+  clear: both;
 }

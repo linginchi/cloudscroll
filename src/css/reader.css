@@ -1,91 +1,54 @@
 /* src/css/reader.css */
-.reader-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 0 4px;
-  overflow: hidden;
-}
+/* 連續滾動閱讀模式 */
 
-/* Book container — contains the pages for flipping */
-.book-container {
-  position: relative;
-  flex: 1;
-  min-height: 200px;
-  perspective: 1200px;
-  overflow: hidden;
-}
-
-/* Individual page in the book */
-.book-page {
-  position: absolute;
-  inset: 0;
-  padding: 20px 16px;
-  background: var(--color-card);
-  border: 1px solid var(--color-divider);
-  border-radius: 2px;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-/* Top page (the one being read) — sits above the under page */
-.page-top {
-  z-index: 2;
-  transform-origin: left center;
-  transition: transform 0.45s ease-in-out;
-}
-
-.page-top.flipping {
-  transform: rotateY(-180deg);
-  pointer-events: none;
-}
-
-.page-top.flipping-back {
-  transform: rotateY(180deg);
-  pointer-events: none;
-}
-
-/* Under page (next page content) */
-.page-under {
-  z-index: 1;
-}
-
-.page-under .page-text {
-  color: var(--color-text-faint);
-}
-
-/* Page text styling */
-.page-text {
-  font-family: var(--font-serif);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  color: var(--color-text-primary);
-  overflow-y: auto;
-  height: 100%;
-  -webkit-overflow-scrolling: touch;
-}
-
-.page-text p {
-  margin-bottom: 1.2em;
-  text-indent: 2em;
-  text-align: justify;
-}
-
-.page-text p:first-child {
-  margin-top: 0;
-}
-
-/* Language toggle */
-.lang-toggle {
+/* ===== 頂欄 ===== */
+.reader-topbar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 6px;
-  font-size: 11px;
+  justify-content: space-between;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-page);
+  flex-shrink: 0;
+  z-index: 10;
 }
 
-.lang-option {
+.reader-back {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.reader-back:hover {
+  color: var(--color-text-primary);
+}
+
+.reader-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.12em;
+  text-align: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 8px;
+}
+
+.reader-lang {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.reader-lang .lang-option {
   cursor: pointer;
   color: var(--color-text-faint);
   letter-spacing: 0.08em;
@@ -93,75 +56,90 @@
   padding: 2px 4px;
 }
 
-.lang-option.active {
+.reader-lang .lang-option.active {
   color: var(--color-text-primary);
   font-weight: 600;
 }
 
-.lang-sep {
+.reader-lang .lang-sep {
   color: var(--color-border);
 }
 
-/* Progress bar */
-.page-progress {
-  height: 2px;
-  background: var(--color-divider);
-  margin: 4px 0;
-  border-radius: 1px;
+/* ===== 滾動閱讀區 ===== */
+.reader-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-card);
+}
+
+.reader-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.reader-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+/* 內容容器 */
+.reader-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  min-height: 100%;
+}
+
+/* ===== 底部 ===== */
+.reader-bottom {
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-page);
   flex-shrink: 0;
 }
 
-.progress-bar {
+.reader-progress {
+  height: 2px;
+  background: var(--color-divider);
+}
+
+.reader-progress .progress-bar {
   height: 100%;
   width: 0%;
-  background: var(--color-border);
-  border-radius: 1px;
-  transition: width 0.3s ease;
+  background: var(--color-accent, #b8a088);
+  transition: width 0.15s ease;
 }
 
-/* Touch hint areas */
-.touch-area-left,
-.touch-area-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 35%;
-  z-index: 10;
-  cursor: pointer;
+.reader-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px 10px;
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  font-family: var(--font-serif);
 }
 
-.touch-area-left {
-  left: 0;
+.reader-meta .page-num {
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
 }
 
-.touch-area-right {
-  right: 0;
+/* ===== 加載狀態 ===== */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-faint);
+  font-size: 14px;
+  font-family: var(--font-serif);
 }
 
-/* Scrollbar */
-.book-page .page-text::-webkit-scrollbar {
-  width: 2px;
-}
-
-.book-page .page-text::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 1px;
-}
-
-/* Page flip shadow */
-.page-top.flipping::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 100%;
-  width: 30px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Selected text override — reader pages allow text selection */
-#reader-page .page-text {
-  user-select: text;
-  -webkit-user-select: text;
+/* ===== 響應式 ===== */
+@media (max-width: 400px) {
+  .reader-inner {
+    padding: 12px 12px 32px;
+  }
+  .reader-title {
+    font-size: 14px;
+  }
 }

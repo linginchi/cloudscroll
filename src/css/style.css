@@ -26,6 +26,13 @@ html, body {
   overflow: hidden;
 }
 
+/* Reader page: flex column, topbar→scroll→bottom */
+#reader-page {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
 /* Page inner frame with border */
 .page-inner {
   width: 100%;
@@ -40,6 +47,12 @@ html, body {
   position: relative;
 }
 
+/* Reader mode: no extra border/padding, inner handles it */
+.reader-page-inner {
+  border: none;
+  padding: 0;
+}
+
 /* Header */
 .page-header {
   text-align: center;
@@ -49,7 +62,8 @@ html, body {
 
 .page-header .article-title {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: var(--font-heading);
   color: var(--color-text-primary);
   letter-spacing: 0.12em;
 }
