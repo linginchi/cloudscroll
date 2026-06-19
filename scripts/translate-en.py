@@ -88,6 +88,18 @@ TRANSLATIONS = {
                     'that I have enjoyed along the way.'
                 )
             },
+            {
+                'type': 'text',
+                'content': (
+                    'The collection is divided into two parts. The first, "To the World," chronicles my journeys abroad; '
+                    'the second, "Wanderings in the Divine Land," those within China. Arranged in order of the years, '
+                    'each entry offers a brief account of the cities and countries, provinces and districts, roads and '
+                    'vistas, mountains and streams—rivers, seas, lakes, and all—and every temple or shrine that graced '
+                    'my path, together with my reflections and impressions and such pictures as seemed worth preserving. '
+                    'All these I have gathered into a single volume, "A Life Unfolded in Miles," that the reader too '
+                    'may find some share of the pleasure I have enjoyed along the way.'
+                )
+            },
         ]
     },
     '01-taiwan': {

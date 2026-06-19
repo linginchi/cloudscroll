@@ -136,14 +136,14 @@
   font-family: var(--font-heading);
   font-size: var(--font-size-small);
   font-weight: 700;
-  color: var(--color-text-faint);
+  color: var(--color-text-secondary);
   letter-spacing: 0.4em;
 }
 
 .site-en {
   font-family: var(--font-serif);
   font-size: 11px;
-  color: var(--color-text-faint);
+  color: var(--color-text-secondary);
   letter-spacing: 0.2em;
   margin-top: 4px;
 }
