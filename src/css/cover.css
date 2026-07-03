@@ -125,7 +125,7 @@
 /* Site name */
 .cover-site-name {
   position: absolute;
-  bottom: 40px;
+  bottom: 120px;
   left: 0;
   right: 0;
   text-align: center;
@@ -133,26 +133,50 @@
 }
 
 .site-cn {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-small);
+  font-family: 'LiSu', '隸書', '隶书', var(--font-heading);
+  font-size: 26px;
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   letter-spacing: 0.4em;
 }
 
 .site-en {
-  font-family: var(--font-serif);
+  font-family: 'LiSu', '隸書', '隶书', var(--font-serif);
   font-size: 11px;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   letter-spacing: 0.2em;
   margin-top: 4px;
 }
 
-/* Click anywhere hint (small arrow indicator bottom-center) */
+.cover-credit {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+.cover-credit-en {
+  margin-top: 2px;
+  line-height: 1.6;
+}
+
+.credit-zh {
+  font-family: 'FangSong', '仿宋', 'FZFS', serif;
+  font-size: 11px;
+  color: #bfb8a8;
+  letter-spacing: 0.1em;
+}
+
+.credit-en {
+  font-family: 'Calibri', 'Candara', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #bfb8a8;
+  letter-spacing: 0.05em;
+}
+
+    <!-- Click anywhere hint (small arrow indicator bottom-center) -->
 .cover-inner::after {
   content: '';
   position: absolute;
-  bottom: 20px;
+  bottom: 80px;
   left: 50%;
   width: 32px;
   height: 32px;
@@ -166,4 +190,33 @@
 @keyframes hintPulse {
   0%, 100% { opacity: 0.15; }
   50% { opacity: 0.45; }
+}
+
+/* Enter bookshelf button */
+.cover-enter-btn {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  padding: 12px 40px;
+  background: rgba(61, 43, 31, 0.08);
+  border: 1.5px solid rgba(61, 43, 31, 0.25);
+  border-radius: 28px;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 48px;
+  min-width: 160px;
+  text-align: center;
+}
+
+.cover-enter-btn:hover {
+  background: rgba(61, 43, 31, 0.14);
+  border-color: rgba(61, 43, 31, 0.4);
 }

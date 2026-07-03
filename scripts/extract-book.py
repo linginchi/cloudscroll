@@ -2,7 +2,7 @@
 """
 scripts/extract-book.py
 
-Extract text + images from all 13 docx files in book/
+Extract text + images from all docx files across all 3 volumes.
 Output structured JSON + images to assets/images/book/ and dist/book/
 
 Usage: python scripts/extract-book.py
@@ -14,11 +14,12 @@ from docx import Document
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from lxml import etree
 
-# Ensure UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK_DIR = os.path.join(ROOT, 'book')
+V2_BOOK_DIR = os.path.join(BOOK_DIR, '我的人生旅行第二輯')
+V3_BOOK_DIR = os.path.join(BOOK_DIR, '我的人生旅行第三輯')
 ASSETS_IMG_DIR = os.path.join(ROOT, 'assets', 'images', 'book')
 DIST_DIR = os.path.join(ROOT, 'dist')
 DIST_BOOK_DIR = os.path.join(DIST_DIR, 'book')
@@ -33,55 +34,152 @@ nsmap = {
 }
 
 TOC_MAP = {
-    '台湾': '01-taiwan',              # 台湾屢遊散記
-    '菲岛': '02-philippines',         # 菲岛情怀 (simplified)
-    '菲島': '02-philippines',         # traditional variant
+    '台湾': '01-taiwan',
+    '菲岛': '02-philippines',
+    '菲島': '02-philippines',
     '霧鎖雲頂': '03-kuala-lumpur',
     '檳島親遊': '04-penang',
-    '麗星': '05-vietnam',            # 麗星驰碧浪 / 麗星馳碧浪
-    '長今': '06-korea',              # 長今尋縱 / 長今尋蹤
+    '麗星': '05-vietnam',
+    '長今': '06-korea',
     '新西蘭': '07-new-zealand',
     '勝景怡人': '08-usa',
-    '澳門': '09-macau',              # 屢次澳門遊蹤紀
+    '澳門': '09-macau',
     '浯洲': '10-kinmen',
 }
 
-# Known list of chapter/epigraph texts that should NOT be treated as article titles
+V2_TOC_MAP = {
+    '京城勝跡': 'v2-01',
+    '東滬': 'v2-02',
+    '蘇城': 'v2-03',
+    '杭郡': 'v2-04',
+    '津門': 'v2-05',
+    '三亞': 'v2-06',
+    '遼寧三城': 'v2-07',
+    '北國雙城': 'v2-08',
+    '冰城': 'v2-09',
+    '珠水': 'v2-10',
+    '鵬城': 'v2-11',
+    '中山行旅': 'v2-12',
+    '珠海': 'v2-13',
+    '鷺島': 'v2-14',
+    '杏壇': 'v2-15',
+    '南平': 'v2-16',
+    '福師大': 'v2-17',
+    '韶山': 'v2-18',
+    '桂林山水行': 'v2-19',
+    '商都': 'v2-20',
+    '河洛夢': 'v2-21',
+    '雲水謠': 'v2-22',
+    '溫情': 'v2-23',
+    '晋水': 'v2-24',
+}
+
+V2_ARTICLES = [
+    {'id': 'v2-01', 'zh': '屢次京城勝跡記', 'en': 'Chronicles of the Capital'},
+    {'id': 'v2-02', 'zh': '東滬行遊雜筆', 'en': 'Sketches of Shanghai'},
+    {'id': 'v2-03', 'zh': '蘇城名山名鎮遊記', 'en': 'Suzhou: Hills and Towns'},
+    {'id': 'v2-04', 'zh': '遊覽杭郡千古勝', 'en': 'Hangzhou: A Thousand Years of Splendour'},
+    {'id': 'v2-05', 'zh': '津門故里遊覽隨筆', 'en': 'Tianjin: The Portal of the North'},
+    {'id': 'v2-06', 'zh': '三亞山海遊覽小記', 'en': 'Sanya: Between the Mountains and the Sea'},
+    {'id': 'v2-07', 'zh': '遼寧三城紀行', 'en': 'Three Cities of Liaoning'},
+    {'id': 'v2-08', 'zh': '北國雙城札記', 'en': 'Twin Cities of the North'},
+    {'id': 'v2-09', 'zh': '閒寫冰城遊思', 'en': 'Reflections on the Ice City'},
+    {'id': 'v2-10', 'zh': '一江珠水 萬里花城', 'en': 'City of the Pearl River'},
+    {'id': 'v2-11', 'zh': '鵬城遊歷雜記', 'en': 'Notes on Shenzhen'},
+    {'id': 'v2-12', 'zh': '中山行旅錄', 'en': 'A Journey to Zhongshan'},
+    {'id': 'v2-13', 'zh': '海隅珠海札記', 'en': 'Zhuhai by the Sea'},
+    {'id': 'v2-14', 'zh': '尋味廈門  鷺島遊錄', 'en': 'In Search of Amoy'},
+    {'id': 'v2-15', 'zh': '杏壇戀廈門', 'en': 'Cherishing Xiamen'},
+    {'id': 'v2-16', 'zh': '南平探親閒遊  武夷山水留蹤', 'en': 'Nanping and Wuyi Mountain'},
+    {'id': 'v2-17', 'zh': '福師大訪學行', 'en': 'A Visit to Fujian Normal University'},
+    {'id': 'v2-18', 'zh': '山水藏靈秀  韶山仰偉人', 'en': 'Zhangjiajie and Shaoshan'},
+    {'id': 'v2-19', 'zh': '桂林山水行記', 'en': 'A Journey to Guilin'},
+    {'id': 'v2-20', 'zh': '商都覽勝  古廟謁忠', 'en': 'Zhengzhou and Weihui'},
+    {'id': 'v2-21', 'zh': '一場河洛夢  半部商丘史', 'en': 'Luoyang and Shangqiu'},
+    {'id': 'v2-22', 'zh': '一方雲水謠  萬座土樓情', 'en': 'Tulou and Yunshuiyao'},
+    {'id': 'v2-23', 'zh': '一城風物  滿懷溫情', 'en': 'The Charms of Zhangzhou'},
+    {'id': 'v2-24', 'zh': '晋水涵千古  泉城載萬疆', 'en': 'The Eternal City of Quanzhou'},
+]
+
+V3_TOC_MAP = {
+    '鶴髮': 'v3-01',
+    '髮松姿': 'v3-01',
+    '新加坡國立': 'v3-02',
+    '再覽獅城': 'v3-03',
+    '星耀樟宜': 'v3-04',
+    '奇花': 'v3-05',
+    '文化路': 'v3-06',
+    '桃城': 'v3-07',
+    '經典景點之一': 'v3-08',
+    '经典景点之一': 'v3-08',
+    '經典景點之二': 'v3-09',
+    '经典景点之二': 'v3-09',
+    '布袋港': 'v3-10',
+    '映月橋': 'v3-11',
+    '月影潭心': 'v3-12',
+    '彌陀': 'v3-13',
+    '除夕': 'v3-14',
+    '元旦': 'v3-15',
+    '嘉義大學': 'v3-16',
+    '义大學': 'v3-16',
+    '湖美': 'v3-17',
+    '鎮天宮': 'v3-18',
+    '紫雲寺': 'v3-19',
+}
+
+V3_ARTICLES = [
+    {'id': 'v3-01', 'zh': '鶴髮松姿遊獅城', 'en': 'Silver Hair, Lingering Grace in the Lion City'},
+    {'id': 'v3-02', 'zh': '新加坡國立大學參觀隨筆', 'en': 'A Visit to the National University of Singapore'},
+    {'id': 'v3-03', 'zh': '再覽獅城華埠風光', 'en': 'Revisiting the Sights of Singapore Chinatown'},
+    {'id': 'v3-04', 'zh': '獅城星耀樟宜漫記', 'en': 'Jewel Changi: A Leisurely Note'},
+    {'id': 'v3-05', 'zh': '飽賞獅城奇花嘉木', 'en': 'Admiring the Flora of Singapore'},
+    {'id': 'v3-06', 'zh': '嘉義文化路夜市夜韻遊記', 'en': 'A Night at Chiayi Culture Road Night Market'},
+    {'id': 'v3-07', 'zh': '桃城影塔  射日風情', 'en': 'Shadow Tower of Peach City, Under the Sun'},
+    {'id': 'v3-08', 'zh': '漫遊嘉義經典景點之一', 'en': 'Classic Sights of Chiayi, Part One'},
+    {'id': 'v3-09', 'zh': '漫遊嘉義經典景點之二', 'en': 'Classic Sights of Chiayi, Part Two'},
+    {'id': 'v3-10', 'zh': '探索布袋港的風情', 'en': 'Exploring the Charm of Budai Harbour'},
+    {'id': 'v3-11', 'zh': '暮遊爾陀映月橋', 'en': 'An Evening Stroll by the Moonlit Bridge'},
+    {'id': 'v3-12', 'zh': '暮遊月影潭心', 'en': 'Moon Shadows on the Lake at Dusk'},
+    {'id': 'v3-13', 'zh': '閒逛嘉義彌陀夜市', 'en': 'A Leisurely Walk Through Chiayi Mituo Night Market'},
+    {'id': 'v3-14', 'zh': '難忘的2023年除夕夜', 'en': 'An Unforgettable New Year\'s Eve, 2023'},
+    {'id': 'v3-15', 'zh': '嘉義元旦夜賞漫遊', 'en': 'A New Year\'s Day Ramble in Chiayi'},
+    {'id': 'v3-16', 'zh': '國立嘉義大學參觀紀行', 'en': 'A Visit to National Chiayi University'},
+    {'id': 'v3-17', 'zh': '萬人逛湖美商展賞嘉義夜市風情', 'en': 'Ten Thousand at the Lakeview Fair: Chiayi Night Market'},
+    {'id': 'v3-18', 'zh': '暢遊鎮天宮  瞻仰桃園盟', 'en': 'Zhentian Temple and the Oath of the Peach Garden'},
+    {'id': 'v3-19', 'zh': '半天岩紫雲寺遊半天', 'en': 'Half a Day at Ziyun Temple, Bantianyan'},
+]
+
 CHAPTER_HEADERS = {
     '第一輯 向世界出發',
     '第二輯 神州大地之行',
+    '第三輯 中外覽勝錄',
     'Part I: To the World',
     'Part II: Journeys Across China',
+    'Part III: Sights at Home and Abroad',
 }
 
+
 def extract_images_from_docx(docx_path, output_dir, article_id):
-    """Extract images from docx zip and return a map of rId -> filename"""
     img_map = {}
     os.makedirs(output_dir, exist_ok=True)
 
     try:
         with zipfile.ZipFile(docx_path, 'r') as z:
-            # List all files in the zip
             all_files = z.namelist()
-
-            # Find image files (in word/media/ typically)
             img_files = [f for f in all_files if f.startswith('word/media/')]
 
             for i, img_path in enumerate(sorted(img_files)):
                 ext = os.path.splitext(img_path)[1].lower()
                 if ext not in ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif'):
-                    ext = '.jpg'  # fallback
+                    ext = '.jpg'
                 out_name = f'{article_id}_{i+1:03d}{ext}'
                 out_path = os.path.join(output_dir, out_name)
 
                 with z.open(img_path) as src, open(out_path, 'wb') as dst:
                     dst.write(src.read())
 
-                # Map the internal path to our filename
                 img_map[img_path] = out_name
 
-                # Also try to map rId
-                # The relationship between rId and media path is in word/_rels/document.xml.rels
                 rels_path = 'word/_rels/document.xml.rels'
                 if rels_path in all_files:
                     with z.open(rels_path) as f:
@@ -102,7 +200,6 @@ def extract_images_from_docx(docx_path, output_dir, article_id):
 
 
 def find_images_in_paragraph(para, img_map, seen_embeds=None):
-    """Find unique image rIds/blip embeds in a paragraph's XML"""
     if seen_embeds is None:
         seen_embeds = set()
     results = []
@@ -118,14 +215,15 @@ def find_images_in_paragraph(para, img_map, seen_embeds=None):
     return results
 
 
-def extract_article(docx_path, output_dir):
-    """Extract one docx file into structured content"""
+def extract_article(docx_path, output_dir, toc_map=None):
+    if toc_map is None:
+        toc_map = TOC_MAP
+
     fname = os.path.basename(docx_path)
     name_stem = os.path.splitext(fname)[0]
 
-    # Determine article ID
     article_id = None
-    for key, aid in TOC_MAP.items():
+    for key, aid in toc_map.items():
         if key in name_stem:
             article_id = aid
             break
@@ -133,7 +231,7 @@ def extract_article(docx_path, output_dir):
     if article_id is None:
         if '自序' in name_stem:
             article_id = '00-preface'
-        elif '目錄' in name_stem:
+        elif '目錄' in name_stem and '第二輯' not in name_stem and '第三輯' not in name_stem:
             article_id = 'toc'
         elif '封面' in name_stem:
             article_id = 'cover'
@@ -144,19 +242,16 @@ def extract_article(docx_path, output_dir):
 
     doc = Document(docx_path)
 
-    # Extract images first
     img_dir = os.path.join(output_dir, 'images')
     img_map = extract_images_from_docx(docx_path, img_dir, article_id)
     print(f'  Images extracted: {len(img_map)} files')
 
-    # Build structured content
-    blocks = []  # list of {type: 'text'|'image', content: str|list}
+    blocks = []
     seen_embeds = set()
 
     for para in doc.paragraphs:
         text = para.text.strip()
 
-        # Check for images in this paragraph (deduped)
         para_imgs = find_images_in_paragraph(para, img_map, seen_embeds)
 
         for img_name in para_imgs:
@@ -171,20 +266,15 @@ def extract_article(docx_path, output_dir):
                 'content': text,
             })
 
-    # ---- Merge broken paragraphs ----
-    # Consecutive text blocks that got split across paragraphs in the DOCX
-    # (because the author pressed Enter mid-sentence) are re-joined.
-    # Key indicator: prev paragraph ends with a bare CJK character (no punctuation).
     CJK_CONTINUATION_PUNCT = set('。！？，、；：」』》）—…～··""''』】')
 
     def is_title_like(text):
-        """Heuristic: skip merging for paragraphs that look like titles/headings."""
         t = text.strip()
         if not t:
             return True
-        if '【' in t:          # subtitle markers like 【金門遊】
+        if '【' in t:
             return True
-        if len(t) < 8:          # very short lines
+        if len(t) < 8:
             return True
         if t in CHAPTER_HEADERS:
             return True
@@ -205,13 +295,11 @@ def extract_article(docx_path, output_dir):
             nxt_text = nxt['content']
             should_merge = False
 
-            # Never merge the very first text block — it's the title line
             first_text_idx = next(
                 (idx for idx, b in enumerate(blocks) if b['type'] == 'text'), None
             )
 
             if cur and not is_title_like(cur) and i != first_text_idx:
-                # Ends with a bare character (no punctuation) → definitely broken
                 if cur[-1] not in CJK_CONTINUATION_PUNCT and not cur[-1].isspace():
                     should_merge = True
 
@@ -225,27 +313,22 @@ def extract_article(docx_path, output_dir):
 
     blocks = merged
 
-    # If no images found via XML, try inline_shapes fallback
     if not seen_embeds and doc.inline_shapes:
         print(f'  Warning: inline_shapes={len(doc.inline_shapes)} but no XML images found')
 
-    # Determine title - skip chapter/section headers
     title = ''
     subtitle = ''
     author = '林樺'
 
     text_blocks = [b['content'] for b in blocks if b['type'] == 'text']
-    # Find the first paragraph that looks like a real article title (not a chapter header)
     for tb in text_blocks:
         if tb.strip() in CHAPTER_HEADERS:
             continue
-        # Skip empty-looking lines
         lines = [l.strip() for l in tb.split('\n') if l.strip()]
         for line in lines:
             if line in CHAPTER_HEADERS:
                 continue
             if '【' in line:
-                # Extract title from 【xxx】title format
                 parts = line.split('】')
                 title = parts[-1].strip() if len(parts) > 1 else line.strip()
             else:
@@ -254,7 +337,6 @@ def extract_article(docx_path, output_dir):
         if title:
             break
 
-    # Try to find a subtitle
     found_title = False
     for tb in text_blocks:
         content = tb.strip()
@@ -266,9 +348,23 @@ def extract_article(docx_path, output_dir):
             subtitle = content
             break
 
-    # Count stats
     cjk_count = sum(1 for b in blocks if b['type'] == 'text' for c in b['content'] if '\u4e00' <= c <= '\u9fff')
     img_total = sum(1 for b in blocks if b['type'] == 'image')
+
+    # Clean 《》 from title
+    title = title.replace('《', '').replace('》', '')
+
+    # Clean 《》 from title blocks in content (preserve body text citations)
+    for block in blocks:
+        if block['type'] != 'text':
+            continue
+        content = block['content']
+        if article_id == 'toc':
+            # TOC: every line references an article title, clean all
+            block['content'] = content.replace('《', '').replace('》', '')
+        elif title and title in content.replace('《', '').replace('》', ''):
+            # Block contains the article title (after stripping 《》), clean 《》 from it
+            block['content'] = content.replace('《', '').replace('》', '')
 
     article = {
         'id': article_id,
@@ -285,7 +381,6 @@ def extract_article(docx_path, output_dir):
         }
     }
 
-    # Save per-article JSON
     article_path = os.path.join(output_dir, f'{article_id}.json')
     with open(article_path, 'w', encoding='utf-8') as f:
         json.dump(article, f, ensure_ascii=False, indent=2)
@@ -295,60 +390,110 @@ def extract_article(docx_path, output_dir):
     return article
 
 
-def build_master_index(articles):
-    """Build the master book/data.json from extracted articles"""
-    # Sort: cover, toc, preface, then numbered articles
-    order = {
+def build_master_index(articles_v1, articles_v2, articles_v3):
+    """Build the master book/data.json from all three volumes"""
+    v1_order = {
         'cover': 0,
         'toc': 1,
         '00-preface': 2,
     }
     for aid, idx in TOC_MAP.items():
-        order[TOC_MAP[aid]] = 10 + list(TOC_MAP.values()).index(TOC_MAP[aid])
+        v1_order[TOC_MAP[aid]] = 10 + list(TOC_MAP.values()).index(TOC_MAP[aid])
 
-    sorted_articles = sorted(articles, key=lambda a: order.get(a['id'], 99))
+    sorted_v1 = sorted(articles_v1, key=lambda a: v1_order.get(a['id'], 99))
 
-    # Chapter grouping - all travel articles go into 第一輯
-    chapter1_ids = set(v for k, v in TOC_MAP.items())
+    v2_order = {}
+    for i, meta in enumerate(V2_ARTICLES):
+        v2_order[meta['id']] = 100 + i
 
-    # Filter: only include articles that belong to the chapter
-    chapter1_articles = [a for a in sorted_articles if a['id'] in chapter1_ids]
+    sorted_v2 = sorted(
+        [a for a in articles_v2 if a['id'] in v2_order],
+        key=lambda a: v2_order.get(a['id'], 999)
+    )
 
-    chapters = [
-        {
-            'zh': '第一輯 向世界出發',
-            'en': 'Part I: To the World',
-            'articles': [{
-                'id': a['id'],
-                'zh': a['zh'],
-                'en': a.get('en', ''),
-                'subtitle': a.get('subtitle', ''),
-                'file': a['file'],
-                'stats': a['stats'],
-            } for a in chapter1_articles]
-        },
-    ]
+    v3_order = {}
+    for i, meta in enumerate(V3_ARTICLES):
+        v3_order[meta['id']] = 200 + i
 
-    master = {
-        'title': '我的人生旅行',
-        'title_en': 'A Life Unfolded in Miles',
-        'author': '林樺',
-        'author_en': 'Lin Hua',
-        'total_articles': len(articles),
-        'total_chars': sum(a['stats']['chars'] for a in articles),
-        'total_images': sum(a['stats']['unique_images'] for a in articles),
-        'chapters': chapters,
-        'articles': [{
+    sorted_v3 = sorted(
+        [a for a in articles_v3 if a['id'] in v3_order],
+        key=lambda a: v3_order.get(a['id'], 999)
+    )
+
+    ch1_ids = set(v for k, v in TOC_MAP.items())
+    ch1_articles = [a for a in sorted_v1 if a['id'] in ch1_ids]
+
+    ch2_ids = set(a['id'] for a in V2_ARTICLES)
+    ch2_articles = [a for a in sorted_v2 if a['id'] in ch2_ids]
+
+    ch3_ids = set(a['id'] for a in V3_ARTICLES)
+    ch3_articles = [a for a in sorted_v3 if a['id'] in ch3_ids]
+
+    def art_info(a):
+        return {
             'id': a['id'],
             'zh': a['zh'],
             'en': a.get('en', ''),
             'subtitle': a.get('subtitle', ''),
             'file': a['file'],
             'stats': a['stats'],
-        } for a in sorted_articles],
+        }
+
+    chapters = [
+        {
+            'zh': '第一輯 向世界出發',
+            'en': 'Part I: To the World',
+            'articles': [art_info(a) for a in ch1_articles],
+        },
+        {
+            'zh': '第二輯 神州大地之行',
+            'en': 'Part II: Journeys Across China',
+            'articles': [art_info(a) for a in ch2_articles],
+        },
+        {
+            'zh': '第三輯 中外覽勝錄',
+            'en': 'Part III: Sights at Home and Abroad',
+            'articles': [art_info(a) for a in ch3_articles],
+        },
+    ]
+
+    all_articles = sorted_v1 + sorted_v2 + sorted_v3
+
+    master = {
+        'title': '我的人生旅行',
+        'title_en': 'A Life Unfolded in Miles',
+        'author': '林樺',
+        'author_en': 'Lin Hua',
+        'total_articles': len(all_articles),
+        'total_chars': sum(a['stats']['chars'] for a in all_articles),
+        'total_images': sum(a['stats']['unique_images'] for a in all_articles),
+        'chapters': chapters,
+        'articles': [art_info(a) for a in all_articles],
     }
 
     return master
+
+
+def process_volume_files(docx_files, output_base, toc_map):
+    """Process a list of docx files, return list of articles"""
+    articles = []
+    for docx_path in docx_files:
+        article = extract_article(docx_path, output_base, toc_map=toc_map)
+        articles.append(article)
+
+        article_img_dir = os.path.join(ASSETS_IMG_DIR, article['id'])
+        os.makedirs(article_img_dir, exist_ok=True)
+        src_img_dir = os.path.join(output_base, 'images')
+        if os.path.exists(src_img_dir):
+            for f in os.listdir(src_img_dir):
+                if f.startswith(article['id']):
+                    src = os.path.join(src_img_dir, f)
+                    dst = os.path.join(article_img_dir, f)
+                    try:
+                        shutil.copy2(src, dst)
+                    except:
+                        pass
+    return articles
 
 
 def main():
@@ -362,38 +507,48 @@ def main():
     img_out = os.path.join(output_base, 'images')
     os.makedirs(img_out, exist_ok=True)
 
-    # Also copy to assets/images/book/ for source control
     os.makedirs(ASSETS_IMG_DIR, exist_ok=True)
 
-    docx_files = sorted([
+    # ── Volume 1 ──
+    v1_files = sorted([
         os.path.join(BOOK_DIR, f) for f in os.listdir(BOOK_DIR)
-        if f.endswith('.docx') and not f.startswith('~$')
+        if f.endswith('.docx') and not f.startswith('~$') and not os.path.isdir(os.path.join(BOOK_DIR, f))
     ])
+    print(f'\n{"="*60}')
+    print(f'Volume 1: {len(v1_files)} docx files in book/')
+    print(f'{"="*60}')
+    articles_v1 = process_volume_files(v1_files, output_base, TOC_MAP)
 
-    print(f'Found {len(docx_files)} docx files')
-    print(f'Output: {output_base}')
+    # ── Volume 2 ──
+    articles_v2 = []
+    if os.path.isdir(V2_BOOK_DIR):
+        v2_files = sorted([
+            os.path.join(V2_BOOK_DIR, f) for f in os.listdir(V2_BOOK_DIR)
+            if f.endswith('.docx') and not f.startswith('~$') and '目錄' not in f
+        ])
+        print(f'\n{"="*60}')
+        print(f'Volume 2: {len(v2_files)} docx files in 我的人生旅行第二輯/')
+        print(f'{"="*60}')
+        articles_v2 = process_volume_files(v2_files, output_base, V2_TOC_MAP)
+    else:
+        print(f'Volume 2 directory not found: {V2_BOOK_DIR}')
 
-    all_articles = []
-    for docx_path in docx_files:
-        article = extract_article(docx_path, output_base)
-        all_articles.append(article)
+    # ── Volume 3 ──
+    articles_v3 = []
+    if os.path.isdir(V3_BOOK_DIR):
+        v3_files = sorted([
+            os.path.join(V3_BOOK_DIR, f) for f in os.listdir(V3_BOOK_DIR)
+            if f.endswith('.docx') and not f.startswith('~$') and '目錄' not in f and '目录' not in f
+        ])
+        print(f'\n{"="*60}')
+        print(f'Volume 3: {len(v3_files)} docx files in 我的人生旅行第三輯/')
+        print(f'{"="*60}')
+        articles_v3 = process_volume_files(v3_files, output_base, V3_TOC_MAP)
+    else:
+        print(f'Volume 3 directory not found: {V3_BOOK_DIR}')
 
-        # Also copy images to assets/ for version control
-        article_img_dir = os.path.join(ASSETS_IMG_DIR, article['id'])
-        os.makedirs(article_img_dir, exist_ok=True)
-        src_img_dir = os.path.join(output_base, 'images')
-        if os.path.exists(src_img_dir):
-            for f in os.listdir(src_img_dir):
-                if f.startswith(article['id']):
-                    src = os.path.join(src_img_dir, f)
-                    dst = os.path.join(article_img_dir, f)
-                    try:
-                        shutil.copy2(src, dst)
-                    except:
-                        pass
-
-    # Build master index
-    master = build_master_index(all_articles)
+    # ── Build master index ──
+    master = build_master_index(articles_v1, articles_v2, articles_v3)
     master_path = os.path.join(output_base, 'data.json')
     with open(master_path, 'w', encoding='utf-8') as f:
         json.dump(master, f, ensure_ascii=False, indent=2)
@@ -403,6 +558,9 @@ def main():
     print(f'Total articles: {master["total_articles"]}')
     print(f'Total chars: {master["total_chars"]:,}')
     print(f'Total images: {master["total_images"]}')
+    print(f'Chapters: {len(master["chapters"])}')
+    for ch in master['chapters']:
+        print(f'  {ch["zh"]} — {len(ch["articles"])} articles')
     print(f'Done.')
 
 

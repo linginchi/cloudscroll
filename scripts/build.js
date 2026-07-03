@@ -9,6 +9,21 @@ const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
 console.log('Cloudscroll build starting...');
 
+function copyRecursive(src, dest) {
+  fs.mkdirSync(dest, { recursive: true });
+  var entries = fs.readdirSync(src, { withFileTypes: true });
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    var s = path.join(src, e.name);
+    var d = path.join(dest, e.name);
+    if (e.isDirectory()) {
+      copyRecursive(s, d);
+    } else {
+      fs.copyFileSync(s, d);
+    }
+  }
+}
+
 // Ensure dist directory
 if (fs.existsSync(DIST_DIR)) {
   fs.rmSync(DIST_DIR, { recursive: true });
@@ -42,6 +57,20 @@ try {
   console.log('[Step 0.5] EN translations ready.\n');
 } catch (e) {
   console.warn('[Step 0.5] EN translations skipped:', e.message);
+}
+
+// Step 0.6: Generate cover images
+console.log('\n[Step 0.6] Generating cover images...');
+try {
+  execSync('python scripts/generate-cover.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
+  console.log('[Step 0.6] Cover images generated.\n');
+} catch (e) {
+  console.warn('[Step 0.6] Cover generation skipped:', e.message);
 }
 
 // Step 1: Copy static assets (CSS, JS) to dist/
@@ -81,6 +110,14 @@ htmlFiles.forEach(file => {
   console.log('  Copied ' + file);
 });
 
+// Copy _worker.js (Pages Functions entry)
+const workerSrc = path.join(SRC_DIR, '_worker.js');
+const workerDist = path.join(DIST_DIR, '_worker.js');
+if (fs.existsSync(workerSrc)) {
+  fs.copyFileSync(workerSrc, workerDist);
+  console.log('  Copied _worker.js');
+}
+
 // Step 2: Convert content/*.md to dist/articles/*.html
 const articlesDir = path.join(DIST_DIR, 'articles');
 fs.mkdirSync(articlesDir, { recursive: true });
@@ -102,18 +139,6 @@ if (fs.existsSync(CONTENT_DIR)) {
 if (fs.existsSync(path.join(DATA_DIR, 'articles.json'))) {
   fs.copyFileSync(path.join(DATA_DIR, 'articles.json'), path.join(DIST_DIR, 'articles.json'));
   console.log('  Copied articles.json');
-}
-
-// Copy fonts
-const fontsDir = path.join(SRC_DIR, 'fonts');
-const distFonts = path.join(DIST_DIR, 'fonts');
-if (fs.existsSync(fontsDir)) {
-  if (!fs.existsSync(distFonts)) fs.mkdirSync(distFonts, { recursive: true });
-  const fontFiles = fs.readdirSync(fontsDir);
-  fontFiles.forEach(file => {
-    fs.copyFileSync(path.join(fontsDir, file), path.join(distFonts, file));
-  });
-  console.log('  Copied fonts');
 }
 
 console.log('\nCloudscroll build complete.');

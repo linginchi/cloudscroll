@@ -215,4 +215,13 @@
     sessionStorage.setItem('transition', 'cover-to-shelf');
     window.location.href = 'shelf.html';
   });
+
+  var enterBtn = document.getElementById('cover-enter-btn');
+  if (enterBtn) {
+    enterBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      sessionStorage.setItem('transition', 'cover-to-shelf');
+      window.location.href = 'shelf.html';
+    });
+  }
 })();

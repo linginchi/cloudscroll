@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>閱讀 — 雲箋文舍</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/reader.css">
@@ -10,32 +10,78 @@
 </head>
 <body>
   <div class="page" id="reader-page">
-    <div class="page-inner reader-page-inner">
-      <!-- 頂欄 -->
-      <div class="reader-topbar">
-        <a class="reader-back" id="reader-back" href="toc.html">← 目錄</a>
-        <span class="reader-title" id="article-title">文章標題</span>
-        <div class="reader-lang" id="lang-toggle">
-          <span class="lang-option active" data-lang="zh">中</span>
-          <span class="lang-sep">|</span>
-          <span class="lang-option" data-lang="en">EN</span>
+    <div class="page-inner reader-page-inner has-sidebar">
+      <div class="desktop-sidebar" id="desktop-sidebar"></div>
+
+      <div class="desktop-main">
+        <div class="reader-topbar">
+          <a class="reader-back" id="reader-back" href="shelf.html">← 目錄</a>
+          <span class="reader-title" id="article-title">文章標題</span>
+          <div class="reader-top-links">
+            <a href="index.html">首頁</a>
+            <span class="top-link-sep">|</span>
+            <a href="shelf.html">書架</a>
+            <span class="top-link-sep">|</span>
+          </div>
+          <div class="reader-lang" id="lang-toggle">
+            <span class="lang-option active" data-lang="zh">中</span>
+            <span class="lang-sep">|</span>
+            <span class="lang-option" data-lang="en">EN</span>
+          </div>
+        </div>
+
+        <div class="reader-progress-bar">
+          <div class="progress-fill" id="progress-bar"></div>
+        </div>
+
+        <div class="reader-scroll" id="reader-scroll">
+          <div class="reader-inner" id="reader-inner"></div>
+        </div>
+
+        <div class="reader-actions">
+          <button class="action-btn" id="like-btn">
+            <span class="btn-icon" id="like-icon">♡</span>
+            <span class="btn-label">點讚</span>
+            <span class="btn-count" id="like-count">0</span>
+          </button>
+          <button class="action-btn" id="share-btn">
+            <span class="btn-icon">📤</span>
+            <span class="btn-label">分享</span>
+            <span class="btn-count" id="page-num">—</span>
+          </button>
+          <button class="action-btn" id="back-btn">
+            <span class="btn-icon">📖</span>
+            <span class="btn-label">回目錄</span>
+            <span class="btn-count" id="stat-views">0</span>
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- 滾動閱讀區 -->
-      <div class="reader-scroll" id="reader-scroll">
-        <div class="reader-inner" id="reader-inner"></div>
-      </div>
-
-      <!-- 底部 -->
-      <div class="reader-bottom">
-        <div class="reader-progress" id="reader-progress">
-          <div class="progress-bar" id="progress-bar"></div>
+    <div class="share-overlay" id="share-overlay">
+      <div class="share-dialog">
+        <div class="share-dialog-title">分享給親友</div>
+        <div class="share-steps">
+          <div class="share-step">
+            <span class="share-step-icon">🔗</span>
+            <span class="share-step-label">已複製鏈接</span>
+          </div>
+          <span class="share-arrow">→</span>
+          <div class="share-step">
+            <span class="share-step-icon">💬</span>
+            <span class="share-step-label">打開微信</span>
+          </div>
+          <span class="share-arrow">→</span>
+          <div class="share-step">
+            <span class="share-step-icon">📨</span>
+            <span class="share-step-label">貼上發送</span>
+          </div>
         </div>
-        <div class="reader-meta">
-          <span class="book-name">雲箋文舍</span>
-          <span class="page-num" id="page-num">—</span>
+        <div class="share-link-box" id="share-link-box">
+          <span id="share-link-text">加載中…</span>
         </div>
+        <p class="share-dialog-text">文章鏈接已複製，請打開微信，長按輸入框貼上並發送</p>
+        <button class="share-close-btn" id="share-close-btn">知道了</button>
       </div>
     </div>
   </div>

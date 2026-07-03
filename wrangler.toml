@@ -9,3 +9,8 @@ directory = "dist"
 # Production branch
 [env.production]
 branch = "main"
+
+# KV Namespace for view/like stats
+[[kv_namespaces]]
+binding = "CLOUDSCROLL_STATS"
+id = "bd77dbcc4c6045f5933326ae5841e435"

@@ -1,5 +1,5 @@
 // src/js/toc.js
-// 從 data.json 載入真實文章目錄，按輯分組顯示，支援中EN切換
+// 從 data.json 載入真實文章目錄，按輯分組顯示，支援中EN切換、卷跳轉
 (function() {
   'use strict';
 
@@ -9,15 +9,81 @@
   var masterData = null;
   var currentLang = 'zh';
 
-  // 語言切換按鈕
+  // Get target volume from URL params
+  var params = new URLSearchParams(window.location.search);
+  var targetVolume = parseInt(params.get('volume')) || 0;
+
+  // Language toggle buttons
   var langToggle = document.getElementById('toc-lang-toggle');
   var langOptions = langToggle ? langToggle.querySelectorAll('.lang-option') : null;
 
-  // 頂欄/底欄 DOM refs
+  // Header/footer DOM refs
   var headerRight = document.querySelector('.header-right');
   var homeLink = document.querySelector('.home-link');
   var footerBookName = document.querySelector('.page-footer .book-name');
 
+  // Volume labels
+  var volumeLabels = {
+    '1': { zh: '我的人生旅行 · 第一輯', en: 'A Life Unfolded in Miles · Part I' },
+    '2': { zh: '我的人生旅行 · 第二輯', en: 'A Life Unfolded in Miles · Part II' },
+    '3': { zh: '我的人生旅行 · 第三輯', en: 'A Life Unfolded in Miles · Part III' },
+  };
+
+  // Inject volume selector into header area
+  function injectVolumeSelector() {
+    var header = document.querySelector('.page-header');
+    if (!header) return;
+
+    var selector = document.createElement('div');
+    selector.className = 'toc-volume-selector';
+    selector.id = 'toc-vol-selector';
+    selector.innerHTML =
+      '<span class="vol-option active" data-vol="1">第一輯</span>' +
+      '<span class="vol-sep">|</span>' +
+      '<span class="vol-option" data-vol="2">第二輯</span>' +
+      '<span class="vol-sep">|</span>' +
+      '<span class="vol-option" data-vol="3">第三輯</span>';
+    header.appendChild(selector);
+
+    var volOptions = selector.querySelectorAll('.vol-option');
+    volOptions.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        var vol = this.getAttribute('data-vol');
+        jumpToChapter(parseInt(vol));
+      });
+    });
+  }
+
+  function updateVolumeSelector(activeVol) {
+    var volOptions = document.querySelectorAll('#toc-vol-selector .vol-option');
+    volOptions.forEach(function(opt) {
+      opt.classList.toggle('active', opt.getAttribute('data-vol') === String(activeVol));
+    });
+  }
+
+  function jumpToChapter(volume) {
+    if (!masterData) return;
+    var chIdx = volume - 1;
+    var headers = articleList.querySelectorAll('.toc-chapter-header');
+    if (headers.length > chIdx) {
+      headers[chIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      updateVolumeSelector(volume);
+      targetVolume = volume;
+
+      // Build header label
+      var label = volumeLabels[String(volume)];
+      if (label) {
+        if (headerRight) {
+          headerRight.textContent = currentLang === 'zh' ? label.zh : label.en;
+        }
+        document.title = currentLang === 'zh'
+          ? '目錄 — ' + label.zh
+          : 'Contents — ' + label.en.split(' · ')[0];
+      }
+    }
+  }
+
+  // Language switch handler
   if (langOptions) {
     langOptions.forEach(function(opt) {
       opt.addEventListener('click', function() {
@@ -27,8 +93,13 @@
         langOptions.forEach(function(o) { o.classList.remove('active'); });
         this.classList.add('active');
 
-        // 頂欄雙語
-        if (headerRight) {
+        // Header bilingual
+        if (headerRight && targetVolume) {
+          var label = volumeLabels[String(targetVolume)];
+          headerRight.textContent = lang === 'zh'
+            ? (label ? label.zh : '我的人生旅行')
+            : (label ? label.en : 'A Life Unfolded in Miles');
+        } else if (headerRight) {
           headerRight.textContent = lang === 'zh' ? '我的人生旅行' : 'A Life Unfolded in Miles';
         }
         if (homeLink) {
@@ -44,7 +115,10 @@
     });
   }
 
-  // 顯示加載狀態
+  // Inject volume selector early
+  injectVolumeSelector();
+
+  // Show loading state
   articleList.innerHTML = '<li class="toc-loading">載入中…</li>';
 
   var xhr = new XMLHttpRequest();
@@ -58,6 +132,13 @@
     try {
       masterData = JSON.parse(xhr.responseText);
       renderTOC(masterData);
+
+      // Scroll to target chapter after rendering
+      if (targetVolume) {
+        var vol = targetVolume;
+        targetVolume = 0;
+        jumpToChapter(vol);
+      }
     } catch (e) {
       articleList.innerHTML = '<li class="toc-loading" style="color:#999">數據解析錯誤</li>';
     }
@@ -72,7 +153,7 @@
   function renderTOC(data) {
     articleList.innerHTML = '';
 
-    // 1) 序文
+    // 1) Preface
     var preface = data.articles.find(function(a) { return a.id === '00-preface'; });
     if (preface) {
       var prefaceItem = document.createElement('li');
@@ -90,10 +171,11 @@
       articleList.appendChild(prefaceItem);
     }
 
-    // 2) 各輯
+    // 2) Each chapter
     data.chapters.forEach(function(chapter, ci) {
       var chapterHeader = document.createElement('li');
       chapterHeader.className = 'toc-chapter-header';
+      chapterHeader.id = 'chapter-' + (ci + 1);
       chapterHeader.innerHTML =
         '<span class="toc-chapter-zh">' + (currentLang === 'en' ? chapter.en : chapter.zh) + '</span>' +
         '<span class="toc-chapter-en">' + (currentLang === 'en' ? '' : chapter.en) + '</span>';

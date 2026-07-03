@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的人生旅行</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/volume.css">
+</head>
+<body>
+  <div class="page" id="volume-page">
+    <div class="page-inner volume-page-inner has-sidebar" id="volume-inner">
+      <!-- Desktop sidebar -->
+      <div class="desktop-sidebar" id="desktop-sidebar"></div>
+
+      <div class="desktop-main">
+        <!-- Cover -->
+        <div class="volume-cover" id="volume-cover">
+          <div class="cover-nav">
+            <a class="cover-nav-link" href="index.html">首頁</a>
+            <a class="cover-nav-link" href="shelf.html">書架</a>
+          </div>
+          <div class="cover-overlay"></div>
+          <a class="cover-back-btn" href="shelf.html">← 返回書架</a>
+          <div class="cover-content">
+            <div class="cover-title" id="cover-title"></div>
+            <div class="cover-title-en" id="cover-title-en"></div>
+            <div class="cover-author" id="cover-author"></div>
+            <button class="cover-open-btn" id="cover-open-btn">翻開書頁</button>
+            <div class="cover-scroll-hint">向下翻閱</div>
+          </div>
+        </div>
+
+        <!-- Flaps (author preface) -->
+        <div class="volume-flaps" id="volume-flaps">
+          <h2 class="flaps-heading">作者自序</h2>
+          <div class="flaps-text" id="flaps-text">載入中…</div>
+          <div class="flaps-divider"></div>
+          <p class="flaps-scroll-hint" id="flaps-scroll-hint">繼續翻閱目錄 ↓</p>
+        </div>
+
+        <!-- TOC -->
+        <div class="volume-toc" id="volume-toc">
+          <div class="toc-list-wrapper">
+            <div class="toc-section-header">
+              <span class="toc-section-title" id="toc-section-title">目錄</span>
+              <span class="toc-section-en">Table of Contents</span>
+              <div class="toc-section-divider"></div>
+            </div>
+            <ul class="toc-list" id="article-list"></ul>
+            <div class="toc-bottom-links">
+              <a href="shelf.html">← 返回書架</a>
+              <a href="index.html">回首頁</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/volume.js"></script>
+</body>
+</html>

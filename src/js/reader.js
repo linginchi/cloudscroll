@@ -1,29 +1,34 @@
 // src/js/reader.js
-// 連續滾動閱讀模式 — 從 JSON 載入文章，圖文混排，董橋風格
+// Continuous scroll reading mode
 (function() {
   'use strict';
 
-  // ---- DOM refs ----
   var scrollEl = document.getElementById('reader-scroll');
   var innerEl = document.getElementById('reader-inner');
   var articleTitle = document.getElementById('article-title');
   var langToggle = document.getElementById('lang-toggle');
   var langOptions = langToggle ? langToggle.querySelectorAll('.lang-option') : null;
-  var pageNum = document.getElementById('page-num');
+  var pageNumEl = document.getElementById('page-num');
   var progressBar = document.getElementById('progress-bar');
+  var likeBtn = document.getElementById('like-btn');
+  var likeIcon = document.getElementById('like-icon');
+  var likeCountEl = document.getElementById('like-count');
+  var viewsEl = document.getElementById('stat-views');
+  var shareBtn = document.getElementById('share-btn');
+  var shareOverlay = document.getElementById('share-overlay');
+  var shareCloseBtn = document.getElementById('share-close-btn');
+  var backBtn = document.getElementById('back-btn');
 
   if (!scrollEl || !innerEl) return;
 
-  // ---- State ----
   var currentLang = 'zh';
   var masterData = null;
   var articleData = null;
   var articleBlocks = null;
   var articleBlocksEn = null;
-  var totalArticles = 0;
   var articleIndex = -1;
+  var liked = false;
 
-  // ---- 載入 master data ----
   function loadMasterData(callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'book/data.json', true);
@@ -31,13 +36,12 @@
       if (xhr.status === 200) {
         try { masterData = JSON.parse(xhr.responseText); callback(null); }
         catch(e) { callback(e); }
-      } else { callback(new Error('Failed to load book/data.json')); }
+      } else { callback(new Error('Failed')); }
     };
     xhr.onerror = function() { callback(new Error('Network error')); };
     xhr.send();
   }
 
-  // ---- 載入文章 JSON ----
   function loadArticleBlocks(articleId, lang, callback) {
     var suffix = lang === 'en' ? 'en-' : '';
     var xhr = new XMLHttpRequest();
@@ -47,28 +51,92 @@
         try { var data = JSON.parse(xhr.responseText); callback(null, data.blocks || []); }
         catch(e) { callback(e); }
       } else if (lang === 'en') { callback(null, null); }
-      else { callback(new Error('Failed to load')); }
+      else { callback(new Error('Failed')); }
     };
     xhr.onerror = function() { callback(new Error('Network error')); };
     xhr.send();
   }
 
-  // ---- 從 master 找文章摘要 ----
   function getArticleSummary(articleId) {
     if (!masterData) return null;
     for (var i = 0; i < masterData.articles.length; i++) {
       if (masterData.articles[i].id === articleId) {
         articleIndex = i;
-        totalArticles = masterData.articles.length;
         return masterData.articles[i];
       }
     }
     return null;
   }
 
-  // ---- 初始化 ----
+  function getArticleVolume(articleId) {
+    if (!masterData || !masterData.chapters) return 1;
+    for (var c = 0; c < masterData.chapters.length; c++) {
+      var arts = masterData.chapters[c].articles || [];
+      for (var a = 0; a < arts.length; a++) {
+        if (arts[a].id === articleId) return c + 1;
+      }
+    }
+    return 1;
+  }
+
+  function render() {
+    var blocks = currentLang === 'en' && articleBlocksEn ? articleBlocksEn : articleBlocks;
+    if (!blocks) blocks = articleBlocks;
+
+    var html = '';
+
+    // Chapter cover
+    var zh = articleData.zh || '';
+    var en = articleData.en || '';
+    var enTitle = articleData.en || '';
+    var subtitle = currentLang === 'en' ? (articleData.en_subtitle || '') : (articleData.subtitle || '');
+    var authorLine = currentLang === 'en' ? 'Lin Hua' : '林 樺';
+    var num = '';
+    if (articleData.id !== '00-preface' && articleIndex >= 2) {
+      num = currentLang === 'en' ? 'Essay ' + (articleIndex - 2) : '第 ' + (articleIndex - 2) + ' 篇';
+    }
+
+    html += '<div class="chapter-cover' + (currentLang === 'en' ? ' chapter-cover-en-mode' : '') + '">' +
+      (num ? '<div class="chapter-cover-num">' + num + '</div>' : '') +
+      '<div class="chapter-cover-zh">' + esc(currentLang === 'en' ? enTitle : zh) + '</div>' +
+      (en && currentLang === 'zh' ? '<div class="chapter-cover-en">' + esc(en) + '</div>' : '') +
+      '<div class="chapter-cover-line"></div>' +
+      (subtitle ? '<p class="chapter-cover-sub">' + esc(subtitle) + '</p>' : '') +
+      '<div class="chapter-cover-author">' + authorLine + '</div>' +
+      '</div>';
+
+    // Body
+    html += '<div class="book-content">';
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (block.type === 'text') {
+        var text = block.content;
+        var cls = /^【.*】/.test(text.trim()) ? ' class="section-title"' : '';
+        html += '<p' + cls + '>' + esc(text) + '</p>';
+      } else if (block.type === 'image') {
+        html += '<div class="book-image-wrapper"><img src="book/' + block.src + '" alt="" loading="lazy"></div>';
+      }
+    }
+    html += '</div>';
+    html += '<div class="chapter-end">— ◆ —</div>';
+
+    innerEl.innerHTML = html;
+    scrollEl.scrollTop = 0;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    var pct = 0;
+    if (scrollEl.scrollHeight > scrollEl.clientHeight) {
+      pct = Math.round((scrollEl.scrollTop / (scrollEl.scrollHeight - scrollEl.clientHeight)) * 100);
+    }
+    if (progressBar) progressBar.style.width = pct + '%';
+    if (pageNumEl) pageNumEl.textContent = pct + '%';
+  }
+
+  scrollEl.addEventListener('scroll', updateProgress, { passive: true });
+
   function init() {
-    // Get article info
     try {
       var stored = sessionStorage.getItem('currentArticle');
       if (stored) articleData = JSON.parse(stored);
@@ -82,7 +150,6 @@
     }
 
     if (articleTitle) articleTitle.textContent = articleData.zh;
-
     innerEl.innerHTML = '<div class="loading-state">載入中…</div>';
 
     loadMasterData(function(err) {
@@ -92,11 +159,14 @@
           articleData = fullInfo;
           if (articleTitle) articleTitle.textContent = articleData.zh;
         }
+        var vol = getArticleVolume(articleData.id);
+        var backLink = document.getElementById('reader-back');
+        if (backLink) backLink.href = 'volume.html?volume=' + vol;
       }
 
       loadArticleBlocks(articleData.id, 'zh', function(err2, blocks) {
         if (err2 || !blocks || blocks.length === 0) {
-          innerEl.innerHTML = '<div class="loading-state" style="color:#999">❌ 無法載入文章內容</div>';
+          innerEl.innerHTML = '<div class="loading-state" style="color:#999">無法載入文章內容</div>';
           return;
         }
         articleBlocks = blocks;
@@ -105,95 +175,41 @@
           articleBlocksEn = enBlocks;
         });
 
-        renderAll();
+        render();
+        renderDesktopSidebar();
       });
     });
-  }
 
-  // ---- 渲染完整文章 ----
-  function renderAll() {
-    var blocks = currentLang === 'en' && articleBlocksEn ? articleBlocksEn : articleBlocks;
-    if (!blocks) blocks = articleBlocks;
+    if (backBtn) {
+      backBtn.addEventListener('click', function() {
+        var vol = getArticleVolume(articleData.id);
+        window.location.href = 'volume.html?volume=' + vol;
+      });
+    }
 
-    var html = '';
-
-    // 章節扉頁
-    html += buildChapterCover();
-
-    // 正文
-    html += '<div class="book-content">';
-
-    for (var i = 0; i < blocks.length; i++) {
-      var block = blocks[i];
-
-      if (block.type === 'text') {
-        var text = block.content;
-        var className = '';
-        if (/^【.*】/.test(text.trim())) {
-          className = 'section-title';
+    if (shareBtn && shareOverlay) {
+      shareBtn.addEventListener('click', function() {
+        var shareUrl = window.location.origin + window.location.pathname;
+        if (articleData && articleData.id) shareUrl += '?id=' + encodeURIComponent(articleData.id);
+        var linkText = document.getElementById('share-link-text');
+        if (linkText) linkText.textContent = shareUrl;
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = shareUrl; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        } catch(e) {}
+        shareOverlay.classList.add('show');
+        if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          setTimeout(function() { window.location.href = 'weixin://'; }, 600);
         }
-        var pClass = className ? ' class="' + className + '"' : '';
-        html += '<p' + pClass + '>' + escapeHtml(text) + '</p>';
-      }
-      else if (block.type === 'image') {
-        html += '<div class="book-image-wrapper">' +
-          '<img src="book/' + block.src + '" alt="" loading="lazy">' +
-          '</div>';
-      }
+      });
     }
 
-    html += '</div>'; // book-content
-
-    // 篇尾
-    html += '<div class="chapter-end">— ◆ —</div>';
-
-    innerEl.innerHTML = html;
-
-    updateProgress();
+    if (shareCloseBtn) shareCloseBtn.addEventListener('click', function() { shareOverlay.classList.remove('show'); });
+    if (shareOverlay) shareOverlay.addEventListener('click', function(e) { if (e.target === shareOverlay) shareOverlay.classList.remove('show'); });
+    if (likeBtn) likeBtn.addEventListener('click', toggleLike);
   }
 
-  // ---- 章節扉頁 ----
-  function buildChapterCover() {
-    var zh = articleData.zh || '';
-    var en = articleData.en || '';
-    var enTitle = articleData.en || '';
-    var subtitle = currentLang === 'en' ? (articleData.en_subtitle || '') : (articleData.subtitle || '');
-    var authorLine = currentLang === 'en' ? 'Lin Hua' : '林 樺';
-
-    var num = '';
-    if (articleData.id === '00-preface') {}
-    else if (articleIndex >= 2) {
-      num = currentLang === 'en' ? 'Essay ' + (articleIndex - 2) : '第 ' + (articleIndex - 2) + ' 篇';
-    }
-
-    return '<div class="chapter-cover' + (currentLang === 'en' ? ' chapter-cover-en-mode' : '') + '">' +
-      (num ? '<div class="chapter-cover-num">' + num + '</div>' : '') +
-      '<div class="chapter-cover-zh">' + escapeHtml(currentLang === 'en' ? enTitle : zh) + '</div>' +
-      (en && currentLang === 'zh' ? '<div class="chapter-cover-en">' + escapeHtml(en) + '</div>' : '') +
-      '<div class="chapter-cover-line"></div>' +
-      (subtitle ? '<p class="chapter-cover-sub">' + escapeHtml(subtitle) + '</p>' : '') +
-      '<div class="chapter-cover-author">' + authorLine + '</div>' +
-      '</div>';
-  }
-
-  // ---- 進度 ----
-  function updateProgress() {
-    // Use scroll position to calculate progress
-    function onScroll() {
-      var scrollTop = scrollEl.scrollTop;
-      var scrollHeight = scrollEl.scrollHeight - scrollEl.clientHeight;
-      var pct = scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
-      progressBar.style.width = pct + '%';
-      pageNum.textContent = pct + '%';
-    }
-
-    scrollEl.removeEventListener('scroll', onScroll);
-    scrollEl.addEventListener('scroll', onScroll, { passive: true });
-    // Initial update
-    setTimeout(onScroll, 100);
-  }
-
-  // ---- 語言切換 ----
   if (langToggle && langOptions) {
     langOptions.forEach(function(opt) {
       opt.addEventListener('click', function() {
@@ -202,54 +218,128 @@
         currentLang = lang;
         langOptions.forEach(function(o) { o.classList.remove('active'); });
         this.classList.add('active');
-
-        // 頂欄雙語
-        if (articleTitle) {
-          articleTitle.textContent = lang === 'zh' ? articleData.zh : (articleData.en || articleData.zh);
-        }
+        if (articleTitle) articleTitle.textContent = lang === 'zh' ? articleData.zh : (articleData.en || articleData.zh);
         var backLink = document.getElementById('reader-back');
-        if (backLink) {
-          backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
-        }
-
-        var bookNameEl = document.querySelector('.reader-meta .book-name');
-        if (bookNameEl) {
-          bookNameEl.textContent = lang === 'zh' ? '雲箋文舍' : 'Cloudscroll';
-        }
+        if (backLink) backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
 
         if (lang === 'en') {
-          if (articleBlocksEn) {
-            scrollEl.scrollTop = 0;
-            renderAll();
-          } else {
+          if (articleBlocksEn) { render(); }
+          else {
             loadArticleBlocks(articleData.id, 'en', function(err, enBlocks) {
-              if (enBlocks) {
-                articleBlocksEn = enBlocks;
-                scrollEl.scrollTop = 0;
-                renderAll();
-              } else {
-                langOptions.forEach(function(o) { o.classList.remove('active'); });
-                document.querySelector('.lang-option[data-lang="zh"]').classList.add('active');
+              if (enBlocks) { articleBlocksEn = enBlocks; render(); }
+              else {
+                var ex = document.getElementById('en-pending-notice');
+                if (!ex) {
+                  var n = document.createElement('div'); n.id = 'en-pending-notice';
+                  n.textContent = 'English translation in progress — displaying Chinese original';
+                  var tb = document.querySelector('.reader-topbar');
+                  if (tb && tb.parentNode) tb.parentNode.insertBefore(n, tb.nextSibling);
+                }
                 currentLang = 'zh';
-                alert('英文版翻譯尚未完成，將繼續顯示中文。');
+                langOptions.forEach(function(o) { o.classList.remove('active'); });
+                var zhOpt = document.querySelector('.lang-option[data-lang="zh"]');
+                if (zhOpt) zhOpt.classList.add('active');
               }
             });
           }
         } else {
-          scrollEl.scrollTop = 0;
-          renderAll();
+          var notice = document.getElementById('en-pending-notice');
+          if (notice) notice.remove();
+          render();
         }
       });
     });
   }
 
-  // ---- Helpers ----
-  function escapeHtml(text) {
+  function renderDesktopSidebar() {
+    var sidebar = document.getElementById('desktop-sidebar');
+    if (!sidebar || window.innerWidth < 1024) return;
+    if (!masterData || !masterData.chapters) return;
+    var currentId = articleData.id;
+    var html = '<div class="sidebar-header"><div class="sidebar-title">雲箋文舍</div><div class="sidebar-subtitle">Cloudscroll</div></div><div class="sidebar-nav">';
+    var chapters = masterData.chapters;
+    for (var ci = 0; ci < chapters.length; ci++) {
+      var ch = chapters[ci];
+      html += '<div class="sidebar-chapter">' + ch.zh + '</div>';
+      var arts = ch.articles || [];
+      for (var ai = 0; ai < arts.length; ai++) {
+        var art = arts[ai];
+        var n = ai + 1; var ns = n < 10 ? '0' + n : '' + n;
+        var active = art.id === currentId ? ' active' : '';
+        html += '<span class="sidebar-article' + active + '" data-id="' + art.id + '" data-title="' + art.zh.replace(/"/g, '&quot;') + '" data-en="' + (art.en || '').replace(/"/g, '&quot;') + '"><span class="sidebar-num">' + ns + '</span>' + art.zh + '</span>';
+      }
+    }
+    html += '</div><a class="sidebar-back" href="shelf.html">← 返回書架</a>';
+    sidebar.innerHTML = html;
+    var items = sidebar.querySelectorAll('.sidebar-article');
+    for (var si = 0; si < items.length; si++) {
+      (function(item) {
+        item.addEventListener('click', function() {
+          var id = this.getAttribute('data-id');
+          var zh = this.getAttribute('data-title');
+          var en = this.getAttribute('data-en');
+          sessionStorage.setItem('currentArticle', JSON.stringify({ id: id, zh: zh, en: en }));
+          window.location.reload();
+        });
+      })(items[si]);
+    }
+  }
+
+  function getStats() {
+    if (!articleData || !articleData.id) return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/stats?article=' + encodeURIComponent(articleData.id), true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        if (viewsEl) viewsEl.textContent = '閱讀 ' + data.views;
+        if (likeCountEl) likeCountEl.textContent = data.likes + ' 讚';
+        if (data.liked) { liked = true; if (likeIcon) likeIcon.textContent = '♥'; if (likeBtn) likeBtn.classList.add('liked'); }
+      }
+    };
+    xhr.send();
+  }
+
+  function recordView() {
+    if (!articleData || !articleData.id) return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/stats?article=' + encodeURIComponent(articleData.id), true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        if (viewsEl) viewsEl.textContent = '閱讀 ' + data.views;
+      }
+    };
+    xhr.send(JSON.stringify({ action: 'view' }));
+  }
+
+  function toggleLike() {
+    if (!articleData || !articleData.id) return;
+    var action = liked ? 'unlike' : 'like';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/stats?article=' + encodeURIComponent(articleData.id), true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        if (likeCountEl) likeCountEl.textContent = data.likes + ' 讚';
+        liked = !liked;
+        if (likeIcon) likeIcon.textContent = liked ? '♥' : '♡';
+        if (likeBtn) { if (liked) likeBtn.classList.add('liked'); else likeBtn.classList.remove('liked'); }
+      }
+    };
+    xhr.send(JSON.stringify({ action: action }));
+  }
+
+  function esc(text) {
     if (!text) return '';
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // ---- Start ----
   init();
 
+  setTimeout(function() { getStats(); recordView(); }, 800);
+
+  window.addEventListener('resize', function() { renderDesktopSidebar(); });
 })();
