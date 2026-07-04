@@ -1,6 +1,21 @@
 (function() {
   'use strict';
 
+  var prefaceEntry = document.getElementById('preface-entry');
+
+  // "先讀作者自序" click handler
+  if (prefaceEntry) {
+    prefaceEntry.addEventListener('click', function(e) {
+      e.preventDefault();
+      sessionStorage.setItem('currentArticle', JSON.stringify({
+        id: '00-preface',
+        zh: '自序',
+        en: 'Preface'
+      }));
+      window.location.href = 'reader.html';
+    });
+  }
+
   // Load data.json to get book info and cover paths
   function loadData() {
     var xhr = new XMLHttpRequest();
@@ -11,7 +26,6 @@
           var data = JSON.parse(xhr.responseText);
           renderShelf(data);
         } catch(e) {
-          // Fallback: hard-coded shelf (shouldn't happen)
           renderShelf(null);
         }
       } else {
@@ -23,35 +37,58 @@
   }
 
   function renderShelf(data) {
-    var container = document.getElementById('shelf-content');
+    var container = document.getElementById('shelf-books');
     if (!container) return;
 
     var chapters = data ? data.chapters : [];
     var covers = data ? data.covers || {} : {};
-    var author = data ? data.author || '林樺' : '林樺';
 
     var html = '';
     for (var i = 0; i < chapters.length; i++) {
       var ch = chapters[i];
       var vol = i + 1;
       var coverSrc = covers['v' + vol] ? 'book/' + covers['v' + vol] : '';
-      var title = ch.zh || '';
-      var subtitle = title.split(' ').slice(1).join(' ') || title;
-      var en = ch.en || '';
-      var hint = ch.hint || '';
+      var volLabel = ch.zh ? ch.zh.split(' ').pop() : '';
+      var volClass = 'v' + vol;
 
-      html += '<div class="book-card" data-volume="' + vol + '">';
-      // Cover background
-      html += '<div class="book-cover-bg" style="background-image:url(' + coverSrc + ')">';
-      html += '<div class="book-cover-overlay">';
-      html += '<div class="book-title">' + title + '</div>';
-      html += '<div class="book-subtitle">' + subtitle + '</div>';
-      if (en) html += '<div class="book-subtitle-en">' + en + '</div>';
-      html += '<div class="book-author-line">' + author + ' 著</div>';
-      html += '<div class="book-open-btn">翻開書頁</div>';
-      html += '</div></div>';
-      if (hint) html += '<p class="book-hint">' + hint + '</p>';
+      html += '<div class="book-card ' + volClass + '" data-volume="' + vol + '">';
+
+      // 書脊 — 左側彩色縱條，含橫向裝訂線與卷標籤
+      html += '<div class="book-spine">';
+      html +=   '<div class="spine-ridge"></div>';
+      html +=   '<div class="spine-ridge"></div>';
+      html +=   '<div class="spine-ridge"></div>';
+      html +=   '<span class="spine-label">' + volLabel + '</span>';
       html += '</div>';
+
+      // 書本主體
+      html += '<div class="book-body">';
+
+      // 封面圖
+      html += '<div class="book-cover" style="background-image:url(' + coverSrc + ')">';
+      html +=   '<div class="cover-sheen"></div>';
+      html += '</div>';
+
+      // 紙邊（右側頁緣）
+      html += '<div class="book-pages">';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html +=   '<div class="page-line"></div>';
+      html += '</div>';
+
+      html += '</div>'; // body
+
+      // 案頭陰影
+      html += '<div class="book-shadow"></div>';
+
+      html += '</div>'; // card
     }
 
     container.innerHTML = html;

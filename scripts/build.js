@@ -59,6 +59,22 @@ try {
   console.warn('[Step 0.5] EN translations skipped:', e.message);
 }
 
+// Step 0.55: Copy custom cover images and avatar to dist/book/images/
+console.log('\n[Step 0.55] Copying custom covers and avatar...');
+const distBookImages = path.join(DIST_DIR, 'book', 'images');
+fs.mkdirSync(distBookImages, { recursive: true });
+const srcImages = path.join(SRC_DIR, 'images');
+const customFiles = ['cover_v1.jpg', 'cover_v2.jpg', 'cover_v3.jpg', 'lin_hua.jpg'];
+customFiles.forEach(file => {
+  const src = path.join(srcImages, file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, path.join(distBookImages, file));
+    console.log('  Copied ' + file);
+  } else {
+    console.log('  Skipped (not found): ' + file);
+  }
+});
+
 // Step 0.6: Generate cover images
 console.log('\n[Step 0.6] Generating cover images...');
 try {

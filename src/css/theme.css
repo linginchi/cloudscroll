@@ -1,22 +1,43 @@
 :root {
-  --color-page: #f5f0e8;
-  --color-card: #faf7f2;
-  --color-text-primary: #3d2b1f;
-  --color-text-secondary: #8b7355;
-  --color-text-faint: #a09080;
-  --color-border: #c4a882;
-  --color-divider: #e8dcc8;
-  --color-accent: #b87351;
-  --color-on-accent: #fff;
+  /* === 紙墨基礎色板（淡雅紙本書房） === */
+  --color-page: #faf6f0;              /* 宣紙米白 — 主底色 */
+  --color-card: #fefcf7;              /* 內頁紙白 — 卡片/內容區 */
+  --color-text-primary: #2c2416;      /* 深墨 — 主文字 */
+  --color-text-secondary: #6b5d4f;    /* 淡墨 — 次要文字 */
+  --color-text-faint: #9b8d7e;        /* 極淡墨 — 輔助提示 */
+  --color-border: #c4b8a8;            /* 淡墨邊框 */
+  --color-divider: #e8e0d4;           /* 宣紙分隔線 */
+  --color-accent: #b5433e;            /* 朱砂 — 主強調色（印章、互動高亮） */
+  --color-on-accent: #fffcf5;         /* 朱砂上的文字 */
+  --color-gold: #b8864e;              /* 銅金 — 次強調色 */
 
+  /* === 三輯專屬色調 === */
+  --color-v1-primary: #3a5a7c;        /* 靛青 — 第一輯《向世界出發》 */
+  --color-v1-accent: #d4b872;         /* 淡金 — 第一輯點綴 */
+  --color-v2-primary: #b5433e;        /* 朱砂深紅 — 第二輯《神州大地之行》 */
+  --color-v2-accent: #c9a84c;         /* 暖金 — 第二輯點綴 */
+  --color-v3-primary: #4a6b5d;        /* 松綠 — 第三輯《中外覽勝錄》 */
+  --color-v3-accent: #b8864e;         /* 銅金 — 第三輯點綴 */
+
+  /* === 字體 === */
   --font-serif: 'Noto Serif TC', 'Noto Serif SC', 'Songti SC', 'PMingLiU', '新細明體', serif;
   --font-heading: 'Noto Serif TC', 'Noto Serif SC', 'Songti SC', 'PMingLiU', '新細明體', serif;
-  --font-size-body: 18px;
-  --font-size-small: 13px;
-  --font-size-quote: 22px;
-  --font-size-display: 36px;
-  --font-size-btn: 18px;
-  --line-height-body: 2.0;
 
+  /* === 字體大小（基於長者閱讀友善） === */
+  --font-size-body: 19px;             /* 標準正文 */
+  --font-size-small: 14px;            /* 輔助文字 */
+  --font-size-quote: 24px;            /* 引語 */
+  --font-size-display: 38px;          /* 展示標題 */
+  --font-size-btn: 18px;              /* 按鈕文字 */
+
+  /* === 字體大小三檔（Aa 設定用） === */
+  --font-size-normal: 19px;
+  --font-size-large: 23px;
+  --font-size-xlarge: 27px;
+  --line-height-normal: 2.1;
+  --line-height-large: 2.4;
+  --line-height-xlarge: 2.7;
+
+  /* === 其他 === */
   --sidebar-width: 280px;
 }

@@ -615,14 +615,13 @@ def main():
             # V1 articles have full block translations; V2/V3 only title/subtitle
             if 'blocks' in en_translation:
                 en_data, en_sub = generate_en_article(article_id, zh_data, en_translation)
-                en_path = os.path.join(BOOK_DIR, f'en-{article_id}.json')
-                with open(en_path, 'w', encoding='utf-8') as f:
-                    json.dump(en_data, f, ensure_ascii=False, indent=2)
-                print(f'  ✓ en-{article_id}.json — {en_translation["title"]}')
             else:
-                # V2/V3: only EN title available, no full translation yet
-                en_sub = en_translation.get('subtitle', '')
-                print(f'  - {article_id}: EN title only — {en_translation["title"]}')
+                en_data, en_sub = create_v2_en_placeholder(article_id, zh_data, en_translation)
+
+            en_path = os.path.join(BOOK_DIR, f'en-{article_id}.json')
+            with open(en_path, 'w', encoding='utf-8') as f:
+                json.dump(en_data, f, ensure_ascii=False, indent=2)
+            print(f'  ✓ en-{article_id}.json — {en_translation["title"]}')
 
             # Update zh_data EN title and subtitle
             zh_data['en'] = en_translation['title']

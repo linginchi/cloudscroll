@@ -46,9 +46,7 @@
       coverEl.style.backgroundImage = 'url(book/' + coverSrc + ')';
     }
 
-    document.getElementById('cover-title').textContent = chapterTitle;
-    document.getElementById('cover-title-en').textContent = chapterEn;
-    document.getElementById('cover-author').textContent = author + ' 著';
+    // Cover text is embedded in the generated cover image — no foreground overlay
 
     // --- Flaps scroll hint ---
     document.getElementById('flaps-scroll-hint').addEventListener('click', function() {
@@ -96,8 +94,13 @@
     }
 
     // --- Cover button: scroll to flaps ---
-    document.getElementById('cover-open-btn').addEventListener('click', function() {
-      document.getElementById('volume-flaps').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('cover-open-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var flaps = document.getElementById('volume-flaps');
+      if (flaps) {
+        flaps.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
 
     // --- Load author preface ---
@@ -184,7 +187,7 @@
           for (var i = 0; i < blocks.length; i++) {
             if (blocks[i].type === 'text') {
               var t = blocks[i].content.trim();
-              if (t && !t.match(/^《我的人生旅行》自序$/)) {
+              if (t) {
                 paragraphs.push(t);
               }
             }

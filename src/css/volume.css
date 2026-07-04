@@ -16,7 +16,7 @@
   min-height: 100dvh;
   background-size: cover;
   background-position: center;
-  background-color: #2a2018;
+  background-color: #1c1c18;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,51 +29,24 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(20,15,10,0.10) 0%,
-    rgba(20,15,10,0.18) 40%,
-    rgba(20,15,10,0.55) 100%
+    rgba(20,15,10,0.05) 0%,
+    rgba(20,15,10,0.10) 60%,
+    rgba(20,15,10,0.35) 100%
   );
+  pointer-events: none;
 }
 
 .cover-content {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 2;
-  padding: 24px;
+  padding: 24px 24px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100dvh;
-}
-
-.cover-title {
-  font-family: var(--font-heading);
-  font-size: 32px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.18em;
-  line-height: 1.6;
-  text-shadow: 0 3px 12px rgba(0,0,0,0.5);
-  margin-bottom: 10px;
-}
-
-.cover-title-en {
-  font-family: var(--font-serif);
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.12em;
-  font-style: italic;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-  margin-bottom: 20px;
-}
-
-.cover-author {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.25em;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  margin-bottom: 36px;
+  justify-content: flex-end;
 }
 
 .cover-scroll-hint {
@@ -182,30 +155,67 @@
 
 /* ===== Flaps Section (author intro) ===== */
 .volume-flaps {
-  min-height: 60vh;
+  min-height: auto;
   background: var(--color-page);
   padding: 60px 24px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   border-top: 1px solid var(--color-divider);
 }
 
 .flaps-avatar {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  background: var(--color-divider);
-  margin-bottom: 20px;
+  background: var(--color-page);
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
-  color: var(--color-text-faint);
-  font-family: var(--font-serif);
   overflow: hidden;
+  position: relative;
+  /* 雙線圓框 — 外圈淡墨、內圈留白 */
+  border: 2px solid var(--color-border);
+  box-shadow:
+    0 0 0 4px var(--color-page),
+    0 0 0 5px var(--color-border);
+}
+
+.flaps-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.flaps-author-name {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.25em;
+  margin: 0 0 6px;
+}
+
+.flaps-author-desc {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+
+.flaps-divider-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin: 0 auto 24px;
 }
 
 .flaps-heading {
@@ -224,6 +234,7 @@
   line-height: 2;
   max-width: 480px;
   letter-spacing: 0.05em;
+  text-align: justify;
 }
 
 .flaps-divider {
@@ -300,7 +311,7 @@
 
 .toc-item:hover,
 .toc-item:active {
-  background: #f0ebe0;
+  background: #ede4d6;
 }
 
 .toc-item-row {

@@ -1,8 +1,11 @@
 .cover-inner {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 0;
   border: 2px solid var(--color-border);
-  background: #e8dcc8;
+  background: #ece4d5;
 }
 
 .cover-bg {
@@ -83,53 +86,29 @@
   to   { transform: translateX(8px); }
 }
 
-/* Quote */
-.cover-quote {
+/* ── 雲箋文舍標識 — 正中完全居中 ── */
+.cover-site-brand {
   position: relative;
   z-index: 2;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60%;
   padding: 0 32px;
-}
-
-.quote-line {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-quote);
-  font-weight: 700;
-  color: var(--color-text-primary);
-  line-height: 2.2;
-  letter-spacing: 0.15em;
-  text-align: center;
   opacity: 0;
-  animation: quoteFadeIn 2s ease-out forwards;
+  animation: brandFadeIn 2s ease-out forwards;
 }
 
-.quote-line:last-child {
-  animation-delay: 0.8s;
-}
-
-@keyframes quoteFadeIn {
+@keyframes brandFadeIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* Site name */
-.cover-site-name {
-  position: absolute;
-  bottom: 120px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 2;
 }
 
 .site-cn {
@@ -148,75 +127,140 @@
   margin-top: 4px;
 }
 
-.cover-credit {
-  margin-top: 8px;
-  line-height: 1.6;
-}
-
-.cover-credit-en {
-  margin-top: 2px;
-  line-height: 1.6;
-}
-
-.credit-zh {
-  font-family: 'FangSong', '仿宋', 'FZFS', serif;
-  font-size: 11px;
-  color: #bfb8a8;
-  letter-spacing: 0.1em;
-}
-
-.credit-en {
-  font-family: 'Calibri', 'Candara', 'Segoe UI', sans-serif;
-  font-size: 11px;
-  color: #bfb8a8;
-  letter-spacing: 0.05em;
-}
-
-    <!-- Click anywhere hint (small arrow indicator bottom-center) -->
-.cover-inner::after {
-  content: '';
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  width: 32px;
-  height: 32px;
-  border-right: 1px solid var(--color-text-faint);
-  border-bottom: 1px solid var(--color-text-faint);
-  transform: translateX(-50%) rotate(45deg);
-  opacity: 0.3;
-  animation: hintPulse 2s ease-in-out infinite;
-}
-
-@keyframes hintPulse {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.45; }
+/* ── 底部區域：按鈕 + 日期標記 ── */
+.cover-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 32px;
 }
 
 /* Enter bookshelf button */
 .cover-enter-btn {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  padding: 12px 40px;
-  background: rgba(61, 43, 31, 0.08);
-  border: 1.5px solid rgba(61, 43, 31, 0.25);
+  display: inline-block;
+  padding: 14px 44px;
+  background: rgba(44, 36, 22, 0.06);
+  border: 1.5px solid rgba(44, 36, 22, 0.22);
   border-radius: 28px;
   color: var(--color-text-primary);
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: 0.15em;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s, border-color 0.2s;
   min-height: 48px;
-  min-width: 160px;
+  min-width: 180px;
   text-align: center;
 }
 
 .cover-enter-btn:hover {
-  background: rgba(61, 43, 31, 0.14);
-  border-color: rgba(61, 43, 31, 0.4);
+  background: rgba(44, 36, 22, 0.10);
+  border-color: rgba(44, 36, 22, 0.35);
+}
+
+/* ── 日期標記 — 置於按鈕下方 ── */
+.cover-credits {
+  text-align: center;
+  padding-top: 20px;
+  pointer-events: none;
+}
+
+.credit-zh {
+  font-family: 'FangSong', '仿宋', 'FZFS', serif;
+  font-size: 11px;
+  color: #a89880;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.credit-en {
+  font-family: 'Calibri', 'Candara', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #a89880;
+  letter-spacing: 0.05em;
+  margin: 2px 0 0;
+}
+
+/* ── 手機端調整 ── */
+@media (max-width: 1023px) {
+  .cover-site-brand {
+    padding: 0 24px;
+  }
+
+  .site-cn {
+    font-size: 22px;
+    letter-spacing: 0.3em;
+  }
+
+  .site-en {
+    font-size: 10px;
+  }
+
+  .cover-bottom {
+    padding: 0 24px 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cover-enter-btn {
+    padding: 13px 36px;
+    font-size: 16px;
+    min-width: 160px;
+  }
+}
+
+/* ── 小屏手機 (≤375px) ── */
+@media (max-width: 375px) {
+  .site-cn {
+    font-size: 20px;
+    letter-spacing: 0.25em;
+  }
+
+  .site-en {
+    font-size: 9px;
+  }
+
+  .cover-enter-btn {
+    padding: 12px 28px;
+    font-size: 15px;
+    min-width: 140px;
+  }
+
+  .cover-bottom {
+    padding: 0 16px 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ── 桌面端 (≥1024px) — 限制封面最大寬度，保持藝術比例 ── */
+@media (min-width: 1024px) {
+  .cover-inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cover-site-brand {
+    padding: 0 40px;
+  }
+
+  .site-cn {
+    font-size: 28px;
+    letter-spacing: 0.45em;
+  }
+
+  .site-en {
+    font-size: 12px;
+  }
+
+  .cover-bottom {
+    padding: 0 32px 36px;
+  }
+
+  .cover-enter-btn {
+    padding: 15px 48px;
+    font-size: 18px;
+  }
 }
