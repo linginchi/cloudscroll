@@ -11,13 +11,15 @@
   --color-on-accent: #fffcf5;         /* 朱砂上的文字 */
   --color-gold: #b8864e;              /* 銅金 — 次強調色 */
 
-  /* === 三輯專屬色調 === */
+  /* === 四輯專屬色調 === */
   --color-v1-primary: #3a5a7c;        /* 靛青 — 第一輯《向世界出發》 */
   --color-v1-accent: #d4b872;         /* 淡金 — 第一輯點綴 */
   --color-v2-primary: #b5433e;        /* 朱砂深紅 — 第二輯《神州大地之行》 */
   --color-v2-accent: #c9a84c;         /* 暖金 — 第二輯點綴 */
   --color-v3-primary: #4a6b5d;        /* 松綠 — 第三輯《中外覽勝錄》 */
   --color-v3-accent: #b8864e;         /* 銅金 — 第三輯點綴 */
+  --color-v4-primary: #663a5c;        /* 紫霞 — 第四輯《旅遊天地》 */
+  --color-v4-accent: #d4b878;         /* 暖象牙 — 第四輯點綴 */
 
   /* === 字體 === */
   --font-serif: 'Noto Serif TC', 'Noto Serif SC', 'Songti SC', 'PMingLiU', '新細明體', serif;

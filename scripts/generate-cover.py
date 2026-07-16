@@ -5,6 +5,7 @@ Three volumes share a unified layout with distinct themes:
   V1: Seascape, distant sails (靛青 + light gold) — 向世界出發
   V2: Mountains, ancient city (朱砂深紅 + warm gold) — 神州大地之行
   V3: Cloud sea, ridges (松綠 + copper gold) — 中外覽勝錄
+  V4: Misty bamboo, pavilion (紫霞 + warm ivory) — 旅遊天地
 """
 import json, os, sys, math
 from PIL import Image, ImageDraw, ImageFont
@@ -42,6 +43,14 @@ VOLUME_THEMES = {
         'sky_top':  (65, 88, 75),
         'sky_bot':  (140, 165, 140),
         'water':    (110, 130, 115),
+    },
+    3: {  # 第四輯 旅遊天地 — 紫霞 + 暖象牙，竹亭意象
+        'bg':       (55, 38, 58),
+        'accent':   (225, 200, 155),
+        'mountain': (72, 52, 72),
+        'sky_top':  (90, 60, 92),
+        'sky_bot':  (165, 140, 160),
+        'water':    (140, 120, 135),
     },
 }
 
@@ -248,6 +257,53 @@ def draw_circle_moon(draw, w, accent_color):
         draw.ellipse([(cx - r, cy - r), (cx + r, cy + r)], outline=c, width=1)
 
 
+def draw_bamboo_and_pavilion(draw, w, h, accent_color, y_base):
+    """Draw slender bamboo stalks and a distant pavilion silhouette."""
+    import random
+    rng = random.Random(66)
+    bamboo_c = blend_alpha(accent_color, (140, 160, 120), 0.5)
+    leaf_c = blend_alpha(accent_color, (160, 180, 140), 0.35)
+
+    # Bamboo stalks on the left
+    for i in range(4):
+        bx = 40 + i * 35
+        stalk_top = y_base - rng.randint(80, 200)
+        stalk_bottom = h - rng.randint(20, 60)
+        draw.line([(bx, stalk_top), (bx, stalk_bottom)], fill=bamboo_c, width=3 + i % 2)
+
+        # Nodes
+        for seg_y in range(stalk_top + 30, stalk_bottom - 10, rng.randint(40, 70)):
+            draw.line([(bx - 5, seg_y), (bx + 5, seg_y)], fill=bamboo_c, width=2)
+
+        # Leaves
+        for j in range(3):
+            lx = bx + rng.randint(-15, 15)
+            ly = stalk_top + j * 40 + rng.randint(-10, 10)
+            for k in range(2):
+                ang = math.radians(rng.randint(20, 60) * (-1 if k == 0 else 1))
+                tip_x = lx + rng.randint(20, 40) * math.cos(ang)
+                tip_y = ly - rng.randint(20, 40) * math.sin(ang)
+                draw.line([(int(lx), ly), (int(tip_x), int(tip_y))], fill=leaf_c, width=1)
+
+    # Distant pavilion on the right
+    pav_c = blend_alpha(accent_color, (180, 160, 120), 0.45)
+    px = int(w * 0.73)
+    py = y_base + 20
+
+    # Base
+    draw.rectangle([(px - 22, py + 15), (px + 22, py + 18)], fill=pav_c)
+    # Pillars
+    for px_off in [-18, 18]:
+        draw.line([(px + px_off, py + 15), (px + px_off, py - 30)], fill=pav_c, width=2)
+    # Roof: three-tier pagoda roof
+    roof_c = blend_alpha(accent_color, (210, 190, 140), 0.6)
+    draw.polygon([(px - 32, py - 20), (px, py - 55), (px + 32, py - 20)], fill=roof_c)
+    # Upper tier
+    draw.polygon([(px - 18, py - 45), (px, py - 70), (px + 18, py - 45)], fill=roof_c)
+    # Spire
+    draw.line([(px, py - 70), (px, py - 90)], fill=roof_c, width=2)
+
+
 def draw_birds(draw, w, h, accent_color):
     """Draw a few V-shape birds in the sky."""
     bird_c = blend_alpha(accent_color, (180, 170, 150), 0.6)
@@ -312,6 +368,12 @@ def draw_volume_specific(draw, w, h, volume_idx, theme):
         draw_mountains(draw, w, 680, mountain, accent, 760, count=4)
         draw_water(draw, w, h, water_c, 900)
         draw_pine_branches(draw, w, 680, accent, 740)
+
+    elif volume_idx == 3:  # V4: misty bamboo + pavilion silhouette
+        draw_clouds(draw, w, COVER_H, accent)
+        draw_mountains(draw, w, 680, mountain, accent, 760, count=3)
+        draw_water(draw, w, h, water_c, 880)
+        draw_bamboo_and_pavilion(draw, w, 680, accent, 780)
 
 
 def create_cover(title_zh, subtitle_zh, author, output_path, volume_idx):

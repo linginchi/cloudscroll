@@ -31,6 +31,7 @@
 
   function loadMasterData(callback) {
     var xhr = new XMLHttpRequest();
+    xhr.timeout = 8000;
     xhr.open('GET', 'book/data.json', true);
     xhr.onload = function() {
       if (xhr.status === 200) {
@@ -39,12 +40,14 @@
       } else { callback(new Error('Failed')); }
     };
     xhr.onerror = function() { callback(new Error('Network error')); };
+    xhr.ontimeout = function() { callback(new Error('Timeout')); };
     xhr.send();
   }
 
   function loadArticleBlocks(articleId, lang, callback) {
     var suffix = lang === 'en' ? 'en-' : '';
     var xhr = new XMLHttpRequest();
+    xhr.timeout = 8000;
     xhr.open('GET', 'book/' + suffix + articleId + '.json', true);
     xhr.onload = function() {
       if (xhr.status === 200) {
@@ -54,6 +57,7 @@
       else { callback(new Error('Failed')); }
     };
     xhr.onerror = function() { callback(new Error('Network error')); };
+    xhr.ontimeout = function() { callback(new Error('Timeout')); };
     xhr.send();
   }
 
@@ -105,6 +109,17 @@
       '<div class="chapter-cover-author">' + authorLine + '</div>' +
       '</div>';
 
+    // 《屢次京城勝跡記》：標題後插入「今日北京」動畫
+    if (articleData.id === 'v2-01') {
+      html += '<div class="article-feature-media">' +
+        '<div class="article-feature-video-wrap">' +
+          '<video class="article-feature-video" src="images/beijing-anim.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>' +
+        '</div>' +
+        '<p class="article-feature-title">今日北京</p>' +
+        '<p class="article-feature-date">2026年7月7日</p>' +
+        '</div>';
+    }
+
     // Body
     html += '<div class="book-content">';
     for (var i = 0; i < blocks.length; i++) {
@@ -114,13 +129,24 @@
         var cls = /^【.*】/.test(text.trim()) ? ' class="section-title"' : '';
         html += '<p' + cls + '>' + esc(text) + '</p>';
       } else if (block.type === 'image') {
-        html += '<div class="book-image-wrapper"><img src="book/' + block.src + '" alt="" loading="lazy"></div>';
+        html += '<div class="book-image-wrapper"><img src="book/' + block.src + '" alt="" loading="lazy" draggable="false"></div>';
       }
     }
     html += '</div>';
     html += '<div class="chapter-end">— ◆ —</div>';
 
     innerEl.innerHTML = html;
+
+    // 確保插入的視頻開始播放
+    var featureVideos = innerEl.querySelectorAll('.article-feature-video');
+    for (var vi = 0; vi < featureVideos.length; vi++) {
+      var fv = featureVideos[vi];
+      var playPromise = fv.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function () {});
+      }
+    }
+
     scrollEl.scrollTop = 0;
     updateProgress();
   }
@@ -152,6 +178,23 @@
     if (articleTitle) articleTitle.textContent = articleData.zh;
     innerEl.innerHTML = '<div class="loading-state">載入中…</div>';
 
+    // 加載文章內容（不依賴 data.json，獨立執行）
+    loadArticleBlocks(articleData.id, 'zh', function(err2, blocks) {
+      if (err2 || !blocks || blocks.length === 0) {
+        innerEl.innerHTML = '<div class="loading-state" style="color:#999">無法載入文章內容</div>';
+        return;
+      }
+      articleBlocks = blocks;
+
+      // 並行加載英文翻譯（可選）
+      loadArticleBlocks(articleData.id, 'en', function(err3, enBlocks) {
+        articleBlocksEn = enBlocks;
+      });
+
+      render();
+    });
+
+    // 同時加載 data.json（用來補全資訊、側欄、回目錄路徑）
     loadMasterData(function(err) {
       if (!err && masterData) {
         var fullInfo = getArticleSummary(articleData.id);
@@ -161,53 +204,209 @@
         }
         var vol = getArticleVolume(articleData.id);
         var backLink = document.getElementById('reader-back');
-        if (backLink) backLink.href = 'volume.html?volume=' + vol;
-      }
-
-      loadArticleBlocks(articleData.id, 'zh', function(err2, blocks) {
-        if (err2 || !blocks || blocks.length === 0) {
-          innerEl.innerHTML = '<div class="loading-state" style="color:#999">無法載入文章內容</div>';
-          return;
-        }
-        articleBlocks = blocks;
-
-        loadArticleBlocks(articleData.id, 'en', function(err3, enBlocks) {
-          articleBlocksEn = enBlocks;
-        });
-
-        render();
+        if (backLink) backLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
+        var tocLink = document.getElementById('reader-toc-link');
+        if (tocLink) tocLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
         renderDesktopSidebar();
-      });
+        // 重新配置微信分享（此時 articleData 已有完整標題）
+        setupWechatShare();
+      }
     });
 
     if (backBtn) {
       backBtn.addEventListener('click', function() {
         var vol = getArticleVolume(articleData.id);
-        window.location.href = 'volume.html?volume=' + vol;
+        window.location.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
       });
+    }
+
+    function isWeChat() {
+      return /MicroMessenger/i.test(navigator.userAgent);
+    }
+
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function showShareToast(msg) {
+      var old = document.getElementById('reader-share-toast');
+      if (old) old.remove();
+      var el = document.createElement('div');
+      el.id = 'reader-share-toast';
+      el.className = 'reader-share-toast';
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(function() { el.classList.add('show'); }, 10);
+      setTimeout(function() {
+        el.classList.remove('show');
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 250);
+      }, 2400);
+    }
+
+    function updateShareDialogForEnv() {
+      var tip = document.getElementById('share-wx-tip');
+      var friendBtn = document.getElementById('share-friend-btn');
+      var timelineBtn = document.getElementById('share-timeline-btn');
+      var copyBtn = document.getElementById('share-copy-btn');
+      if (!tip) return;
+
+      if (isWeChat()) {
+        tip.style.display = 'block';
+        tip.textContent = '微信中請點擊右上角「…」，選擇分享給朋友或朋友圈';
+        if (friendBtn) friendBtn.style.display = 'none';
+        if (timelineBtn) timelineBtn.style.display = 'none';
+        if (copyBtn) copyBtn.style.display = '';
+        return;
+      }
+
+      // 桌面 Chrome / Edge：無法一鍵分享到微信，只保留「複製連結」並說明清楚
+      if (!isMobile()) {
+        tip.style.display = 'block';
+        tip.textContent = '電腦瀏覽器無法一鍵分享到微信。請先點「複製連結」，再到微信（或其他應用）貼上發送。';
+        if (friendBtn) friendBtn.style.display = 'none';
+        if (timelineBtn) timelineBtn.style.display = 'none';
+        if (copyBtn) copyBtn.style.display = '';
+        return;
+      }
+
+      tip.style.display = 'none';
+      if (friendBtn) friendBtn.style.display = '';
+      if (timelineBtn) timelineBtn.style.display = '';
+      if (copyBtn) copyBtn.style.display = '';
     }
 
     if (shareBtn && shareOverlay) {
       shareBtn.addEventListener('click', function() {
-        var shareUrl = window.location.origin + window.location.pathname;
+        var shareUrl = window.location.origin + '/reader.html';
         if (articleData && articleData.id) shareUrl += '?id=' + encodeURIComponent(articleData.id);
-        var linkText = document.getElementById('share-link-text');
-        if (linkText) linkText.textContent = shareUrl;
-        try {
-          var ta = document.createElement('textarea');
-          ta.value = shareUrl; ta.style.position = 'fixed'; ta.style.left = '-9999px';
-          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-        } catch(e) {}
+        var shareTitle = articleData ? (articleData.zh || '文章') : '雲箋文舍';
+        var shareDesc = '林樺先生旅行散文：《' + shareTitle + '》——來自雲箋文舍';
+        var shareImg = window.location.origin + '/og-image.png';
+
+        window.__wxShareData = {
+          title: shareTitle + ' — 雲箋文舍',
+          desc: shareDesc,
+          link: shareUrl,
+          imgUrl: shareImg
+        };
+
+        updateShareDialogForEnv();
         shareOverlay.classList.add('show');
-        if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-          setTimeout(function() { window.location.href = 'weixin://'; }, 600);
+      });
+    }
+
+    function doShare(options) {
+      var d = window.__wxShareData || {};
+      // 安全備援：如果 __wxShareData 未設定或過期，用 articleData 重建
+      if (!d.title || !d.link) {
+        var fallbackUrl = window.location.origin + '/reader.html';
+        if (articleData && articleData.id) fallbackUrl += '?id=' + encodeURIComponent(articleData.id);
+        var fallbackTitle = articleData ? (articleData.zh || '文章') : '雲箋文舍';
+        d = {
+          title: fallbackTitle + ' — 雲箋文舍',
+          desc: '林樺先生旅行散文：《' + fallbackTitle + '》——來自雲箋文舍',
+          link: fallbackUrl,
+          imgUrl: window.location.origin + '/og-image.png'
+        };
+        window.__wxShareData = d;
+      }
+      // 1) WeixinJSBridge (WeChat webview / PWA opened from WeChat)
+      if (typeof WeixinJSBridge !== 'undefined') {
+        WeixinJSBridge.invoke(options.method, {
+          title: d.title || '',
+          desc: options.desc ? (d.desc || '') : '',
+          link: d.link || '',
+          img_url: d.imgUrl || '',
+        }, function() {
+          shareOverlay.classList.remove('show');
+        });
+        return;
+      }
+      // 2) 手機系統分享
+      var canNativeShare = typeof navigator.share === 'function' && isMobile();
+      if (canNativeShare) {
+        navigator.share({
+          title: d.title || '',
+          text: d.desc || '',
+          url: d.link || '',
+        }).then(function() {
+          shareOverlay.classList.remove('show');
+        }).catch(function(err) {
+          if (err && err.name === 'AbortError') {
+            shareOverlay.classList.remove('show');
+            return;
+          }
+          copyShareLink(d.link || '');
+        });
+        return;
+      }
+      // 3) 桌面端：複製連結並提示
+      copyShareLink(d.link || '');
+    }
+
+    function copyShareLink(link) {
+      var finished = false;
+      function done() {
+        if (finished) return;
+        finished = true;
+        shareOverlay.classList.remove('show');
+        showShareToast('連結已複製。請打開微信，貼上發送給朋友或發到朋友圈');
+      }
+
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = link;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch (e) {}
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          navigator.clipboard.writeText(link).then(done).catch(done);
+        } catch (e) {
+          done();
+          return;
         }
+        setTimeout(done, 250);
+        return;
+      }
+      done();
+    }
+
+    var shareFriendBtn = document.getElementById('share-friend-btn');
+    var shareTimelineBtn = document.getElementById('share-timeline-btn');
+    var shareCopyBtn = document.getElementById('share-copy-btn');
+
+    if (shareFriendBtn) {
+      shareFriendBtn.addEventListener('click', function() {
+        doShare({ method: 'sendAppMessage', desc: true });
+      });
+    }
+    if (shareTimelineBtn) {
+      shareTimelineBtn.addEventListener('click', function() {
+        doShare({ method: 'shareTimeline', desc: false });
+      });
+    }
+    if (shareCopyBtn) {
+      shareCopyBtn.addEventListener('click', function() {
+        var d = window.__wxShareData || {};
+        copyShareLink(d.link || '');
       });
     }
 
     if (shareCloseBtn) shareCloseBtn.addEventListener('click', function() { shareOverlay.classList.remove('show'); });
     if (shareOverlay) shareOverlay.addEventListener('click', function(e) { if (e.target === shareOverlay) shareOverlay.classList.remove('show'); });
     if (likeBtn) likeBtn.addEventListener('click', toggleLike);
+
+    // 微信原生分享預配置 — 頁面加載時就設定好，
+    // 用戶點微信右上角「...」選單也能一鍵分享
+    setupWechatShare();
   }
 
   if (langToggle && langOptions) {
@@ -221,6 +420,8 @@
         if (articleTitle) articleTitle.textContent = lang === 'zh' ? articleData.zh : (articleData.en || articleData.zh);
         var backLink = document.getElementById('reader-back');
         if (backLink) backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
+        var tocLink = document.getElementById('reader-toc-link');
+        if (tocLink) tocLink.textContent = lang === 'zh' ? '目錄' : 'Contents';
 
         if (lang === 'en') {
           if (articleBlocksEn) { render(); }
@@ -314,6 +515,58 @@
     xhr.send(JSON.stringify({ action: 'view' }));
   }
 
+  /**
+   * 預配置微信原生分享 — 在頁面加載時將分享參數設定到 WeixinJSBridge。
+   * 微信內建瀏覽器會自動讀取這些設定，用戶點右上角「...」即可一鍵分享，
+   * 包含標題、描述、縮圖和連結 — 就像 App 原生分享一樣。
+   */
+  function setupWechatShare() {
+    if (!/MicroMessenger/i.test(navigator.userAgent)) return;
+
+    var shareUrl = window.location.origin + '/reader.html';
+    if (articleData && articleData.id) shareUrl += '?id=' + encodeURIComponent(articleData.id);
+    var shareTitle = articleData ? (articleData.zh || '文章') : '雲箋文舍';
+    var shareDesc = '林樺先生旅行散文：《' + shareTitle + '》——來自雲箋文舍';
+    var shareImg = window.location.origin + '/og-image.png';
+
+    var data = {
+      title: shareTitle + ' — 雲箋文舍',
+      desc: shareDesc,
+      link: shareUrl,
+      imgUrl: shareImg,
+    };
+
+    // Store for our custom buttons
+    window.__wxShareData = data;
+
+    // Pre-configure WeixinJSBridge for native menu sharing
+    function onBridgeReady() {
+      // 分享給朋友
+      WeixinJSBridge.on('menu:share:appmessage', function(argv) {
+        WeixinJSBridge.invoke('sendAppMessage', {
+          title: data.title,
+          desc: data.desc,
+          link: data.link,
+          img_url: data.imgUrl,
+        }, function(res) {});
+      });
+      // 分享到朋友圈
+      WeixinJSBridge.on('menu:share:timeline', function(argv) {
+        WeixinJSBridge.invoke('shareTimeline', {
+          title: data.title,
+          link: data.link,
+          img_url: data.imgUrl,
+        }, function(res) {});
+      });
+    }
+
+    if (typeof WeixinJSBridge === 'undefined') {
+      document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    } else {
+      onBridgeReady();
+    }
+  }
+
   function toggleLike() {
     if (!articleData || !articleData.id) return;
     var action = liked ? 'unlike' : 'like';
@@ -342,4 +595,13 @@
   setTimeout(function() { getStats(); recordView(); }, 800);
 
   window.addEventListener('resize', function() { renderDesktopSidebar(); });
+
+  // Protect images from downloading
+  document.addEventListener('contextmenu', function(e) {
+    var el = e.target;
+    if (el && el.closest && el.closest('.book-image-wrapper')) {
+      e.preventDefault();
+      return false;
+    }
+  });
 })();

@@ -64,7 +64,7 @@ console.log('\n[Step 0.55] Copying custom covers and avatar...');
 const distBookImages = path.join(DIST_DIR, 'book', 'images');
 fs.mkdirSync(distBookImages, { recursive: true });
 const srcImages = path.join(SRC_DIR, 'images');
-const customFiles = ['cover_v1.jpg', 'cover_v2.jpg', 'cover_v3.jpg', 'lin_hua.jpg'];
+const customFiles = ['cover_v1.jpg', 'cover_v2.jpg', 'cover_v3.jpg', 'cover_v4.jpg', 'lin_hua.jpg'];
 customFiles.forEach(file => {
   const src = path.join(srcImages, file);
   if (fs.existsSync(src)) {
@@ -74,6 +74,37 @@ customFiles.forEach(file => {
     console.log('  Skipped (not found): ' + file);
   }
 });
+
+// Step 0.56: Extract + copy 《雲心文集》
+console.log('\n[Step 0.56] Building Yunxin Wenji assets...');
+try {
+  execSync('python scripts/extract-yunxin.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
+} catch (e) {
+  console.warn('[Step 0.56] Yunxin extract warning:', e.message);
+}
+const distImages = path.join(DIST_DIR, 'images');
+fs.mkdirSync(distImages, { recursive: true });
+const yunxinImages = ['cover_v5.jpg', 'yunxin-cover.jpg', 'yunxin-flyleaf.jpg', 'yunxin-flyleaf-bg.mp4', 'beijing-anim.mp4', 'yunxin-weihui-bigan.jpg', 'yunxin-guishan-autumn.jpg'];
+yunxinImages.forEach(file => {
+  const src = path.join(srcImages, file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, path.join(distImages, file));
+    console.log('  Copied images/' + file);
+  } else {
+    console.log('  Skipped (not found): images/' + file);
+  }
+});
+const srcYunxin = path.join(SRC_DIR, 'yunxin');
+const distYunxin = path.join(DIST_DIR, 'yunxin');
+if (fs.existsSync(srcYunxin)) {
+  copyRecursive(srcYunxin, distYunxin);
+  console.log('  Copied yunxin/');
+}
 
 // Step 0.6: Generate cover images
 console.log('\n[Step 0.6] Generating cover images...');
@@ -87,6 +118,20 @@ try {
   console.log('[Step 0.6] Cover images generated.\n');
 } catch (e) {
   console.warn('[Step 0.6] Cover generation skipped:', e.message);
+}
+
+// Step 0.7: Generate icons and OG image
+console.log('\n[Step 0.7] Generating icons and OG image...');
+try {
+  execSync('python scripts/generate-icons.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
+  console.log('[Step 0.7] Icons and OG image generated.\n');
+} catch (e) {
+  console.warn('[Step 0.7] Icon generation skipped:', e.message);
 }
 
 // Step 1: Copy static assets (CSS, JS) to dist/
@@ -126,12 +171,27 @@ htmlFiles.forEach(file => {
   console.log('  Copied ' + file);
 });
 
+// Copy manifest.json
+const manifestSrc = path.join(SRC_DIR, 'manifest.json');
+const manifestDist = path.join(DIST_DIR, 'manifest.json');
+if (fs.existsSync(manifestSrc)) {
+  fs.copyFileSync(manifestSrc, manifestDist);
+  console.log('  Copied manifest.json');
+}
+
 // Copy _worker.js (Pages Functions entry)
 const workerSrc = path.join(SRC_DIR, '_worker.js');
 const workerDist = path.join(DIST_DIR, '_worker.js');
 if (fs.existsSync(workerSrc)) {
   fs.copyFileSync(workerSrc, workerDist);
   console.log('  Copied _worker.js');
+}
+
+// Remove functions/ dir if exists (we use _worker.js instead)
+const functionsDist = path.join(DIST_DIR, 'functions');
+if (fs.existsSync(functionsDist)) {
+  fs.rmSync(functionsDist, { recursive: true });
+  console.log('  Removed functions/ (using _worker.js)');
 }
 
 // Step 2: Convert content/*.md to dist/articles/*.html

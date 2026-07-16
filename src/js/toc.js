@@ -22,27 +22,40 @@
   var homeLink = document.querySelector('.home-link');
   var footerBookName = document.querySelector('.page-footer .book-name');
 
-  // Volume labels
-  var volumeLabels = {
-    '1': { zh: '我的人生旅行 · 第一輯', en: 'A Life Unfolded in Miles · Part I' },
-    '2': { zh: '我的人生旅行 · 第二輯', en: 'A Life Unfolded in Miles · Part II' },
-    '3': { zh: '我的人生旅行 · 第三輯', en: 'A Life Unfolded in Miles · Part III' },
-  };
+  // Volume labels (populated dynamically from data)
+  var volumeLabels = {};
 
-  // Inject volume selector into header area
-  function injectVolumeSelector() {
+  // Inject volume selector into header area (called after data loads)
+  function injectVolumeSelector(chapters) {
     var header = document.querySelector('.page-header');
     if (!header) return;
+
+    var existing = document.getElementById('toc-vol-selector');
+    if (existing) existing.remove();
 
     var selector = document.createElement('div');
     selector.className = 'toc-volume-selector';
     selector.id = 'toc-vol-selector';
-    selector.innerHTML =
-      '<span class="vol-option active" data-vol="1">第一輯</span>' +
-      '<span class="vol-sep">|</span>' +
-      '<span class="vol-option" data-vol="2">第二輯</span>' +
-      '<span class="vol-sep">|</span>' +
-      '<span class="vol-option" data-vol="3">第三輯</span>';
+
+    var parts = [];
+    chapters.forEach(function(ch, i) {
+      var vol = i + 1;
+      var activeClass = targetVolume === vol || (targetVolume === 0 && i === 0) ? ' active' : '';
+      // Extract roman numeral from chapter.en or use volume number
+      var partLabel = ch.en || 'Part ' + vol;
+      volumeLabels[String(vol)] = {
+        zh: '我的人生旅行 · ' + ch.zh,
+        en: 'A Life Unfolded in Miles · ' + partLabel,
+      };
+      // Build short label from chapter.zh (e.g. "第一輯 向世界出發" → "第一輯")
+      var shortZh = ch.zh.split(' ')[0];
+      parts.push('<span class="vol-option' + activeClass + '" data-vol="' + vol + '">' + shortZh + '</span>');
+      if (i < chapters.length - 1) {
+        parts.push('<span class="vol-sep">|</span>');
+      }
+    });
+
+    selector.innerHTML = parts.join('');
     header.appendChild(selector);
 
     var volOptions = selector.querySelectorAll('.vol-option');
@@ -115,9 +128,6 @@
     });
   }
 
-  // Inject volume selector early
-  injectVolumeSelector();
-
   // Show loading state
   articleList.innerHTML = '<li class="toc-loading">載入中…</li>';
 
@@ -131,6 +141,7 @@
     }
     try {
       masterData = JSON.parse(xhr.responseText);
+      injectVolumeSelector(masterData.chapters || []);
       renderTOC(masterData);
 
       // Scroll to target chapter after rendering
@@ -218,6 +229,7 @@
 
   function openArticle(article) {
     sessionStorage.setItem('currentArticle', JSON.stringify(article));
+    sessionStorage.setItem('currentVolume', targetVolume || 1);
     window.location.href = 'reader.html';
   }
 

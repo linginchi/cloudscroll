@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雲心文集 · 扉頁 — 雲箋文舍</title>
+
+  <meta property="og:title" content="雲心文集 · 扉頁 — 雲箋文舍">
+  <meta property="og:description" content="《雲心文集》扉頁——林樺編撰。">
+  <meta property="og:image" content="https://cloudscroll.net/images/yunxin-flyleaf.jpg">
+  <meta property="og:url" content="https://cloudscroll.net/yunxin-flyleaf.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="雲箋文舍">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/volume.css">
+  <link rel="stylesheet" href="css/yunxin.css?v=20260710e">
+</head>
+<body>
+  <div class="page" id="yunxin-page">
+    <div class="page-inner yunxin-page-inner">
+      <div class="flaps-navbar">
+        <a href="shelf.html">書架</a>
+        <a href="index.html">首頁</a>
+        <a href="yunxin-toc.html">目錄</a>
+        <a href="yunxin.html">封面</a>
+      </div>
+
+      <main class="yunxin-stage yunxin-stage-cover">
+        <div class="yunxin-flyleaf-frame" aria-label="雲心文集扉頁">
+          <video
+            class="yunxin-flyleaf-video"
+            src="images/yunxin-flyleaf-bg.mp4"
+            poster="images/yunxin-flyleaf.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+          ></video>
+          <div class="yunxin-flyleaf-text">
+            <p class="yunxin-flyleaf-quote">雲心無我，雲我無心。</p>
+            <p class="yunxin-flyleaf-meta">元 · 衛立中</p>
+            <p class="yunxin-flyleaf-note">（喻物我兩忘，超脫自在）</p>
+            <div class="yunxin-flyleaf-rule" aria-hidden="true"></div>
+            <p class="yunxin-flyleaf-quote">雲無心水自閒</p>
+            <p class="yunxin-flyleaf-meta">唐 · 白居易</p>
+          </div>
+        </div>
+      </main>
+
+      <nav class="yunxin-pager" aria-label="翻頁">
+        <a class="yunxin-pager-btn" href="yunxin.html">← 上一頁</a>
+        <span class="yunxin-pager-label">扉頁</span>
+        <a class="yunxin-pager-btn" href="yunxin-preface.html">下一頁 →</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var v = document.querySelector('.yunxin-flyleaf-video');
+      if (!v) return;
+      var tryPlay = function () {
+        var p = v.play();
+        if (p && typeof p.catch === 'function') p.catch(function () {});
+      };
+      tryPlay();
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) tryPlay();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -34,23 +34,13 @@
     var chapterTitle = chapter.zh || '';
     var chapterEn = chapter.en || '';
     var author = masterData.author || '林樺';
-    var covers = masterData.covers || {};
-    var coverSrc = covers['v' + targetVolume] || '';
 
     // Update document title
     document.title = chapterTitle + ' — 雲箋文舍';
 
-    // --- Cover ---
-    var coverEl = document.getElementById('volume-cover');
-    if (coverEl && coverSrc) {
-      coverEl.style.backgroundImage = 'url(book/' + coverSrc + ')';
-    }
-
-    // Cover text is embedded in the generated cover image — no foreground overlay
-
     // --- Flaps scroll hint ---
     document.getElementById('flaps-scroll-hint').addEventListener('click', function() {
-      document.getElementById('volume-toc').scrollIntoView({ behavior: 'smooth' });
+      scrollToToc();
     });
 
     // --- TOC ---
@@ -88,34 +78,50 @@
           var zh = this.getAttribute('data-title');
           var en = this.getAttribute('data-en');
           sessionStorage.setItem('currentArticle', JSON.stringify({ id: id, zh: zh, en: en }));
+          sessionStorage.setItem('currentVolume', targetVolume);
           window.location.href = 'reader.html';
         });
       })(items[j]);
     }
 
-    // --- Cover button: scroll to flaps ---
-    document.getElementById('cover-open-btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var flaps = document.getElementById('volume-flaps');
-      if (flaps) {
-        flaps.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // --- Get the correct scroll container ---
+    // Desktop (≥1024px): .desktop-main has overflow-y: auto
+    // Mobile: .volume-page-inner has overflow-y: auto
+    function getScrollContainer() {
+      if (window.innerWidth >= 1024) {
+        return document.querySelector('.desktop-main');
       }
-    });
+      return document.querySelector('.volume-page-inner');
+    }
+
+    // Shared scroll-to-TOC function — waits until preface is fully loaded
+    var _tocScrollDone = false;
+    function scrollToToc() {
+      var toc = document.getElementById('volume-toc');
+      if (!toc) return;
+      // 確保自序內容（含英文）已完全渲染後再定位
+      var sc = getScrollContainer();
+      if (sc) {
+        // 先用 getBoundingClientRect 取得 toc 相對於可視區的位置
+        var scRect = sc.getBoundingClientRect();
+        var tocRect = toc.getBoundingClientRect();
+        sc.scrollTop = sc.scrollTop + (tocRect.top - scRect.top) - 16;
+      }
+      // 如果定位後位置明顯不對（還在頁面頂部附近），稍後重試
+      if (sc && sc.scrollTop < 100 && !_tocScrollDone) {
+        _tocScrollDone = true;
+        setTimeout(function() { scrollToToc(); }, 600);
+      }
+    }
 
     // --- Load author preface ---
     loadPreface();
 
-    // --- Cover scroll fade ---
-    var pageInner = document.getElementById('volume-inner');
-    if (pageInner) {
-      pageInner.addEventListener('scroll', function() {
-        if (pageInner.scrollTop > 100) {
-          coverEl.classList.add('scrolled');
-        } else {
-          coverEl.classList.remove('scrolled');
-        }
-      });
+    // --- Auto-scroll to TOC when returning from reader ---
+    if (sessionStorage.getItem('scrollToToc') === '1' || new URLSearchParams(window.location.search).get('scrollToToc') === '1') {
+      sessionStorage.removeItem('scrollToToc');
+      // 等自序內容（含英文翻譯）非同步載入完成後再定位
+      setTimeout(function() { scrollToToc(); }, 800);
     }
 
     // --- Desktop sidebar ---
@@ -166,7 +172,9 @@
           var id = this.getAttribute('data-id');
           var zh = this.getAttribute('data-title');
           var en = this.getAttribute('data-en');
+          var vol = this.getAttribute('data-vol');
           sessionStorage.setItem('currentArticle', JSON.stringify({ id: id, zh: zh, en: en }));
+          sessionStorage.setItem('currentVolume', vol);
           window.location.href = 'reader.html';
         });
       })(sidebarItems[si]);
@@ -200,6 +208,8 @@
               el.textContent = paragraphs[p];
               flapsText.appendChild(el);
             }
+            // 載入英文翻譯
+            loadPrefaceEn();
           } else {
             flapsText.textContent = '序言內容暫缺';
           }
@@ -211,6 +221,56 @@
       }
     };
     xhr.onerror = function() { flapsText.textContent = '序言內容暫缺'; };
+    xhr.send();
+  }
+
+  function loadPrefaceEn() {
+    var flapsTextEn = document.getElementById('flaps-text-en');
+    var enDivider = document.getElementById('flaps-en-divider');
+    if (!flapsTextEn) return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'book/en-00-preface.json', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          var blocks = data.blocks || [];
+          var paragraphs = [];
+          for (var i = 0; i < blocks.length; i++) {
+            if (blocks[i].type === 'text') {
+              var t = blocks[i].content.trim();
+              if (t) {
+                paragraphs.push(t);
+              }
+            }
+          }
+          if (paragraphs.length > 0) {
+            flapsTextEn.style.display = '';
+            if (enDivider) enDivider.style.display = '';
+            flapsTextEn.innerHTML = '';
+            for (var p = 0; p < paragraphs.length; p++) {
+              var el = document.createElement('p');
+              el.style.cssText = 'margin-bottom:1.2em;text-indent:2em;text-align:justify;';
+              el.textContent = paragraphs[p];
+              flapsTextEn.appendChild(el);
+            }
+          } else {
+            flapsTextEn.style.display = 'none';
+            if (enDivider) enDivider.style.display = 'none';
+          }
+        } catch(e) {
+          flapsTextEn.style.display = 'none';
+          if (enDivider) enDivider.style.display = 'none';
+        }
+      } else {
+        flapsTextEn.style.display = 'none';
+        if (enDivider) enDivider.style.display = 'none';
+      }
+    };
+    xhr.onerror = function() {
+      flapsTextEn.style.display = 'none';
+      if (enDivider) enDivider.style.display = 'none';
+    };
     xhr.send();
   }
 

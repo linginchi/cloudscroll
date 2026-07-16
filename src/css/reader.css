@@ -184,6 +184,19 @@
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
 
+.share-wx-tip {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin: 0 0 16px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  padding: 12px 14px;
+  background: rgba(40, 30, 20, 0.05);
+  border-radius: 10px;
+}
+
 .share-dialog-title {
   font-family: var(--font-heading);
   font-size: 20px;
@@ -244,6 +257,46 @@
 
 .share-close-btn:active { opacity: 0.8; }
 
+/* 微信原生分享按鈕（彈窗內獨立顯示） */
+.share-wx-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 12px;
+  background: #f0ebe0;
+  border: 1.5px solid var(--color-border);
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.08em;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 56px;
+}
+
+.share-wx-btn:active {
+  transform: scale(0.97);
+  background: #e8dfd0;
+}
+
+.share-wx-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.share-wx-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.06em;
+}
+
 #en-pending-notice {
   background: #f5efe4;
   color: #6b5d4f;
@@ -260,6 +313,33 @@
   color: var(--color-text-faint);
   font-size: 14px;
   font-family: var(--font-serif);
+}
+
+.reader-share-toast {
+  position: fixed;
+  left: 50%;
+  top: 28%;
+  z-index: 3000;
+  max-width: min(86vw, 360px);
+  padding: 14px 22px;
+  border-radius: 14px;
+  background: rgba(40, 30, 20, 0.92);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  line-height: 1.6;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.reader-share-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 @media (min-width: 1024px) {

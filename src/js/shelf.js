@@ -1,21 +1,6 @@
 (function() {
   'use strict';
 
-  var prefaceEntry = document.getElementById('preface-entry');
-
-  // "先讀作者自序" click handler
-  if (prefaceEntry) {
-    prefaceEntry.addEventListener('click', function(e) {
-      e.preventDefault();
-      sessionStorage.setItem('currentArticle', JSON.stringify({
-        id: '00-preface',
-        zh: '自序',
-        en: 'Preface'
-      }));
-      window.location.href = 'reader.html';
-    });
-  }
-
   // Load data.json to get book info and cover paths
   function loadData() {
     var xhr = new XMLHttpRequest();
@@ -91,6 +76,35 @@
       html += '</div>'; // card
     }
 
+    // 《雲心文集》獨立書：點擊進入封面 → 扉頁 → 自序 → 目錄
+    html += '<div class="book-card v5 reserved-book" data-reserved="true" data-preview-url="yunxin.html">';
+    html +=   '<div class="book-spine">';
+    html +=     '<div class="spine-ridge"></div>';
+    html +=     '<div class="spine-ridge"></div>';
+    html +=     '<div class="spine-ridge"></div>';
+    html +=     '<span class="spine-label">雲心文集</span>';
+    html +=   '</div>';
+    html +=   '<div class="book-body">';
+    html +=     '<div class="book-cover" style="background-image:url(images/yunxin-cover.jpg)">';
+    html +=       '<div class="cover-sheen"></div>';
+    html +=       '<div class="book-reserved-badge">新作</div>';
+    html +=     '</div>';
+    html +=     '<div class="book-pages">';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=       '<div class="page-line"></div>';
+    html +=     '</div>';
+    html +=   '</div>';
+    html +=   '<div class="book-shadow"></div>';
+    html += '</div>';
+
     container.innerHTML = html;
 
     // Attach click handlers
@@ -98,6 +112,11 @@
     for (var j = 0; j < cards.length; j++) {
       (function(card) {
         card.addEventListener('click', function() {
+          if (this.getAttribute('data-reserved') === 'true') {
+            var previewUrl = this.getAttribute('data-preview-url');
+            if (previewUrl) window.location.href = previewUrl;
+            return;
+          }
           var volume = this.getAttribute('data-volume');
           sessionStorage.setItem('volume', volume);
           window.location.href = 'volume.html?volume=' + volume;

@@ -13,13 +13,21 @@ import os, sys, json, shutil, re, zipfile, tempfile
 from docx import Document
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from lxml import etree
+from PIL import Image, ImageDraw, ImageFont
 
 sys.stdout.reconfigure(encoding='utf-8')
+
+# Watermark configuration
+WATERMARK_TEXT = '雲箋文舍'
+WATERMARK_FONT_PATH = 'C:/Windows/Fonts/STKAITI.TTF'
+WATERMARK_OPACITY = 0x50  # alpha channel: 0x00=transparent, 0xFF=opaque, ~31% opacity
+WATERMARK_MARGIN_RATIO = 0.04  # distance from right/bottom edge as fraction of image dimension
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BOOK_DIR = os.path.join(ROOT, 'book')
 V2_BOOK_DIR = os.path.join(BOOK_DIR, '我的人生旅行第二輯')
 V3_BOOK_DIR = os.path.join(BOOK_DIR, '我的人生旅行第三輯')
+V4_BOOK_DIR = os.path.join(BOOK_DIR, '我的人生旅行第四輯')
 ASSETS_IMG_DIR = os.path.join(ROOT, 'assets', 'images', 'book')
 DIST_DIR = os.path.join(ROOT, 'dist')
 DIST_BOOK_DIR = os.path.join(DIST_DIR, 'book')
@@ -32,6 +40,43 @@ nsmap = {
     'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
     'pic': 'http://schemas.openxmlformats.org/drawingml/2006/picture',
 }
+
+
+def _apply_watermark(img_bytes, ext):
+    """Add a semi-transparent 「雲箋文舍」 watermark to the bottom-right corner."""
+    try:
+        from io import BytesIO
+        img = Image.open(BytesIO(img_bytes))
+        if img.mode != 'RGBA':
+            img = img.convert('RGBA')
+        w, h = img.size
+        font_size = max(int(w * 0.085), 18)
+        try:
+            font = ImageFont.truetype(WATERMARK_FONT_PATH, font_size)
+        except Exception:
+            font = ImageFont.load_default()
+        bbox = font.getbbox(WATERMARK_TEXT)
+        tw = bbox[2] - bbox[0]
+        th = bbox[3] - bbox[1]
+        margin_x = max(int(w * WATERMARK_MARGIN_RATIO), 8)
+        margin_y = max(int(h * WATERMARK_MARGIN_RATIO), 8)
+        x = w - tw - margin_x
+        y = h - th - margin_y
+        overlay = Image.new('RGBA', img.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        draw.text((x, y), WATERMARK_TEXT, font=font,
+                   fill=(255, 255, 255, WATERMARK_OPACITY))
+        result = Image.alpha_composite(img, overlay)
+        out = BytesIO()
+        fmt = 'PNG' if ext == '.png' else 'JPEG'
+        if fmt == 'JPEG':
+            result = result.convert('RGB')
+        result.save(out, format=fmt, quality=88)
+        return out.getvalue()
+    except Exception as e:
+        print(f'    Watermark warning: {e}')
+        return img_bytes
+
 
 TOC_MAP = {
     '台湾': '01-taiwan',
@@ -149,14 +194,102 @@ V3_ARTICLES = [
     {'id': 'v3-19', 'zh': '半天岩紫雲寺遊半天', 'en': 'Half a Day at Ziyun Temple, Bantianyan'},
 ]
 
+V4_TOC_MAP = {
+    '五星校友': 'v4-01',
+    '慶回歸': 'v4-02',
+    '殫見洽聞': 'v4-03',
+    '殫見': 'v4-03',
+    '禪城': 'v4-04',
+    '開元古刹': 'v4-05',
+    '開元': 'v4-05',
+    '觀天眼': 'v4-06',
+    '天眼': 'v4-06',
+    '守歲': 'v4-07',
+}
+
+V4_ARTICLES = [
+    {'id': 'v4-01', 'zh': '五校友鵬城歡聚遊', 'en': 'Alumni Reunion in Pengcheng'},
+    {'id': 'v4-02', 'zh': '慶回歸、敘鄉情、敬老獎學盛會', 'en': 'A Gala of Homecoming and Honour'},
+    {'id': 'v4-03', 'zh': '殫見洽聞 通達古今', 'en': 'Erudition: Bridging Past and Present'},
+    {'id': 'v4-04', 'zh': '遊禪城鳳城隨筆', 'en': 'Sketches of Chancheng and Fengcheng'},
+    {'id': 'v4-05', 'zh': '重遊開元古刹 再悟泉郡千年', 'en': 'Revisiting Kaiyuan Temple, Quanzhou'},
+    {'id': 'v4-06', 'zh': '閒步觀天眼 蘩樓品清茶', 'en': 'A Stroll by the Tianyan, Tea at Fanlou'},
+    {'id': 'v4-07', 'zh': '鵬城守歲 萬象歡筵', 'en': 'New Year\'s Eve Gala in Shenzhen'},
+]
+
 CHAPTER_HEADERS = {
     '第一輯 向世界出發',
     '第二輯 神州大地之行',
     '第三輯 中外覽勝錄',
+    '第四輯 旅遊天地',
     'Part I: To the World',
     'Part II: Journeys Across China',
     'Part III: Sights at Home and Abroad',
+    'Part IV: Traveller\'s Paradise',
 }
+
+
+def _build_rotation_map(zip_file):
+    """Parse word/document.xml to build a map of rId -> (cw_degrees, flip_h, flip_v)."""
+    rot_map = {}
+    try:
+        if 'word/document.xml' not in zip_file.namelist():
+            return rot_map
+        doc_xml = zip_file.read('word/document.xml')
+        root = etree.fromstring(doc_xml)
+
+        A_NS = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+        R_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+
+        for xfrm in root.findall(f'.//{{{A_NS}}}xfrm'):
+            rot = xfrm.get('rot')
+            flip_h = xfrm.get('flipH')
+            flip_v = xfrm.get('flipV')
+            if not rot and not flip_h and not flip_v:
+                continue
+
+            # Walk up to the pic:pic element (xfrm → spPr → pic)
+            sp_pr = xfrm.getparent()
+            if sp_pr is None:
+                continue
+            pic = sp_pr.getparent()
+            if pic is None:
+                continue
+
+            blip = pic.find(f'.//{{{A_NS}}}blip')
+            if blip is None:
+                continue
+            embed = blip.get(f'{{{R_NS}}}embed')
+            if not embed:
+                continue
+
+            deg = int(rot) / 60000 if rot else 0
+            rot_map[embed] = (deg, flip_h == '1', flip_v == '1')
+    except Exception:
+        pass
+    return rot_map
+
+
+def _apply_image_transforms(img_bytes, ext, rotation_deg, flip_h, flip_v):
+    """Apply rotation (clockwise) + flips to raw image bytes, return new bytes."""
+    from io import BytesIO
+    img = Image.open(BytesIO(img_bytes))
+
+    if flip_h:
+        img = img.transpose(Image.FLIP_LEFT_RIGHT)
+    if flip_v:
+        img = img.transpose(Image.FLIP_TOP_BOTTOM)
+
+    if rotation_deg != 0:
+        # OOXML stores clockwise rotation; PIL rotates counter-clockwise — negate
+        img = img.rotate(-rotation_deg, expand=True, resample=Image.LANCZOS)
+
+    out = BytesIO()
+    fmt = 'PNG' if ext == '.png' else 'JPEG'
+    if fmt == 'JPEG' and img.mode in ('RGBA', 'P'):
+        img = img.convert('RGB')
+    img.save(out, format=fmt, quality=90)
+    return out.getvalue()
 
 
 def extract_images_from_docx(docx_path, output_dir, article_id):
@@ -168,6 +301,22 @@ def extract_images_from_docx(docx_path, output_dir, article_id):
             all_files = z.namelist()
             img_files = [f for f in all_files if f.startswith('word/media/')]
 
+            # Build rotation map from document.xml (rId → (deg, flipH, flipV))
+            rot_map = _build_rotation_map(z)
+
+            # Build rId → media-path map from rels
+            rid_to_media = {}
+            rels_path = 'word/_rels/document.xml.rels'
+            if rels_path in all_files:
+                with z.open(rels_path) as f:
+                    rels_root = etree.fromstring(f.read())
+                for rel in rels_root:
+                    rid = rel.get('Id')
+                    target = rel.get('Target', '')
+                    target_full = f'word/{target}' if not target.startswith('word/') else target
+                    if rid and target_full in img_files:
+                        rid_to_media[rid] = target_full
+
             for i, img_path in enumerate(sorted(img_files)):
                 ext = os.path.splitext(img_path)[1].lower()
                 if ext not in ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.tif'):
@@ -175,23 +324,33 @@ def extract_images_from_docx(docx_path, output_dir, article_id):
                 out_name = f'{article_id}_{i+1:03d}{ext}'
                 out_path = os.path.join(output_dir, out_name)
 
-                with z.open(img_path) as src, open(out_path, 'wb') as dst:
-                    dst.write(src.read())
+                with z.open(img_path) as src:
+                    img_data = src.read()
+
+                # Look up rotation/flip for this image via its rId(s)
+                rotation_deg = 0
+                flip_h = False
+                flip_v = False
+                for rid, mp in rid_to_media.items():
+                    if mp == img_path and rid in rot_map:
+                        rotation_deg, flip_h, flip_v = rot_map[rid]
+                        break
+
+                # Apply rotation/flip BEFORE watermark
+                if rotation_deg != 0 or flip_h or flip_v:
+                    img_data = _apply_image_transforms(img_data, ext, rotation_deg, flip_h, flip_v)
+
+                # Apply watermark
+                watermarked = _apply_watermark(img_data, ext)
+                with open(out_path, 'wb') as dst:
+                    dst.write(watermarked)
 
                 img_map[img_path] = out_name
 
-                rels_path = 'word/_rels/document.xml.rels'
-                if rels_path in all_files:
-                    with z.open(rels_path) as f:
-                        rels_xml = f.read()
-                    rels_root = etree.fromstring(rels_xml)
-                    for rel in rels_root:
-                        target = rel.get('Target', '')
-                        target_full = f'word/{target}' if not target.startswith('word/') else target
-                        if target_full == img_path:
-                            rid = rel.get('Id')
-                            if rid:
-                                img_map[rid] = out_name
+                # Map rIds to output filename
+                for rid in rid_to_media:
+                    if rid_to_media[rid] == img_path:
+                        img_map[rid] = out_name
 
     except Exception as e:
         print(f'  Warning: zip extraction failed for images: {e}')
@@ -354,6 +513,12 @@ def extract_article(docx_path, output_dir, toc_map=None):
     # Clean 《》 from title
     title = title.replace('《', '').replace('》', '')
 
+    # Fix: 自序 "餘生於" → "余生於"
+    if article_id == '00-preface':
+        for block in blocks:
+            if block['type'] == 'text' and '餘生於' in block['content']:
+                block['content'] = block['content'].replace('餘生於', '余生於')
+
     # Clean 《》 from title blocks in content (preserve body text citations)
     for block in blocks:
         if block['type'] != 'text':
@@ -390,8 +555,8 @@ def extract_article(docx_path, output_dir, toc_map=None):
     return article
 
 
-def build_master_index(articles_v1, articles_v2, articles_v3):
-    """Build the master book/data.json from all three volumes"""
+def build_master_index(articles_v1, articles_v2, articles_v3, articles_v4):
+    """Build the master book/data.json from all four volumes"""
     v1_order = {
         'cover': 0,
         'toc': 1,
@@ -420,6 +585,15 @@ def build_master_index(articles_v1, articles_v2, articles_v3):
         key=lambda a: v3_order.get(a['id'], 999)
     )
 
+    v4_order = {}
+    for i, meta in enumerate(V4_ARTICLES):
+        v4_order[meta['id']] = 300 + i
+
+    sorted_v4 = sorted(
+        [a for a in articles_v4 if a['id'] in v4_order],
+        key=lambda a: v4_order.get(a['id'], 999)
+    )
+
     ch1_ids = set(v for k, v in TOC_MAP.items())
     ch1_articles = [a for a in sorted_v1 if a['id'] in ch1_ids]
 
@@ -428,6 +602,9 @@ def build_master_index(articles_v1, articles_v2, articles_v3):
 
     ch3_ids = set(a['id'] for a in V3_ARTICLES)
     ch3_articles = [a for a in sorted_v3 if a['id'] in ch3_ids]
+
+    ch4_ids = set(a['id'] for a in V4_ARTICLES)
+    ch4_articles = [a for a in sorted_v4 if a['id'] in ch4_ids]
 
     def art_info(a):
         return {
@@ -455,9 +632,14 @@ def build_master_index(articles_v1, articles_v2, articles_v3):
             'en': 'Part III: Sights at Home and Abroad',
             'articles': [art_info(a) for a in ch3_articles],
         },
+        {
+            'zh': '第四輯 旅遊天地',
+            'en': 'Part IV: Traveller\'s Paradise',
+            'articles': [art_info(a) for a in ch4_articles],
+        },
     ]
 
-    all_articles = sorted_v1 + sorted_v2 + sorted_v3
+    all_articles = sorted_v1 + sorted_v2 + sorted_v3 + sorted_v4
 
     master = {
         'title': '我的人生旅行',
@@ -547,8 +729,22 @@ def main():
     else:
         print(f'Volume 3 directory not found: {V3_BOOK_DIR}')
 
+    # ── Volume 4 ──
+    articles_v4 = []
+    if os.path.isdir(V4_BOOK_DIR):
+        v4_files = sorted([
+            os.path.join(V4_BOOK_DIR, f) for f in os.listdir(V4_BOOK_DIR)
+            if f.endswith('.docx') and not f.startswith('~$') and '目錄' not in f and '目录' not in f
+        ])
+        print(f'\n{"="*60}')
+        print(f'Volume 4: {len(v4_files)} docx files in 我的人生旅行第四輯/')
+        print(f'{"="*60}')
+        articles_v4 = process_volume_files(v4_files, output_base, V4_TOC_MAP)
+    else:
+        print(f'Volume 4 directory not found: {V4_BOOK_DIR}')
+
     # ── Build master index ──
-    master = build_master_index(articles_v1, articles_v2, articles_v3)
+    master = build_master_index(articles_v1, articles_v2, articles_v3, articles_v4)
     master_path = os.path.join(output_base, 'data.json')
     with open(master_path, 'w', encoding='utf-8') as f:
         json.dump(master, f, ensure_ascii=False, indent=2)

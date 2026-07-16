@@ -27,6 +27,17 @@
   margin: 16px auto;
 }
 
+.toc-tip {
+  text-align: center;
+  color: var(--color-text-faint);
+  font-size: 13px;
+  font-family: var(--font-serif);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .toc-list {
   list-style: none;
   padding: 0;

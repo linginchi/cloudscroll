@@ -163,6 +163,10 @@
   transform: perspective(800px) rotateY(-0.5deg) rotateX(0deg) translateY(-4px);
 }
 
+.book-card.reserved-book {
+  cursor: pointer;
+}
+
 .book-card:active {
   transform: perspective(800px) rotateY(-2deg) rotateX(1deg) scale(0.97);
 }
@@ -191,6 +195,16 @@
 }
 .book-card.v3 .book-spine {
   background: linear-gradient(180deg, #2d3a6e 0%, #3a4a8c 25%, #4a5aa0 50%, #3a4a8c 75%, #2d3a6e 100%);
+}
+.book-card.v4 .book-spine {
+  background: linear-gradient(180deg, #6e3d5c 0%, #9a5a82 25%, #b96e9c 50%, #9a5a82 75%, #6e3d5c 100%);
+}
+.book-card.v5 .book-spine {
+  /* 《雲心文集》封面山巒青灰／霧藍 */
+  background: linear-gradient(180deg, #5a7378 0%, #7a9498 25%, #9cb2b2 50%, #7a9498 75%, #5a7378 100%);
+}
+.book-card.v6 .book-spine {
+  background: linear-gradient(180deg, #3d4e6e 0%, #5a72a0 25%, #6e8cb9 50%, #5a72a0 75%, #3d4e6e 100%);
 }
 
 /* 書脊裝訂橫線（竹節） */
@@ -251,6 +265,22 @@
     rgba(0, 0, 0, 0.10) 100%
   );
   pointer-events: none;
+}
+
+.book-reserved-badge {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 4px 8px;
+  border: 1px solid rgba(145, 62, 52, 0.5);
+  background: rgba(253, 244, 239, 0.82);
+  color: #913e34;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* ── 紙邊（右側頁緣，模擬書頁堆疊） ── */
