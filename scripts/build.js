@@ -30,19 +30,24 @@ if (fs.existsSync(DIST_DIR)) {
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
 
-// Step 0: Run book extraction script
+// Step 0: Run book extraction script (skipped when book/ is absent, e.g. Cloud Agents)
 console.log('\n[Step 0] Extracting book content...');
-try {
-  execSync('python scripts/extract-book.py', {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: 'inherit',
-    encoding: 'utf-8',
-    timeout: 120000,
-  });
-  console.log('[Step 0] Book extraction complete.\n');
-} catch (e) {
-  console.error('[Step 0] Book extraction failed:', e.message);
-  process.exit(1);
+const BOOK_DIR = path.resolve(__dirname, '..', 'book');
+if (!fs.existsSync(BOOK_DIR)) {
+  console.warn('[Step 0] book/ not found — skipping Word extraction (use committed src assets).');
+} else {
+  try {
+    execSync('python scripts/extract-book.py', {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'inherit',
+      encoding: 'utf-8',
+      timeout: 120000,
+    });
+    console.log('[Step 0] Book extraction complete.\n');
+  } catch (e) {
+    console.error('[Step 0] Book extraction failed:', e.message);
+    process.exit(1);
+  }
 }
 
 // Step 0.5: Generate EN translations
@@ -77,15 +82,20 @@ customFiles.forEach(file => {
 
 // Step 0.56: Extract + copy 《雲心文集》
 console.log('\n[Step 0.56] Building Yunxin Wenji assets...');
-try {
-  execSync('python scripts/extract-yunxin.py', {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: 'inherit',
-    encoding: 'utf-8',
-    timeout: 60000,
-  });
-} catch (e) {
-  console.warn('[Step 0.56] Yunxin extract warning:', e.message);
+const yunxinSrcDir = path.resolve(__dirname, '..', 'book', '雲心文集');
+if (fs.existsSync(yunxinSrcDir)) {
+  try {
+    execSync('python scripts/extract-yunxin.py', {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'inherit',
+      encoding: 'utf-8',
+      timeout: 60000,
+    });
+  } catch (e) {
+    console.warn('[Step 0.56] Yunxin extract warning:', e.message);
+  }
+} else {
+  console.warn('[Step 0.56] book/雲心文集 not found — using committed src/yunxin/.');
 }
 const distImages = path.join(DIST_DIR, 'images');
 fs.mkdirSync(distImages, { recursive: true });
