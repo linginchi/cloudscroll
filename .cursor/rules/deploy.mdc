@@ -1,0 +1,32 @@
+---
+description: 部署规则：cloudscroll.net 的生产部署通过本地构建后 wrangler 直接上传，不使用 Git 自动构建
+alwaysApply: true
+---
+
+# 部署规则
+
+## 重要：不能依赖 Git 自动部署
+
+Cloudflare Pages 的自动构建（Git push 触发）会失败，因为服务器端缺少 Python 依赖（`python-docx`、`Pillow` 等）。**必须使用本地构建 + wrangler 手动部署。**
+
+## 部署到生产环境（cloudscroll.net）
+
+```bash
+# 1. 先构建（必须在本地完成，因为 build 脚本依赖 Python）
+npm run build
+
+# 2. 部署到生产环境（--branch main 会绑定到 cloudscroll.net）
+npx wrangler pages deploy dist --project-name cloudscroll --branch main --commit-dirty=true
+
+# 3. 提交代码到 Git（可选，用于版本管理）
+git add -A
+git commit -m "描述改动"
+git push origin main
+```
+
+## 关键点
+
+- `--branch main` 确保部署到生产环境（`cloudscroll.net`），而不是预览地址
+- `--commit-dirty=true` 跳过未提交变更的警告
+- **步骤 2 是最关键的**，必须先执行它才能让 `cloudscroll.net` 生效
+- `dist/` 在 `.gitignore` 中，不会被提交，也不需要通过 Git 部署
