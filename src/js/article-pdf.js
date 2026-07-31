@@ -558,60 +558,97 @@
     return out;
   }
 
+  var pdfHelpersPromise = null;
+
+  function ensurePdfHelpers(callback) {
+    if (global.CloudscrollPdfHelpers) {
+      callback(null);
+      return;
+    }
+    if (!pdfHelpersPromise) {
+      pdfHelpersPromise = import('./pdf-book-helpers.js').then(function (mod) {
+        global.CloudscrollPdfHelpers = mod;
+        return mod;
+      }).catch(function (err) {
+        pdfHelpersPromise = null;
+        throw err;
+      });
+    }
+    pdfHelpersPromise.then(function () {
+      callback(null);
+    }).catch(function (err) {
+      callback(err);
+    });
+  }
+
   function loadTravelVolumeBook(volume) {
     var vol = parseInt(volume, 10) || 1;
-    return fetchJson('book/data.json').then(function (data) {
-      var chapters = data.chapters || [];
-      var ch = chapters[vol - 1];
-      if (!ch) throw new Error('volume not found');
-
-      var list = ch.articles || [];
-      var title = ch.zh || ('第' + vol + '輯');
-      var jobs = [];
-
-      if (vol === 1) {
-        jobs.push(
-          fetchJson('book/00-preface.json').then(function (pref) {
-            return {
-              title: pref.zh || '自序',
-              sectionTitle: '自序',
-              paragraphs: blocksToParagraphs(pref.blocks)
-            };
-          }).catch(function () { return null; })
-        );
-      }
-
-      for (var i = 0; i < list.length; i++) {
-        (function (art) {
-          jobs.push(
-            fetchJson('book/' + art.id + '.json').then(function (full) {
-              return {
-                title: art.zh || full.zh || art.id,
-                sectionTitle: title,
-                paragraphs: blocksToParagraphs(full.blocks)
-              };
-            }).catch(function () {
-              return {
-                title: art.zh || art.id,
-                sectionTitle: title,
-                paragraphs: [art.subtitle || '（本文暫未能載入）']
-              };
-            })
-          );
-        })(list[i]);
-      }
-
-      return Promise.all(jobs).then(function (articles) {
-        var cleaned = [];
-        for (var j = 0; j < articles.length; j++) {
-          if (articles[j]) cleaned.push(articles[j]);
+    return new Promise(function (resolve, reject) {
+      ensurePdfHelpers(function (err) {
+        if (err) {
+          reject(err);
+          return;
         }
-        return {
-          title: '我的人生旅行 · ' + title,
-          subtitle: data.title_en || '',
-          author: data.author || '林樺',
-          articles: cleaned
-        };
+        var H = global.CloudscrollPdfHelpers;
+        fetchJson('book/data.json').then(function (data) {
+          var chapters = data.chapters || [];
+          var ch = chapters[vol - 1];
+          if (!ch) throw new Error('volume not found');
+
+          var list = ch.articles || [];
+          var title = ch.zh || ('第' + vol + '輯');
+          var jobs = [];
+
+          if (vol === 1) {
+            jobs.push(
+              fetchJson('book/00-preface.json').then(function (pref) {
+                return {
+                  title: pref.zh || '自序',
+                  sectionTitle: '自序',
+                  paragraphs: blocksToParagraphs(pref.blocks),
+                  images: H.pickArticleImages(pref.blocks)
+                };
+              }).catch(function () { return null; })
+            );
+          }
+
+          for (var i = 0; i < list.length; i++) {
+            (function (art) {
+              jobs.push(
+                fetchJson('book/' + art.id + '.json').then(function (full) {
+                  return {
+                    title: art.zh || full.zh || art.id,
+                    sectionTitle: title,
+                    paragraphs: blocksToParagraphs(full.blocks),
+                    images: H.pickArticleImages(full.blocks)
+                  };
+                }).catch(function () {
+                  return {
+                    title: art.zh || art.id,
+                    sectionTitle: title,
+                    paragraphs: [art.subtitle || '（本文暫未能載入）'],
+                    images: []
+                  };
+                })
+              );
+            })(list[i]);
+          }
+
+          return Promise.all(jobs).then(function (articles) {
+            var cleaned = [];
+            for (var j = 0; j < articles.length; j++) {
+              if (articles[j]) cleaned.push(articles[j]);
+            }
+            return {
+              title: '我的人生旅行 · ' + title,
+              subtitle: data.title_en || '',
+              author: data.author || '林樺',
+              volume: vol,
+              coverSrc: H.volumeCoverSrc(vol),
+              articles: cleaned
+            };
+          });
+        }).then(resolve).catch(reject);
       });
     });
   }
@@ -719,7 +756,15 @@
 
     var loader = opts.kind === 'yunxin'
       ? loadYunxinBook()
-      : loadTravelVolumeBook(opts.volume);
+      : new Promise(function (resolve, reject) {
+          ensurePdfHelpers(function (err) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            loadTravelVolumeBook(opts.volume).then(resolve).catch(reject);
+          });
+        });
 
     loader.then(function (book) {
       if (!book.articles || !book.articles.length) {
