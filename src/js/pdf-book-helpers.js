@@ -7,13 +7,13 @@ export function volumeCoverSrc(volume) {
   var n = parseInt(volume, 10) || 1;
   if (n < 1) n = 1;
   if (n > 4) n = 4;
-  return 'images/cover_v' + n + '.jpg';
+  return 'book/images/cover_v' + n + '.jpg';
 }
 
 export function resolveBookImageUrl(src) {
   var s = String(src || '').trim();
   if (!s) return '';
-  if (s.indexOf('book/') === 0 || s.indexOf('images/cover_') === 0) return s;
+  if (s.indexOf('book/') === 0) return s;
   if (s.indexOf('images/') === 0) return 'book/' + s;
   return 'book/images/' + s.replace(/^\/+/, '');
 }

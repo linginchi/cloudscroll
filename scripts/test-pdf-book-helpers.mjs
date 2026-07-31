@@ -9,10 +9,10 @@ import {
 } from '../src/js/pdf-book-helpers.js';
 
 assert.strictEqual(MAX_IMAGES_PER_ARTICLE, 5);
-assert.strictEqual(volumeCoverSrc(1), 'images/cover_v1.jpg');
-assert.strictEqual(volumeCoverSrc(4), 'images/cover_v4.jpg');
-assert.strictEqual(volumeCoverSrc(0), 'images/cover_v1.jpg');
-assert.strictEqual(volumeCoverSrc(9), 'images/cover_v4.jpg');
+assert.strictEqual(volumeCoverSrc(1), 'book/images/cover_v1.jpg');
+assert.strictEqual(volumeCoverSrc(4), 'book/images/cover_v4.jpg');
+assert.strictEqual(volumeCoverSrc(0), 'book/images/cover_v1.jpg');
+assert.strictEqual(volumeCoverSrc(9), 'book/images/cover_v4.jpg');
 
 assert.strictEqual(resolveBookImageUrl('images/v4-04_001.jpeg'), 'book/images/v4-04_001.jpeg');
 assert.strictEqual(resolveBookImageUrl('book/images/x.jpeg'), 'book/images/x.jpeg');
