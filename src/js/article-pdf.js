@@ -640,6 +640,10 @@
     var onError = opts.onError;
     var title = opts.title || '';
     var filename = opts.filename;
+    var illustrated = !!opts.illustrated;
+    var progressPrefix = illustrated
+      ? '正在生成精选图文 PDF…（含封面与照片，请稍候）'
+      : '正在生成 PDF…';
     var opt = pdfOptions(filename);
 
     if (!chunks.length) {
@@ -682,7 +686,7 @@
         }
 
         var progress = Math.round((i / chunks.length) * 100);
-        toastWithOverlay(toast, '正在生成 PDF… ' + progress + '%');
+        toastWithOverlay(toast, progressPrefix + ' ' + progress + '%');
 
         prepareBookChunk(chunks[i]).then(function (chunk) {
           var root = buildBookChunkRoot(doc, chunk);
@@ -702,7 +706,7 @@
         }).catch(fail);
       }
 
-      showPdfOverlay('正在生成 PDF…');
+      showPdfOverlay(progressPrefix);
       step();
     });
   }
@@ -907,7 +911,7 @@
     var H = global.CloudscrollPdfHelpers || {};
     var hasCoverImage = !!book.coverSrc;
     var noticeText = H.NOTICE_TEXT ||
-      '本 PDF 为精选图文版，便于分享阅读。完整内容请在手机打开 cloudscroll.net 在线阅读。';
+      '本 PDF 为精选图文版，便于分享阅读。完整配图与排版请在手机打开 cloudscroll.net 在线阅读。';
 
     chunks.push({
       kind: 'cover',
@@ -1023,13 +1027,17 @@
         }
 
         var chunks = buildBookChunks(book);
-        toastWithOverlay(toast, '正在生成 PDF（分段渲染，請稍候）…');
+        var illustrated = opts.kind !== 'yunxin' && !!book.coverSrc;
+        toastWithOverlay(toast, illustrated
+          ? '正在生成精选图文 PDF…（含封面与照片，请稍候）…'
+          : '正在生成 PDF…');
         renderBookChunksToPdf(chunks, {
           toast: toast,
           onDone: onDone,
           onError: onError,
           title: book.title,
-          filename: sanitizeFilename(book.title || 'book')
+          filename: sanitizeFilename(book.title || 'book'),
+          illustrated: illustrated
         });
       });
     }).catch(function (e) {
