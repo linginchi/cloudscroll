@@ -33,6 +33,10 @@
             <span class="top-link-sep">|</span>
             <a href="yunxin-toc.html">目錄</a>
           </div>
+          <div class="yunxin-lang-toggle" id="yunxin-lang-toggle" aria-label="Language">
+            <button class="active" type="button" data-lang="zh">中</button>
+            <button type="button" data-lang="en">EN</button>
+          </div>
         </div>
 
         <div class="reader-scroll" id="reader-scroll">
@@ -45,7 +49,7 @@
                 <p class="flaps-author-name">林樺</p>
                 <div class="flaps-divider-dot"></div>
               </div>
-              <h1 class="yunxin-article-title">我的人生路</h1>
+              <h1 class="yunxin-article-title" id="yunxin-article-title">我的人生路</h1>
               <div class="yunxin-article-body" id="yunxin-preface-body">載入中…</div>
               <p class="yunxin-article-sign" id="yunxin-preface-sign"></p>
             </article>
@@ -94,10 +98,15 @@
           <span class="share-wx-icon">🔗</span>
           <span class="share-wx-label">複製連結</span>
         </button>
+        <button class="share-wx-btn" id="share-pdf-btn" type="button">
+          <span class="share-wx-icon">📄</span>
+          <span class="share-wx-label">下載／分享 PDF</span>
+        </button>
         <button class="share-close-btn" id="share-close-btn" type="button">關閉</button>
       </div>
     </div>
   </div>
-  <script src="js/yunxin.js?v=20260710b"></script>
+  <script src="js/article-pdf.js?v=20260731f"></script>
+  <script src="js/yunxin.js?v=20260731f"></script>
 </body>
 </html>

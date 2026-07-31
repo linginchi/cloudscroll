@@ -18,10 +18,13 @@
   var shareOverlay = document.getElementById('share-overlay');
   var shareCloseBtn = document.getElementById('share-close-btn');
   var backBtn = document.getElementById('back-btn');
+  var params = new URLSearchParams(window.location.search);
+  var storedLang = localStorage.getItem('cs:book-lang') || '';
 
   if (!scrollEl || !innerEl) return;
 
-  var currentLang = 'zh';
+  var currentLang = params.get('lang') === 'en' || storedLang === 'en' ? 'en' : 'zh';
+  localStorage.setItem('cs:book-lang', currentLang);
   var masterData = null;
   var articleData = null;
   var articleBlocks = null;
@@ -113,10 +116,20 @@
     if (articleData.id === 'v2-01') {
       html += '<div class="article-feature-media">' +
         '<div class="article-feature-video-wrap">' +
-          '<video class="article-feature-video" src="images/beijing-anim.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>' +
+          '<video class="article-feature-video" src="images/beijing-anim-wm.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>' +
         '</div>' +
         '<p class="article-feature-title">今日北京</p>' +
         '<p class="article-feature-date">2026年7月7日</p>' +
+        '</div>';
+    }
+
+    // 《勝景怡人 馳目聘懷》：標題後插入「林肯像下」
+    if (articleData.id === '08-usa') {
+      html += '<div class="article-feature-media">' +
+        '<div class="article-feature-img-wrap">' +
+          '<img class="article-feature-img" src="images/usa-lincoln-statue-wm.jpg?v=20260719k" alt="林肯像下" loading="lazy" draggable="false">' +
+        '</div>' +
+        '<p class="article-feature-title">林肯像下</p>' +
         '</div>';
     }
 
@@ -175,7 +188,7 @@
       else articleData = { id: '00-preface', zh: '自序', en: 'Preface' };
     }
 
-    if (articleTitle) articleTitle.textContent = articleData.zh;
+    if (articleTitle) articleTitle.textContent = currentLang === 'en' ? (articleData.en || articleData.zh) : articleData.zh;
     innerEl.innerHTML = '<div class="loading-state">載入中…</div>';
 
     // 加載文章內容（不依賴 data.json，獨立執行）
@@ -200,13 +213,19 @@
         var fullInfo = getArticleSummary(articleData.id);
         if (fullInfo) {
           articleData = fullInfo;
-          if (articleTitle) articleTitle.textContent = articleData.zh;
+          if (articleTitle) articleTitle.textContent = currentLang === 'en' ? (articleData.en || articleData.zh) : articleData.zh;
         }
         var vol = getArticleVolume(articleData.id);
         var backLink = document.getElementById('reader-back');
-        if (backLink) backLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
+        if (backLink) {
+          backLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1' + (currentLang === 'en' ? '&lang=en' : '');
+          backLink.textContent = currentLang === 'en' ? '← Contents' : '← 目錄';
+        }
         var tocLink = document.getElementById('reader-toc-link');
-        if (tocLink) tocLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
+        if (tocLink) {
+          tocLink.href = 'volume.html?volume=' + vol + '&scrollToToc=1' + (currentLang === 'en' ? '&lang=en' : '');
+          tocLink.textContent = currentLang === 'en' ? 'Contents' : '目錄';
+        }
         renderDesktopSidebar();
         // 重新配置微信分享（此時 articleData 已有完整標題）
         setupWechatShare();
@@ -216,7 +235,7 @@
     if (backBtn) {
       backBtn.addEventListener('click', function() {
         var vol = getArticleVolume(articleData.id);
-        window.location.href = 'volume.html?volume=' + vol + '&scrollToToc=1';
+        window.location.href = 'volume.html?volume=' + vol + '&scrollToToc=1' + (currentLang === 'en' ? '&lang=en' : '');
       });
     }
 
@@ -228,7 +247,7 @@
       return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
-    function showShareToast(msg) {
+    function showShareToast(msg, durationMs) {
       var old = document.getElementById('reader-share-toast');
       if (old) old.remove();
       var el = document.createElement('div');
@@ -240,7 +259,7 @@
       setTimeout(function() {
         el.classList.remove('show');
         setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 250);
-      }, 2400);
+      }, durationMs || 2400);
     }
 
     function updateShareDialogForEnv() {
@@ -252,17 +271,17 @@
 
       if (isWeChat()) {
         tip.style.display = 'block';
-        tip.textContent = '微信中請點擊右上角「…」，選擇分享給朋友或朋友圈';
+        tip.textContent = '微信中請點擊右上角「…」分享連結；也可下載 PDF 後從檔案發送給朋友。';
         if (friendBtn) friendBtn.style.display = 'none';
         if (timelineBtn) timelineBtn.style.display = 'none';
         if (copyBtn) copyBtn.style.display = '';
         return;
       }
 
-      // 桌面 Chrome / Edge：無法一鍵分享到微信，只保留「複製連結」並說明清楚
+      // 桌面 Chrome / Edge：無法一鍵分享到微信，保留「複製連結」與 PDF
       if (!isMobile()) {
         tip.style.display = 'block';
-        tip.textContent = '電腦瀏覽器無法一鍵分享到微信。請先點「複製連結」，再到微信（或其他應用）貼上發送。';
+        tip.textContent = '電腦可複製連結或下載 PDF；再到微信（或其他應用）貼上／發送檔案。';
         if (friendBtn) friendBtn.style.display = 'none';
         if (timelineBtn) timelineBtn.style.display = 'none';
         if (copyBtn) copyBtn.style.display = '';
@@ -382,6 +401,7 @@
     var shareFriendBtn = document.getElementById('share-friend-btn');
     var shareTimelineBtn = document.getElementById('share-timeline-btn');
     var shareCopyBtn = document.getElementById('share-copy-btn');
+    var sharePdfBtn = document.getElementById('share-pdf-btn');
 
     if (shareFriendBtn) {
       shareFriendBtn.addEventListener('click', function() {
@@ -397,6 +417,29 @@
       shareCopyBtn.addEventListener('click', function() {
         var d = window.__wxShareData || {};
         copyShareLink(d.link || '');
+      });
+    }
+    if (sharePdfBtn) {
+      sharePdfBtn.addEventListener('click', function() {
+        var title = articleData ? (articleData.zh || articleData.en || '文章') : '文章';
+        if (currentLang === 'en' && articleData && articleData.en) title = articleData.en;
+        if (!window.CloudscrollPdf || typeof window.CloudscrollPdf.exportArticle !== 'function') {
+          showShareToast('PDF 功能暫不可用');
+          return;
+        }
+        window.CloudscrollPdf.exportArticle({
+          sourceEl: innerEl,
+          title: title,
+          subtitle: '林樺 · 我的人生旅行 · 雲箋文舍',
+          filename: title,
+          onToast: function(msg) {
+            var long = /正在生成|已下載|系統分享/.test(msg);
+            showShareToast(msg, long ? 4200 : 2400);
+          },
+          onDone: function() {
+            if (shareOverlay) shareOverlay.classList.remove('show');
+          }
+        });
       });
     }
 
@@ -415,13 +458,22 @@
         var lang = this.getAttribute('data-lang');
         if (lang === currentLang) return;
         currentLang = lang;
+        localStorage.setItem('cs:book-lang', lang);
         langOptions.forEach(function(o) { o.classList.remove('active'); });
         this.classList.add('active');
         if (articleTitle) articleTitle.textContent = lang === 'zh' ? articleData.zh : (articleData.en || articleData.zh);
         var backLink = document.getElementById('reader-back');
-        if (backLink) backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
+        if (backLink) {
+          backLink.textContent = lang === 'zh' ? '← 目錄' : '← Contents';
+          var volNow = getArticleVolume(articleData.id);
+          backLink.href = 'volume.html?volume=' + volNow + '&scrollToToc=1' + (lang === 'en' ? '&lang=en' : '');
+        }
         var tocLink = document.getElementById('reader-toc-link');
-        if (tocLink) tocLink.textContent = lang === 'zh' ? '目錄' : 'Contents';
+        if (tocLink) {
+          tocLink.textContent = lang === 'zh' ? '目錄' : 'Contents';
+          var volToc = getArticleVolume(articleData.id);
+          tocLink.href = 'volume.html?volume=' + volToc + '&scrollToToc=1' + (lang === 'en' ? '&lang=en' : '');
+        }
 
         if (lang === 'en') {
           if (articleBlocksEn) { render(); }
@@ -437,6 +489,7 @@
                   if (tb && tb.parentNode) tb.parentNode.insertBefore(n, tb.nextSibling);
                 }
                 currentLang = 'zh';
+                localStorage.setItem('cs:book-lang', 'zh');
                 langOptions.forEach(function(o) { o.classList.remove('active'); });
                 var zhOpt = document.querySelector('.lang-option[data-lang="zh"]');
                 if (zhOpt) zhOpt.classList.add('active');
@@ -448,6 +501,7 @@
           if (notice) notice.remove();
           render();
         }
+        renderDesktopSidebar();
       });
     });
   }
@@ -461,16 +515,16 @@
     var chapters = masterData.chapters;
     for (var ci = 0; ci < chapters.length; ci++) {
       var ch = chapters[ci];
-      html += '<div class="sidebar-chapter">' + ch.zh + '</div>';
+      html += '<div class="sidebar-chapter">' + (currentLang === 'en' ? (ch.en || ch.zh) : ch.zh) + '</div>';
       var arts = ch.articles || [];
       for (var ai = 0; ai < arts.length; ai++) {
         var art = arts[ai];
         var n = ai + 1; var ns = n < 10 ? '0' + n : '' + n;
         var active = art.id === currentId ? ' active' : '';
-        html += '<span class="sidebar-article' + active + '" data-id="' + art.id + '" data-title="' + art.zh.replace(/"/g, '&quot;') + '" data-en="' + (art.en || '').replace(/"/g, '&quot;') + '"><span class="sidebar-num">' + ns + '</span>' + art.zh + '</span>';
+        html += '<span class="sidebar-article' + active + '" data-id="' + art.id + '" data-title="' + art.zh.replace(/"/g, '&quot;') + '" data-en="' + (art.en || '').replace(/"/g, '&quot;') + '"><span class="sidebar-num">' + ns + '</span>' + (currentLang === 'en' ? (art.en || art.zh) : art.zh) + '</span>';
       }
     }
-    html += '</div><a class="sidebar-back" href="shelf.html">← 返回書架</a>';
+    html += '</div><a class="sidebar-back" href="shelf.html">' + (currentLang === 'en' ? '← Shelf' : '← 返回書架') + '</a>';
     sidebar.innerHTML = html;
     var items = sidebar.querySelectorAll('.sidebar-article');
     for (var si = 0; si < items.length; si++) {

@@ -147,11 +147,65 @@
   padding: 16px 24px 80px;
 }
 
+/* === 書槽：封面 + 分享入口 === */
+.book-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 72%;
+  max-width: 280px;
+}
+
+.book-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.book-meta-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.book-share-btn {
+  appearance: none;
+  border: 1.5px solid var(--color-border);
+  background: #f5efe4;
+  color: var(--color-text-primary);
+  border-radius: 999px;
+  padding: 10px 20px;
+  min-height: 44px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.book-share-btn:hover {
+  background: #fdf2ed;
+  border-color: var(--color-accent);
+}
+
+.book-share-btn:active {
+  transform: scale(0.97);
+}
+
 /* === 書本卡片（含透視傾斜） === */
 .book-card {
   position: relative;
-  width: 72%;
-  max-width: 280px;
+  width: 100%;
+  max-width: none;
   cursor: pointer;
   transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
               box-shadow 0.35s ease;
@@ -400,12 +454,28 @@
     margin: 16px auto 0;
     justify-items: center;
     align-items: flex-start;
-    gap: 16px;
+    gap: 16px 12px;
     padding: 4px 16px 10px;
   }
 
-  .book-card {
+  .book-slot {
     width: min(100%, 132px);
+    max-width: none;
+    gap: 10px;
+  }
+
+  .book-meta-title {
+    font-size: 12px;
+  }
+
+  .book-share-btn {
+    padding: 8px 12px;
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .book-card {
+    width: 100%;
     max-width: none;
     transform: none;
   }
@@ -461,12 +531,16 @@
     grid-template-columns: repeat(3, minmax(160px, 1fr));
     width: min(820px, calc(100vw - 120px));
     margin-top: 18px;
-    gap: 24px;
+    gap: 24px 16px;
     padding: 8px 24px 14px;
   }
 
-  .book-card {
+  .book-slot {
     width: min(100%, 160px);
+  }
+
+  .book-card {
+    width: 100%;
   }
 
   .book-spine {
@@ -512,12 +586,16 @@
     grid-template-columns: repeat(3, minmax(180px, 1fr));
     width: min(900px, calc(100vw - 160px));
     margin-top: 18px;
-    gap: 32px;
+    gap: 32px 20px;
     padding: 12px 32px 18px;
   }
 
-  .book-card {
+  .book-slot {
     width: min(100%, 180px);
+  }
+
+  .book-card {
+    width: 100%;
   }
 
   .book-spine {

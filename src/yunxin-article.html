@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/reader.css?v=20260710b">
   <link rel="stylesheet" href="css/volume.css">
-  <link rel="stylesheet" href="css/yunxin.css?v=20260714b">
+  <link rel="stylesheet" href="css/yunxin.css?v=20260719g">
 </head>
 <body>
   <div class="page" id="reader-page">
@@ -33,6 +33,10 @@
             <span class="top-link-sep">|</span>
             <a href="yunxin-toc.html">目錄</a>
           </div>
+          <div class="yunxin-lang-toggle" id="yunxin-lang-toggle" aria-label="Language">
+            <button class="active" type="button" data-lang="zh">中</button>
+            <button type="button" data-lang="en">EN</button>
+          </div>
         </div>
 
         <div class="reader-scroll" id="reader-scroll">
@@ -49,7 +53,9 @@
                 <img class="yunxin-article-hero-img" id="yunxin-article-hero-img" alt="">
               </figure>
               <h1 class="yunxin-article-title" id="yunxin-article-title">載入中…</h1>
+              <figure class="yunxin-article-embed" id="yunxin-article-embed" hidden></figure>
               <div class="yunxin-article-body" id="yunxin-article-body">載入中…</div>
+              <figure class="yunxin-article-embed yunxin-article-embed-after" id="yunxin-article-embed-after" hidden></figure>
               <p class="yunxin-article-sign" id="yunxin-article-sign"></p>
             </article>
 
@@ -97,10 +103,15 @@
           <span class="share-wx-icon">🔗</span>
           <span class="share-wx-label">複製連結</span>
         </button>
+        <button class="share-wx-btn" id="share-pdf-btn" type="button">
+          <span class="share-wx-icon">📄</span>
+          <span class="share-wx-label">下載／分享 PDF</span>
+        </button>
         <button class="share-close-btn" id="share-close-btn" type="button">關閉</button>
       </div>
     </div>
   </div>
-  <script src="js/yunxin.js?v=20260710b"></script>
+  <script src="js/article-pdf.js?v=20260731f"></script>
+  <script src="js/yunxin.js?v=20260731f"></script>
 </body>
 </html>

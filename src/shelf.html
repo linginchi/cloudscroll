@@ -34,7 +34,8 @@
   <meta name="twitter:image" content="https://cloudscroll.net/og-image.png">
 
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/shelf.css">
+  <link rel="stylesheet" href="css/reader.css?v=20260731b">
+  <link rel="stylesheet" href="css/shelf.css?v=20260731b">
 </head>
 <body>
   <div class="page" id="shelf-page">
@@ -58,7 +59,32 @@
         <a class="shelf-footer-link" href="index.html">回首頁</a>
       </div>
     </div>
+
+    <div class="share-overlay" id="share-overlay">
+      <div class="share-dialog">
+        <div class="share-dialog-title">分享本書</div>
+        <p class="share-wx-tip" id="share-wx-tip" style="display:none;"></p>
+        <button class="share-wx-btn" id="share-friend-btn" type="button">
+          <span class="share-wx-icon">💬</span>
+          <span class="share-wx-label">分享給朋友</span>
+        </button>
+        <button class="share-wx-btn" id="share-timeline-btn" type="button">
+          <span class="share-wx-icon">🌐</span>
+          <span class="share-wx-label">分享到朋友圈</span>
+        </button>
+        <button class="share-wx-btn" id="share-copy-btn" type="button">
+          <span class="share-wx-icon">🔗</span>
+          <span class="share-wx-label">複製連結</span>
+        </button>
+        <button class="share-wx-btn" id="share-pdf-btn" type="button">
+          <span class="share-wx-icon">📄</span>
+          <span class="share-wx-label">下載／分享 PDF</span>
+        </button>
+        <button class="share-close-btn" id="share-close-btn" type="button">關閉</button>
+      </div>
+    </div>
   </div>
-  <script src="js/shelf.js"></script>
+  <script src="js/article-pdf.js?v=20260731f"></script>
+  <script src="js/shelf.js?v=20260731f"></script>
 </body>
 </html>

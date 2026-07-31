@@ -25,6 +25,13 @@
   var likeStorageKey = 'cs:liked:' + ARTICLE_ID;
   var likeCount = 0;
   var masterData = null;
+  var langToggle = document.getElementById('yunxin-lang-toggle');
+  var langButtons = langToggle ? langToggle.querySelectorAll('[data-lang]') : [];
+  var storedLang = localStorage.getItem('cs:yunxin-lang') || '';
+  var currentLang = params.get('lang') === 'en' || storedLang === 'en' ? 'en' : 'zh';
+  var currentArticle = null;
+  var currentArticleIndex = -1;
+  var currentArticles = [];
 
   function bodyEl() {
     return document.getElementById('yunxin-article-body') ||
@@ -38,6 +45,23 @@
 
   function titleEl() {
     return document.getElementById('yunxin-article-title');
+  }
+
+  function syncLangButtons() {
+    for (var i = 0; i < langButtons.length; i++) {
+      var lang = langButtons[i].getAttribute('data-lang');
+      langButtons[i].classList.toggle('active', lang === currentLang);
+    }
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-Hant';
+  }
+
+  function langHref(href) {
+    if (currentLang !== 'en') return href;
+    return href.indexOf('?') >= 0 ? href + '&lang=en' : href + '?lang=en';
+  }
+
+  function uiLabel(zh, en) {
+    return currentLang === 'en' ? en : zh;
   }
 
   function isGenreLabel(text) {
@@ -118,7 +142,7 @@
     opts = opts || {};
     var html = '';
     // 僅詩／詞做「注釋 vs 正文」切分；自序與散文整篇按正文渲染
-    var skipNotes = isPrefacePage || opts.section === 'prose' || opts.section === 'preface';
+    var skipNotes = isPrefacePage || opts.section === 'prose' || opts.section === 'preface' || opts.section === 'notes';
     var poemStart = skipNotes ? 0 : findPoemStartIndex(paras, title || ARTICLE_TITLE);
     var noteParas = poemStart > 0 ? mergeNoteParagraphs(paras.slice(0, poemStart)) : [];
     var bodyParas = poemStart > 0 ? paras.slice(poemStart) : paras;
@@ -160,35 +184,39 @@
 
     if (prevBtn) {
       if (prev) {
-        prevBtn.href = articleHref(prev);
+        prevBtn.href = langHref(articleHref(prev));
         prevBtn.classList.remove('is-disabled');
-        prevBtn.textContent = '← 上一篇';
+        prevBtn.textContent = uiLabel('← 上一篇', '← Previous');
       } else if (isPrefacePage) {
         // 自序上一頁仍是扉頁（HTML 已寫好）
+        prevBtn.href = langHref('yunxin-flyleaf.html');
+        prevBtn.textContent = uiLabel('← 上一頁', '← Previous');
       } else {
-        prevBtn.href = 'yunxin-toc.html';
-        prevBtn.textContent = '← 目錄';
+        prevBtn.href = langHref('yunxin-toc.html');
+        prevBtn.textContent = uiLabel('← 目錄', '← Contents');
       }
     }
 
     if (nextBtn) {
       if (next) {
-        nextBtn.href = articleHref(next);
+        nextBtn.href = langHref(articleHref(next));
         nextBtn.classList.remove('is-disabled');
-        nextBtn.textContent = '下一篇 →';
+        nextBtn.textContent = uiLabel('下一篇 →', 'Next →');
       } else if (isPrefacePage) {
         // 自序下一頁仍是目錄（HTML 已寫好）
+        nextBtn.href = langHref('yunxin-toc.html');
+        nextBtn.textContent = uiLabel('下一頁 →', 'Next →');
       } else {
-        nextBtn.href = 'yunxin-toc.html';
-        nextBtn.textContent = '回目錄 →';
+        nextBtn.href = langHref('yunxin-toc.html');
+        nextBtn.textContent = uiLabel('回目錄 →', 'Contents →');
       }
     }
 
     if (label) {
       var cur = articles[index];
-      if (cur && cur.section === 'preface') label.textContent = '自序';
+      if (cur && cur.section === 'preface') label.textContent = currentLang === 'en' ? 'Preface' : '自序';
       else if (cur) label.textContent = (cur.num || '') + '';
-      else label.textContent = '文章';
+      else label.textContent = currentLang === 'en' ? 'Article' : '文章';
     }
   }
 
@@ -203,9 +231,142 @@
     }
   };
 
+  // 標題下方嵌入媒體（影片／圖）
+  var ARTICLE_EMBEDS = {
+    '37-xiyang-huanghun': [{
+      type: 'video',
+      src: 'images/yunxin-xiyang-wuxianhao-wm.mp4?v=20260719c',
+      title: '夕陽無限好',
+      position: 'after-title'
+    }],
+    '10-jiangshan': [{
+      type: 'video',
+      src: 'images/yunxin-guilin-landscape-wm.mp4?v=20260719d',
+      title: '桂林山水',
+      position: 'after-body'
+    }],
+    '39-rensheng-ganwu': [{
+      type: 'image',
+      src: 'images/yunxin-ganwu-rensheng.jpg?v=20260719e',
+      title: '感悟人生',
+      position: 'after-body'
+    }],
+    '06-pengcheng': [{
+      type: 'video',
+      src: 'images/yunxin-yun-feinia-wm.mp4?v=20260719f',
+      title: '雲和飛鳥',
+      position: 'after-title'
+    }],
+    '08-cishan': [
+      {
+        type: 'image',
+        src: 'images/yunxin-cishan-1.jpg?v=20260719h',
+        title: '慈山寺1',
+        position: 'after-title',
+        scale: 0.5
+      },
+      {
+        type: 'image',
+        src: 'images/yunxin-cishan-2.jpg?v=20260719h',
+        title: '慈山寺2',
+        position: 'after-body',
+        scale: 0.5
+      },
+      {
+        type: 'image',
+        src: 'images/yunxin-cishan-3.jpg?v=20260719h',
+        title: '慈山寺3',
+        position: 'after-body',
+        scale: 0.5
+      },
+      {
+        type: 'image',
+        src: 'images/yunxin-cishan-4.jpg?v=20260719h',
+        title: '慈山寺4',
+        position: 'after-body',
+        scale: 0.5
+      }
+    ],
+    '28-gezhou': [{
+      type: 'video',
+      src: 'images/yunxin-gezhou-linchangqing-wm.mp4?v=20260719j',
+      title: '葛州村',
+      position: 'after-title'
+    }],
+    '02-mao-statue': [{
+      type: 'image',
+      src: 'images/yunxin-mao-statue-wm.jpg?v=20260719m',
+      title: '毛澤東銅像',
+      position: 'after-title'
+    }],
+    '09-guilin-landscape': [{
+      type: 'video',
+      src: 'images/yunxin-guilin-jiatianxia-wm.mp4?v=20260720a',
+      title: '桂林山水甲天下',
+      position: 'after-title'
+    }]
+  };
+
+  function appendMediaItem(wrap, meta) {
+    if (!meta || (meta.type !== 'video' && meta.type !== 'image')) return false;
+    var half = meta.scale === 0.5;
+    if (meta.type === 'video') {
+      var video = document.createElement('video');
+      video.className = 'yunxin-article-embed-video' + (half ? ' is-half' : '');
+      video.src = meta.src;
+      video.controls = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.preload = 'metadata';
+      if (meta.title) video.setAttribute('aria-label', meta.title);
+      wrap.appendChild(video);
+      return true;
+    }
+    var img = document.createElement('img');
+    img.className = 'yunxin-article-embed-img' + (half ? ' is-half' : '');
+    img.src = meta.src;
+    img.alt = meta.title || '';
+    img.loading = 'lazy';
+    wrap.appendChild(img);
+    return true;
+  }
+
+  function fillMediaEmbed(wrap, items) {
+    wrap.innerHTML = '';
+    if (!items || !items.length) {
+      wrap.hidden = true;
+      return;
+    }
+    var added = 0;
+    for (var i = 0; i < items.length; i++) {
+      if (appendMediaItem(wrap, items[i])) added++;
+    }
+    wrap.hidden = added === 0;
+  }
+
+  function applyArticleEmbed(data) {
+    var afterTitle = document.getElementById('yunxin-article-embed');
+    var afterBody = document.getElementById('yunxin-article-embed-after');
+    var list = ARTICLE_EMBEDS[data.id] || [];
+    if (list && !Array.isArray(list)) list = [list];
+
+    var titleItems = [];
+    var bodyItems = [];
+    for (var i = 0; i < list.length; i++) {
+      var item = list[i];
+      var pos = item.position || 'after-title';
+      if (pos === 'after-body') bodyItems.push(item);
+      else titleItems.push(item);
+    }
+
+    if (afterTitle) fillMediaEmbed(afterTitle, titleItems);
+    if (afterBody) fillMediaEmbed(afterBody, bodyItems);
+  }
+
   function applyArticleMeta(data) {
-    ARTICLE_TITLE = data.title || data.zh || '雲心文集';
-    document.title = ARTICLE_TITLE + ' — 雲箋文舍';
+    ARTICLE_TITLE = data.title || data.en || data.zh || '雲心文集';
+    document.title = ARTICLE_TITLE + ' — ' + (currentLang === 'en' ? 'Cloudscroll' : '雲箋文舍');
 
     var topTitle = document.getElementById('reader-title');
     if (topTitle) topTitle.textContent = ARTICLE_TITLE;
@@ -233,13 +394,16 @@
       }
     }
 
+    applyArticleEmbed(data);
+
     var ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute('content', ARTICLE_TITLE + ' — 雲箋文舍');
   }
 
-  function loadArticleJson(id, callback) {
+  function loadArticleJson(id, lang, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'yunxin/' + encodeURIComponent(id) + '.json', true);
+    var prefix = lang === 'en' ? 'yunxin/en-' : 'yunxin/';
+    xhr.open('GET', prefix + encodeURIComponent(id) + '.json', true);
     xhr.onload = function () {
       if (xhr.status !== 200) {
         callback(new Error('load failed'));
@@ -253,6 +417,93 @@
     };
     xhr.onerror = function () { callback(new Error('network')); };
     xhr.send();
+  }
+
+  function renderArticle(article) {
+    var body = bodyEl();
+    if (!body || !article) return;
+    currentArticle = article;
+    syncLangButtons();
+    updateStaticLabels();
+    applyArticleMeta(article);
+    body.innerHTML = renderParagraphs(
+      article.paragraphs || [],
+      article.title || article.en || article.zh || ARTICLE_TITLE,
+      { section: article.section || '' }
+    );
+    var sign = signEl();
+    if (sign) {
+      var author = currentLang === 'en' ? (article.author_en || 'Lin Hua') : article.author;
+      if (author) {
+        sign.style.display = '';
+        sign.textContent = author;
+      } else {
+        sign.style.display = 'none';
+      }
+    }
+    if (currentArticles.length && currentArticleIndex >= 0) setupPager(currentArticles, currentArticleIndex);
+    window.__wxShareData = buildShareData();
+    setupWechatShare();
+  }
+
+  function updateStaticLabels() {
+    var readerBack = document.querySelector('.reader-back');
+    if (readerBack) {
+      readerBack.textContent = currentLang === 'en' ? '← Contents' : '← 目錄';
+      readerBack.href = langHref('yunxin-toc.html');
+    }
+
+    var topLinks = document.querySelectorAll('.reader-top-links a');
+    for (var i = 0; i < topLinks.length; i++) {
+      var href = topLinks[i].getAttribute('href') || '';
+      if (href.indexOf('index.html') >= 0) topLinks[i].textContent = currentLang === 'en' ? 'Home' : '首頁';
+      if (href.indexOf('shelf.html') >= 0) topLinks[i].textContent = currentLang === 'en' ? 'Shelf' : '書架';
+      if (href.indexOf('yunxin.html') >= 0) topLinks[i].textContent = currentLang === 'en' ? 'Cover' : '封面';
+      if (href.indexOf('yunxin-toc.html') >= 0) topLinks[i].textContent = currentLang === 'en' ? 'Contents' : '目錄';
+    }
+
+    var actionLabels = document.querySelectorAll('.reader-actions .btn-label');
+    if (actionLabels.length >= 3) {
+      actionLabels[0].textContent = currentLang === 'en' ? 'Like' : '點讚';
+      actionLabels[1].textContent = currentLang === 'en' ? 'Share' : '分享';
+      actionLabels[2].textContent = currentLang === 'en' ? 'Contents' : '回目錄';
+    }
+
+    var shareTitle = document.querySelector('.share-dialog-title');
+    if (shareTitle) shareTitle.textContent = currentLang === 'en' ? 'Share Article' : '分享文章';
+    var closeBtn = document.getElementById('share-close-btn');
+    if (closeBtn) closeBtn.textContent = currentLang === 'en' ? 'Close' : '關閉';
+    var pdfLabel = document.querySelector('#share-pdf-btn .share-wx-label');
+    if (pdfLabel) pdfLabel.textContent = currentLang === 'en' ? 'Download / Share PDF' : '下載／分享 PDF';
+    var copyLabel = document.querySelector('#share-copy-btn .share-wx-label');
+    if (copyLabel) copyLabel.textContent = currentLang === 'en' ? 'Copy Link' : '複製連結';
+    var friendLabel = document.querySelector('#share-friend-btn .share-wx-label');
+    if (friendLabel) friendLabel.textContent = currentLang === 'en' ? 'Share to Friends' : '分享給朋友';
+    var timelineLabel = document.querySelector('#share-timeline-btn .share-wx-label');
+    if (timelineLabel) timelineLabel.textContent = currentLang === 'en' ? 'Share to Moments' : '分享到朋友圈';
+  }
+
+  function loadAndRenderArticle() {
+    var body = bodyEl();
+    if (!body) return;
+    body.textContent = currentLang === 'en' ? 'Loading...' : '載入中…';
+    loadArticleJson(articleKey, currentLang, function (err, article) {
+      if (!err && article) {
+        renderArticle(article);
+        return;
+      }
+      if (currentLang === 'en') {
+        loadArticleJson(articleKey, 'zh', function (fallbackErr, fallbackArticle) {
+          if (fallbackErr || !fallbackArticle) {
+            body.textContent = 'Article failed to load. Please try again later.';
+            return;
+          }
+          renderArticle(fallbackArticle);
+        });
+        return;
+      }
+      body.textContent = '文章載入失敗，請稍後再試。';
+    });
   }
 
   function loadMaster(callback) {
@@ -303,27 +554,19 @@
         return;
       }
 
-      if (index >= 0 && !isPrefacePage) setupPager(articles, index);
+      currentArticles = articles;
+      currentArticleIndex = index;
+      loadAndRenderArticle();
+    });
+  }
 
-      loadArticleJson(articleKey, function (err2, article) {
-        if (err2 || !article) {
-          body.textContent = '文章載入失敗，請稍後再試。';
-          return;
-        }
-        applyArticleMeta(article);
-        body.innerHTML = renderParagraphs(
-          article.paragraphs || [],
-          article.title || article.zh || ARTICLE_TITLE,
-          { section: article.section || '' }
-        );
-        var sign = signEl();
-        if (sign) {
-          if (article.author) sign.textContent = article.author;
-          else sign.style.display = 'none';
-        }
-        window.__wxShareData = buildShareData();
-        setupWechatShare();
-      });
+  for (var lb = 0; lb < langButtons.length; lb++) {
+    langButtons[lb].addEventListener('click', function () {
+      var lang = this.getAttribute('data-lang');
+      if (!lang || lang === currentLang) return;
+      currentLang = lang;
+      localStorage.setItem('cs:yunxin-lang', lang);
+      loadAndRenderArticle();
     });
   }
 
@@ -357,7 +600,7 @@
     } catch (e) {}
   }
 
-  function showToast(msg) {
+  function showToast(msg, durationMs) {
     var old = document.getElementById('yunxin-toast');
     if (old) old.remove();
     var el = document.createElement('div');
@@ -369,11 +612,43 @@
     setTimeout(function () {
       el.classList.remove('show');
       setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 250);
-    }, 2200);
+    }, durationMs || 2200);
   }
 
   function closeShare() {
     if (shareOverlay) shareOverlay.classList.remove('show');
+  }
+
+  function shareArticlePdf() {
+    var source =
+      document.getElementById('yunxin-article') ||
+      document.getElementById('yunxin-preface');
+    var title = ARTICLE_TITLE || '';
+    if (!title && currentArticle) {
+      title = currentArticle.title || currentArticle.zh || currentArticle.en || '';
+    }
+    if (!title) {
+      var h1 = titleEl();
+      if (h1) title = (h1.textContent || '').trim();
+    }
+    if (!title) title = isPrefacePage ? '我的人生路' : '雲心文集';
+
+    if (!window.CloudscrollPdf || typeof window.CloudscrollPdf.exportArticle !== 'function') {
+      showToast('PDF 功能暫不可用');
+      return;
+    }
+
+    window.CloudscrollPdf.exportArticle({
+      sourceEl: source,
+      title: title,
+      subtitle: '林樺 · 雲心文集 · 雲箋文舍',
+      filename: title,
+      onToast: function (msg) {
+        var long = /正在生成|已下載|系統分享/.test(msg);
+        showToast(msg, long ? 4200 : 2200);
+      },
+      onDone: closeShare
+    });
   }
 
   function getStats() {
@@ -568,7 +843,7 @@
 
     if (isWeChat()) {
       tip.style.display = 'block';
-      tip.textContent = '微信中請點擊右上角「…」，選擇分享給朋友或朋友圈';
+      tip.textContent = '微信中請點擊右上角「…」分享連結；也可下載 PDF 後從檔案發送給朋友。';
       if (friendBtn) friendBtn.style.display = 'none';
       if (timelineBtn) timelineBtn.style.display = 'none';
       if (copyBtn) copyBtn.style.display = '';
@@ -577,7 +852,7 @@
 
     if (!isMobile()) {
       tip.style.display = 'block';
-      tip.textContent = '電腦瀏覽器無法一鍵分享到微信。請先點「複製連結」，再到微信（或其他應用）貼上發送。';
+      tip.textContent = '電腦可複製連結或下載 PDF；再到微信（或其他應用）貼上／發送檔案。';
       if (friendBtn) friendBtn.style.display = 'none';
       if (timelineBtn) timelineBtn.style.display = 'none';
       if (copyBtn) copyBtn.style.display = '';
@@ -610,6 +885,7 @@
     var shareFriendBtn = document.getElementById('share-friend-btn');
     var shareTimelineBtn = document.getElementById('share-timeline-btn');
     var shareCopyBtn = document.getElementById('share-copy-btn');
+    var sharePdfBtn = document.getElementById('share-pdf-btn');
 
     if (shareFriendBtn) {
       shareFriendBtn.addEventListener('click', function () {
@@ -625,6 +901,11 @@
       shareCopyBtn.addEventListener('click', function () {
         var d = window.__wxShareData || buildShareData();
         copyLink(d.link || '');
+      });
+    }
+    if (sharePdfBtn) {
+      sharePdfBtn.addEventListener('click', function () {
+        shareArticlePdf();
       });
     }
     if (shareCloseBtn) {
