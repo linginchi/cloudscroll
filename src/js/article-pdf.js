@@ -269,15 +269,30 @@
 
   function buildBookChunkRoot(doc, chunk) {
     if (chunk.kind === 'cover') {
+      if (!chunk.coverSrc) {
+        var textWrap = createRootShell(doc);
+        if (chunk.showBrand !== false) appendBrand(doc, textWrap);
+        textWrap.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-title'));
+        if (chunk.subtitle) {
+          textWrap.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-sub'));
+        }
+        textWrap.appendChild(el(
+          doc,
+          'p',
+          (chunk.author || '林樺') + ' · 雲箋文舍',
+          'cs-pdf-sub'
+        ));
+        appendFooter(doc, textWrap);
+        return mountRoot(doc, textWrap);
+      }
+
       var cover = doc.createElement('section');
       cover.className = 'cs-pdf-cover';
-      if (chunk.coverSrc) {
-        var coverImg = doc.createElement('img');
-        coverImg.className = 'cs-pdf-cover-img';
-        coverImg.src = chunk.coverSrc;
-        coverImg.alt = chunk.title || '文集';
-        cover.appendChild(coverImg);
-      }
+      var coverImg = doc.createElement('img');
+      coverImg.className = 'cs-pdf-cover-img';
+      coverImg.src = chunk.coverSrc;
+      coverImg.alt = chunk.title || '文集';
+      cover.appendChild(coverImg);
       var shade = doc.createElement('div');
       shade.className = 'cs-pdf-cover-shade';
       cover.appendChild(shade);
@@ -747,6 +762,7 @@
     var articles = book.articles || [];
     var chunks = [];
     var H = global.CloudscrollPdfHelpers || {};
+    var hasCoverImage = !!book.coverSrc;
     var noticeText = H.NOTICE_TEXT ||
       '本 PDF 为精选图文版，便于分享阅读。完整内容请在手机打开 cloudscroll.net 在线阅读。';
 
@@ -756,14 +772,16 @@
       subtitle: book.subtitle,
       author: book.author,
       coverSrc: book.coverSrc || '',
-      showBrand: false
+      showBrand: !hasCoverImage
     });
 
-    chunks.push({
-      kind: 'notice',
-      text: noticeText,
-      showBrand: true
-    });
+    if (hasCoverImage) {
+      chunks.push({
+        kind: 'notice',
+        text: noticeText,
+        showBrand: true
+      });
+    }
 
     var titles = [];
     for (var i = 0; i < articles.length; i++) {
