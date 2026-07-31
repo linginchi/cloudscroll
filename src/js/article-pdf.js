@@ -165,16 +165,10 @@
       '.cs-pdf-ol{margin:0;padding-left:1.35em;}' +
       '.cs-pdf-ol li{margin:5px 0;font-size:14px;letter-spacing:0.02em;line-height:1.55;}' +
       '.cs-pdf-foot{margin-top:24px;padding-top:12px;border-top:1px solid #e0d6c6;font-size:12px;color:#8a7a66;letter-spacing:0.06em;}' +
-      '.cs-pdf-cover{position:relative;width:' + PDF_WIDTH + 'px;min-height:990px;margin:0;padding:0;overflow:hidden;background:#1a1510;}' +
+      '.cs-pdf-cover{position:relative;width:' + PDF_WIDTH + 'px;height:990px;margin:0;padding:0;overflow:hidden;background:#1a1510;page-break-inside:avoid;break-inside:avoid;}' +
       '.cs-pdf-cover-img{display:block;width:' + PDF_WIDTH + 'px;height:990px;object-fit:cover;}' +
-      '.cs-pdf-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0.25) 0%,rgba(20,16,12,0.55) 55%,rgba(20,16,12,0.78) 100%);}' +
-      '.cs-pdf-cover-text{position:absolute;left:40px;right:40px;bottom:72px;color:#faf6f0;text-align:left;}' +
-      '.cs-pdf-cover-brand{font-size:14px;letter-spacing:0.28em;margin:0 0 18px;opacity:0.9;}' +
-      '.cs-pdf-cover-title{font-size:28px;font-weight:700;letter-spacing:0.08em;margin:0 0 10px;line-height:1.35;}' +
-      '.cs-pdf-cover-sub{font-size:15px;letter-spacing:0.06em;margin:0 0 8px;opacity:0.92;}' +
-      '.cs-pdf-cover-meta{font-size:13px;letter-spacing:0.12em;margin:12px 0 0;opacity:0.85;}' +
       '.cs-pdf-notice{font-size:15px;line-height:1.9;margin:24px 0;text-align:justify;}' +
-      '.cs-pdf-figure{margin:14px 0 18px;border:1px solid #e0d6c6;border-radius:3px;overflow:hidden;background:#efe8dc;}' +
+      '.cs-pdf-figure{margin:14px 0 18px;border:1px solid #e0d6c6;border-radius:3px;overflow:hidden;background:#efe8dc;page-break-inside:avoid;}' +
       '.cs-pdf-figure img{display:block;width:100%;height:auto;}' +
       '</style></head><body></body></html>'
     );
@@ -427,6 +421,8 @@
         return mountRoot(doc, textWrap);
       }
 
+      // Full-bleed shelf cover art only (artwork already has title/author).
+      // Avoid absolute text overlays — html2pdf pagebreaks were orphaning them.
       var cover = doc.createElement('section');
       cover.className = 'cs-pdf-cover';
       var coverImg = doc.createElement('img');
@@ -434,23 +430,6 @@
       coverImg.src = chunk.coverSrc;
       coverImg.alt = chunk.title || '文集';
       cover.appendChild(coverImg);
-      var shade = doc.createElement('div');
-      shade.className = 'cs-pdf-cover-shade';
-      cover.appendChild(shade);
-      var text = doc.createElement('div');
-      text.className = 'cs-pdf-cover-text';
-      text.appendChild(el(doc, 'p', '雲箋文舍', 'cs-pdf-cover-brand'));
-      text.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-cover-title'));
-      if (chunk.subtitle) {
-        text.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-cover-sub'));
-      }
-      text.appendChild(el(
-        doc,
-        'p',
-        (chunk.author || '林樺') + ' · 精选图文版',
-        'cs-pdf-cover-meta'
-      ));
-      cover.appendChild(text);
       return mountRoot(doc, cover);
     }
 
