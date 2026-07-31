@@ -197,6 +197,147 @@
     return wrap;
   }
 
+  function waitForImages(root, timeoutMs) {
+    var imgs = root ? root.querySelectorAll('img') : [];
+    if (!imgs.length) return Promise.resolve();
+
+    return new Promise(function (resolve) {
+      var done = false;
+      var remaining = imgs.length;
+      var cleanups = [];
+      var timeout = setTimeout(finish, timeoutMs || 12000);
+
+      function finish() {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        for (var c = 0; c < cleanups.length; c++) cleanups[c]();
+        resolve();
+      }
+
+      function markDone() {
+        if (done) return;
+        remaining -= 1;
+        if (remaining <= 0) finish();
+      }
+
+      function decodeThenDone(img) {
+        if (typeof img.decode === 'function' && img.naturalWidth) {
+          Promise.resolve(img.decode()).catch(function () {}).then(markDone);
+          return;
+        }
+        markDone();
+      }
+
+      for (var i = 0; i < imgs.length; i++) {
+        (function (img) {
+          if (img.complete) {
+            decodeThenDone(img);
+            return;
+          }
+
+          function onLoad() {
+            remove();
+            decodeThenDone(img);
+          }
+
+          function onError() {
+            remove();
+            markDone();
+          }
+
+          function remove() {
+            img.removeEventListener('load', onLoad);
+            img.removeEventListener('error', onError);
+          }
+
+          cleanups.push(remove);
+          img.addEventListener('load', onLoad);
+          img.addEventListener('error', onError);
+        })(imgs[i]);
+      }
+    });
+  }
+
+  function isSameOriginUrl(url) {
+    try {
+      var loc = global.location;
+      if (!loc || !loc.origin) return false;
+      var resolved = new URL(url, loc.href || document.baseURI);
+      return resolved.origin === loc.origin;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function compressImageSrc(url, maxEdge, quality) {
+    var src = String(url || '').trim();
+    if (!src || !isSameOriginUrl(src)) return Promise.resolve(src);
+
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          var edge = maxEdge || 900;
+          if (!w || !h) {
+            resolve(src);
+            return;
+          }
+
+          var scale = Math.min(1, edge / Math.max(w, h));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(w * scale));
+          canvas.height = Math.max(1, Math.round(h * scale));
+          var ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(src);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', quality || 0.82));
+        } catch (e) {
+          resolve(src);
+        }
+      };
+      img.onerror = function () { resolve(src); };
+      img.src = src;
+    });
+  }
+
+  function prepareBookChunk(chunk) {
+    if (!chunk || !chunk.items || !chunk.items.length) return Promise.resolve(chunk);
+
+    var jobs = [];
+    for (var i = 0; i < chunk.items.length; i++) {
+      (function (item) {
+        if (!item || item.kind !== 'image' || !item.src) {
+          jobs.push(Promise.resolve(item));
+          return;
+        }
+        jobs.push(compressImageSrc(item.src, 900, 0.82).then(function (compressedSrc) {
+          if (compressedSrc === item.src) return item;
+          var copy = {};
+          for (var key in item) {
+            if (Object.prototype.hasOwnProperty.call(item, key)) copy[key] = item[key];
+          }
+          copy.src = compressedSrc;
+          return copy;
+        }));
+      })(chunk.items[i]);
+    }
+
+    return Promise.all(jobs).then(function (items) {
+      var copy = {};
+      for (var key in chunk) {
+        if (Object.prototype.hasOwnProperty.call(chunk, key)) copy[key] = chunk[key];
+      }
+      copy.items = items;
+      return copy;
+    });
+  }
+
   function createRootShell(doc) {
     var wrap = doc.createElement('div');
     wrap.className = 'cs-pdf-root';
@@ -543,17 +684,19 @@
         var progress = Math.round((i / chunks.length) * 100);
         toastWithOverlay(toast, '正在生成 PDF… ' + progress + '%');
 
-        var root = buildBookChunkRoot(doc, chunks[i]);
-
-        if (i === 0) {
-          worker = worker.from(root).toPdf();
-        } else {
-          worker = worker.get('pdf').then(function (pdf) {
-            pdf.addPage();
-          }).from(root).toContainer().toCanvas().toPdf();
-        }
-
-        Promise.resolve(worker).then(function () {
+        prepareBookChunk(chunks[i]).then(function (chunk) {
+          var root = buildBookChunkRoot(doc, chunk);
+          return waitForImages(root, 12000).then(function () {
+            if (i === 0) {
+              worker = worker.from(root).toPdf();
+            } else {
+              worker = worker.get('pdf').then(function (pdf) {
+                pdf.addPage();
+              }).from(root).toContainer().toCanvas().toPdf();
+            }
+            return Promise.resolve(worker);
+          });
+        }).then(function () {
           i += 1;
           setTimeout(step, 30);
         }).catch(fail);
