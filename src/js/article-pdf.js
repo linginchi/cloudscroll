@@ -165,6 +165,17 @@
       '.cs-pdf-ol{margin:0;padding-left:1.35em;}' +
       '.cs-pdf-ol li{margin:5px 0;font-size:14px;letter-spacing:0.02em;line-height:1.55;}' +
       '.cs-pdf-foot{margin-top:24px;padding-top:12px;border-top:1px solid #e0d6c6;font-size:12px;color:#8a7a66;letter-spacing:0.06em;}' +
+      '.cs-pdf-cover{position:relative;width:' + PDF_WIDTH + 'px;min-height:990px;margin:0;padding:0;overflow:hidden;background:#1a1510;}' +
+      '.cs-pdf-cover-img{display:block;width:' + PDF_WIDTH + 'px;height:990px;object-fit:cover;}' +
+      '.cs-pdf-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0.25) 0%,rgba(20,16,12,0.55) 55%,rgba(20,16,12,0.78) 100%);}' +
+      '.cs-pdf-cover-text{position:absolute;left:40px;right:40px;bottom:72px;color:#faf6f0;text-align:left;}' +
+      '.cs-pdf-cover-brand{font-size:14px;letter-spacing:0.28em;margin:0 0 18px;opacity:0.9;}' +
+      '.cs-pdf-cover-title{font-size:28px;font-weight:700;letter-spacing:0.08em;margin:0 0 10px;line-height:1.35;}' +
+      '.cs-pdf-cover-sub{font-size:15px;letter-spacing:0.06em;margin:0 0 8px;opacity:0.92;}' +
+      '.cs-pdf-cover-meta{font-size:13px;letter-spacing:0.12em;margin:12px 0 0;opacity:0.85;}' +
+      '.cs-pdf-notice{font-size:15px;line-height:1.9;margin:24px 0;text-align:justify;}' +
+      '.cs-pdf-figure{margin:14px 0 18px;border:1px solid #e0d6c6;border-radius:3px;overflow:hidden;background:#efe8dc;}' +
+      '.cs-pdf-figure img{display:block;width:100%;height:auto;}' +
       '</style></head><body></body></html>'
     );
     doc.close();
@@ -257,21 +268,42 @@
   }
 
   function buildBookChunkRoot(doc, chunk) {
+    if (chunk.kind === 'cover') {
+      var cover = doc.createElement('section');
+      cover.className = 'cs-pdf-cover';
+      if (chunk.coverSrc) {
+        var coverImg = doc.createElement('img');
+        coverImg.className = 'cs-pdf-cover-img';
+        coverImg.src = chunk.coverSrc;
+        coverImg.alt = chunk.title || '文集';
+        cover.appendChild(coverImg);
+      }
+      var shade = doc.createElement('div');
+      shade.className = 'cs-pdf-cover-shade';
+      cover.appendChild(shade);
+      var text = doc.createElement('div');
+      text.className = 'cs-pdf-cover-text';
+      text.appendChild(el(doc, 'p', '雲箋文舍', 'cs-pdf-cover-brand'));
+      text.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-cover-title'));
+      if (chunk.subtitle) {
+        text.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-cover-sub'));
+      }
+      text.appendChild(el(
+        doc,
+        'p',
+        (chunk.author || '林樺') + ' · 精选图文版',
+        'cs-pdf-cover-meta'
+      ));
+      cover.appendChild(text);
+      return mountRoot(doc, cover);
+    }
+
     var wrap = createRootShell(doc);
     if (chunk.showBrand !== false) appendBrand(doc, wrap);
 
-    if (chunk.kind === 'cover') {
-      wrap.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-title'));
-      if (chunk.subtitle) {
-        wrap.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-sub'));
-      }
-      wrap.appendChild(el(
-        doc,
-        'p',
-        (chunk.author || '林樺') + ' · 雲箋文舍',
-        'cs-pdf-sub'
-      ));
-      wrap.appendChild(el(doc, 'p', '全文 PDF（文字版）', 'cs-pdf-sub'));
+    if (chunk.kind === 'notice') {
+      wrap.appendChild(el(doc, 'h2', '說明', 'cs-pdf-h2'));
+      wrap.appendChild(el(doc, 'p', chunk.text || '', 'cs-pdf-notice'));
       appendFooter(doc, wrap);
       return mountRoot(doc, wrap);
     }
@@ -294,10 +326,28 @@
     if (chunk.sectionTitle) {
       wrap.appendChild(el(doc, 'p', chunk.sectionTitle, 'cs-pdf-sub'));
     }
-    var paras = chunk.paragraphs || [];
-    for (var i = 0; i < paras.length; i++) {
-      if (!paras[i]) continue;
-      wrap.appendChild(el(doc, 'p', paras[i], 'cs-pdf-p'));
+    var items = chunk.items || [];
+    if (items.length) {
+      for (var i = 0; i < items.length; i++) {
+        if (!items[i]) continue;
+        if (items[i].kind === 'image' && items[i].src) {
+          var figure = doc.createElement('div');
+          figure.className = 'cs-pdf-figure';
+          var img = doc.createElement('img');
+          img.src = items[i].src;
+          img.alt = chunk.title || '文章配圖';
+          figure.appendChild(img);
+          wrap.appendChild(figure);
+        } else if (items[i].kind === 'text' && items[i].text) {
+          wrap.appendChild(el(doc, 'p', items[i].text, 'cs-pdf-p'));
+        }
+      }
+    } else {
+      var paras = chunk.paragraphs || [];
+      for (var p = 0; p < paras.length; p++) {
+        if (!paras[p]) continue;
+        wrap.appendChild(el(doc, 'p', paras[p], 'cs-pdf-p'));
+      }
     }
     appendFooter(doc, wrap);
     return mountRoot(doc, wrap);
@@ -696,12 +746,23 @@
   function buildBookChunks(book) {
     var articles = book.articles || [];
     var chunks = [];
+    var H = global.CloudscrollPdfHelpers || {};
+    var noticeText = H.NOTICE_TEXT ||
+      '本 PDF 为精选图文版，便于分享阅读。完整内容请在手机打开 cloudscroll.net 在线阅读。';
 
     chunks.push({
       kind: 'cover',
       title: book.title,
       subtitle: book.subtitle,
-      author: book.author
+      author: book.author,
+      coverSrc: book.coverSrc || '',
+      showBrand: false
+    });
+
+    chunks.push({
+      kind: 'notice',
+      text: noticeText,
+      showBrand: true
     });
 
     var titles = [];
@@ -723,23 +784,41 @@
     for (var a = 0; a < articles.length; a++) {
       var art = articles[a];
       var paras = art.paragraphs || [];
-      var batch = 16;
-      if (!paras.length) {
+      var images = art.images || [];
+      var interleave = H.interleaveTextAndImages;
+      var items = typeof interleave === 'function'
+        ? interleave(paras, images)
+        : [];
+      var batch = images.length ? 10 : 16;
+      if (!items.length && !paras.length) {
         chunks.push({
           kind: 'article',
           title: art.title,
           sectionTitle: art.sectionTitle,
+          items: [{ kind: 'text', text: '（無正文）' }],
           paragraphs: ['（無正文）']
         });
         continue;
       }
-      for (var p = 0; p < paras.length; p += batch) {
+      if (!items.length) {
+        for (var p = 0; p < paras.length; p += batch) {
+          chunks.push({
+            kind: 'article',
+            title: p === 0 ? art.title : (art.title + '（續）'),
+            sectionTitle: p === 0 ? (art.sectionTitle || '') : '',
+            paragraphs: paras.slice(p, p + batch),
+            showBrand: p === 0
+          });
+        }
+        continue;
+      }
+      for (var itemStart = 0; itemStart < items.length; itemStart += batch) {
         chunks.push({
           kind: 'article',
-          title: p === 0 ? art.title : (art.title + '（續）'),
-          sectionTitle: p === 0 ? (art.sectionTitle || '') : '',
-          paragraphs: paras.slice(p, p + batch),
-          showBrand: p === 0
+          title: itemStart === 0 ? art.title : (art.title + '（續）'),
+          sectionTitle: itemStart === 0 ? (art.sectionTitle || '') : '',
+          items: items.slice(itemStart, itemStart + batch),
+          showBrand: itemStart === 0
         });
       }
     }
