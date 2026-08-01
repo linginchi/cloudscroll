@@ -201,13 +201,59 @@
 
 .yunxin-article-hero-img {
   display: block;
+  box-sizing: border-box;
   width: 100%;
-  max-width: 420px;
+  max-width: min(100%, 420px);
   height: auto;
   margin: 0 auto;
   border: 1px solid rgba(120, 100, 70, 0.22);
   box-shadow: 0 8px 22px rgba(40, 30, 20, 0.1);
   background: #f7f1e6;
+}
+
+/* 篇内嵌入图／视频：始终不超出阅读栏，手机不横向撑破 */
+.yunxin-article-embed {
+  margin: 0 0 22px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.yunxin-article-embed[hidden] {
+  display: none !important;
+}
+
+.yunxin-article-embed-img,
+.yunxin-article-embed-video {
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(120, 100, 70, 0.22);
+  box-shadow: 0 8px 22px rgba(40, 30, 20, 0.1);
+  background: #f7f1e6;
+}
+
+.yunxin-article-embed-img {
+  max-width: min(100%, 420px);
+}
+
+.yunxin-article-embed-video {
+  width: 100%;
+  max-width: min(100%, 520px);
+}
+
+/* JS 标记 scale:0.5 的图：桌面偏小展示，窄屏仍可读 */
+.yunxin-article-embed-img.is-half,
+.yunxin-article-embed-video.is-half {
+  max-width: min(100%, 240px);
 }
 
 .yunxin-article-body {
@@ -416,6 +462,25 @@
 .yunxin-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 480px) {
+  .yunxin-article-hero-img {
+    max-width: min(100%, 280px);
+  }
+
+  .yunxin-article-embed-img {
+    max-width: 100%;
+  }
+
+  .yunxin-article-embed-img.is-half,
+  .yunxin-article-embed-video.is-half {
+    max-width: min(72vw, 240px);
+  }
+
+  .yunxin-article-embed-video {
+    max-width: 100%;
+  }
 }
 
 @media (min-width: 768px) {
