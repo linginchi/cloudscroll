@@ -465,21 +465,24 @@
 }
 
 @media (max-width: 480px) {
-  .yunxin-article-hero-img {
-    max-width: min(100%, 280px);
-  }
-
+  .yunxin-article-hero-img,
   .yunxin-article-embed-img {
-    max-width: 100%;
+    width: auto;
+    max-width: min(100%, 280px);
+    max-height: min(48vh, 320px);
+    object-fit: contain;
   }
 
-  .yunxin-article-embed-img.is-half,
+  .yunxin-article-embed-img.is-half {
+    max-width: min(72vw, 220px);
+    max-height: min(36vh, 240px);
+  }
+
+  .yunxin-article-embed-video,
   .yunxin-article-embed-video.is-half {
-    max-width: min(72vw, 240px);
-  }
-
-  .yunxin-article-embed-video {
+    width: 100%;
     max-width: 100%;
+    max-height: min(40vh, 280px);
   }
 }
 
