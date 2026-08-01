@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cloudscroll",
+  "pages_build_output_dir": "./dist",
   "kv_namespaces": [
     {
       "binding": "CLOUDSCROLL_STATS",

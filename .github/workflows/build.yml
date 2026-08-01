@@ -21,4 +21,8 @@ jobs:
           CF_PAGES: '1'
           CI: 'true'
       - name: Verify dist
-        run: test -f dist/yunxin-article.html && test -f dist/css/yunxin.css && test -f dist/_worker.js
+        run: |
+          test -f dist/yunxin-article.html
+          test -f dist/css/yunxin.css
+          test -f dist/_worker.js
+          test -d dist/yunxin
