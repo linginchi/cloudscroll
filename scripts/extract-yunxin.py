@@ -213,6 +213,14 @@ ARTICLES = [
         'title': '七律·亘古忠臣',
         'file': '七律·亘古忠臣  (1).docx',
     },
+    {
+        'id': '23-mantingfang',
+        'section': 'ci',
+        'section_title': '第二輯  詩詞',
+        'num': '15',
+        'title': '滿庭芳·葛聯會廿六華誕',
+        'file': '滿庭芳•葛聯會廿六華誕  詞牌.docx',
+    },
     # 第三輯 散文
     {
         'id': '24-weihui',
@@ -317,6 +325,127 @@ ARTICLES = [
         'num': '13',
         'title': '憶湯校長',
         'file': '憶湯校長.docx',
+    },
+    # 第四輯 雜記
+    {
+        'id': '37-xiyang-huanghun',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '01',
+        'title': '夕陽與黃昏',
+        'file': '夕阳与黄昏.docx',
+    },
+    {
+        'id': '38-rensheng-zheli',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '02',
+        'title': '人生哲理',
+        'file': '人生哲理.docx',
+    },
+    {
+        'id': '39-rensheng-ganwu',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '03',
+        'title': '人生感悟勵志錄',
+        'file': '人生感悟勵志錄.docx',
+    },
+    {
+        'id': '40-neikeng-zonghui',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '04',
+        'title': '代香港內坑鎮聯鄉總會題辭賀內坑鎮僑聯會僑史館開館誌慶',
+        'file': '代内坑总会、蓮潭及葛州鄉会撰赠题辞.docx',
+    },
+    {
+        'id': '41-liantan-neikeng',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '05',
+        'title': '代蓮潭同鄉會題辭賀內坑鎮僑聯會僑史館開館誌慶',
+        'file': '代内坑总会、蓮潭及葛州鄉会撰赠题辞.docx',
+    },
+    {
+        'id': '42-gezhou-neikeng',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '06',
+        'title': '代葛州聯誼會題辭賀內坑鎮僑聯會僑史館開館誌慶',
+        'file': '代内坑总会、蓮潭及葛州鄉会撰赠题辞.docx',
+    },
+    {
+        'id': '43-bamin-yang',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '07',
+        'title': '代香港八閩楊氏宗親聯合會撰贈賀全球楊氏祭祖盛會',
+        'file': '代八閩楊氏宗親會、杨衢衢云纪念协会、蓮潭鄉会撰贈賀楊氏祭祖盛會圓滿成功 - 複製.docx',
+    },
+    {
+        'id': '44-yangquyun-assoc',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '08',
+        'title': '代香港楊衢雲紀念協會撰贈賀全球楊氏祭祖盛會',
+        'file': '代八閩楊氏宗親會、杨衢衢云纪念协会、蓮潭鄉会撰贈賀楊氏祭祖盛會圓滿成功 - 複製.docx',
+    },
+    {
+        'id': '45-liantan-yang',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '09',
+        'title': '代蓮潭同鄉會撰贈賀全球楊氏祭祖盛會',
+        'file': '代八閩楊氏宗親會、杨衢衢云纪念协会、蓮潭鄉会撰贈賀楊氏祭祖盛會圓滿成功 - 複製.docx',
+    },
+    {
+        'id': '46-linhua-zupu',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '10',
+        'title': '林樺撰賀香港葛州林氏暨族譜付梓',
+        'file': '林樺及代葛聯会撰賀香港葛州林氏暨族譜付梓 、赞葛聯会贤才輩出.docx',
+    },
+    {
+        'id': '47-gezhou-zupu',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '11',
+        'title': '代葛州聯誼會撰賀香港葛州林氏暨族譜付梓',
+        'file': '林樺及代葛聯会撰賀香港葛州林氏暨族譜付梓 、赞葛聯会贤才輩出.docx',
+    },
+    {
+        'id': '48-gelian-xiancai',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '12',
+        'title': '林樺撰贊葛聯會賢才輩出',
+        'file': '林樺及代葛聯会撰賀香港葛州林氏暨族譜付梓 、赞葛聯会贤才輩出.docx',
+    },
+    {
+        'id': '49-feihua-taoyuan',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '13',
+        'title': '代菲華桃園堂撰賀葛聯會廿六華誕',
+        'file': '代菲華桃閭園堂及林桦撰賀葛聯會、林桦撰赠比干廟.docx',
+    },
+    {
+        'id': '50-linhua-gelian26',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '14',
+        'title': '林樺撰賀葛聯會廿六華誕',
+        'file': '代菲華桃閭園堂及林桦撰賀葛聯會、林桦撰赠比干廟.docx',
+    },
+    {
+        'id': '51-bigan-hefu',
+        'section': 'notes',
+        'section_title': '第四輯  雜記',
+        'num': '15',
+        'title': '林樺代葛聯會撰贈衛輝比干紀念會、衛輝比干廟加賀幅',
+        'file': '代菲華桃閭園堂及林桦撰賀葛聯會、林桦撰赠比干廟.docx',
     },
 ]
 
@@ -555,14 +684,15 @@ def main() -> None:
             sections.append(current)
         current['articles'].append(a)
 
-    # 第四輯仍待發（目錄注明）
-    sections.append({
-        'id': 'notes',
-        'title': '第四輯  雜記',
-        'pending': True,
-        'note': '待發',
-        'articles': [],
-    })
+    # 若尚未收錄第四輯正文，保留「待發」占位
+    if not any(s['id'] == 'notes' for s in sections):
+        sections.append({
+            'id': 'notes',
+            'title': '第四輯  雜記',
+            'pending': True,
+            'note': '待發',
+            'articles': [],
+        })
 
     data = {
         'book': '雲心文集',

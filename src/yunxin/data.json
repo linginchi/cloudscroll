@@ -1,7 +1,7 @@
 {
   "book": "雲心文集",
   "author": "林樺",
-  "total_articles": 36,
+  "total_articles": 52,
   "articles": [
     {
       "id": "00-preface",
@@ -257,13 +257,24 @@
       "href": "yunxin-article.html?id=22-loyal-minister"
     },
     {
+      "id": "23-mantingfang",
+      "zh": "滿庭芳·葛聯會廿六華誕",
+      "title": "滿庭芳·葛聯會廿六華誕",
+      "section": "ci",
+      "section_title": "第二輯  詩詞",
+      "num": "15",
+      "order": 23,
+      "chars": 138,
+      "href": "yunxin-article.html?id=23-mantingfang"
+    },
+    {
       "id": "24-weihui",
       "zh": "謁祖衛輝紀忠魂",
       "title": "謁祖衛輝紀忠魂",
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "01",
-      "order": 23,
+      "order": 24,
       "chars": 2184,
       "href": "yunxin-article.html?id=24-weihui"
     },
@@ -274,7 +285,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "02",
-      "order": 24,
+      "order": 25,
       "chars": 996,
       "href": "yunxin-article.html?id=25-jiageng-qingming"
     },
@@ -285,7 +296,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "03",
-      "order": 25,
+      "order": 26,
       "chars": 1314,
       "href": "yunxin-article.html?id=26-yuanding"
     },
@@ -296,7 +307,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "04",
-      "order": 26,
+      "order": 27,
       "chars": 478,
       "href": "yunxin-article.html?id=27-gelian-zuzi"
     },
@@ -307,7 +318,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "05",
-      "order": 27,
+      "order": 28,
       "chars": 233,
       "href": "yunxin-article.html?id=28-gezhou"
     },
@@ -318,7 +329,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "06",
-      "order": 28,
+      "order": 29,
       "chars": 765,
       "href": "yunxin-article.html?id=29-zhongxiao"
     },
@@ -329,7 +340,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "07",
-      "order": 29,
+      "order": 30,
       "chars": 1289,
       "href": "yunxin-article.html?id=30-guishan"
     },
@@ -340,7 +351,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "08",
-      "order": 30,
+      "order": 31,
       "chars": 550,
       "href": "yunxin-article.html?id=31-feidao"
     },
@@ -351,7 +362,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "09",
-      "order": 31,
+      "order": 32,
       "chars": 711,
       "href": "yunxin-article.html?id=32-chunming"
     },
@@ -362,7 +373,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "10",
-      "order": 32,
+      "order": 33,
       "chars": 654,
       "href": "yunxin-article.html?id=33-yangquyun"
     },
@@ -373,7 +384,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "11",
-      "order": 33,
+      "order": 34,
       "chars": 931,
       "href": "yunxin-article.html?id=34-xiangjiang-haojiang"
     },
@@ -384,7 +395,7 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "12",
-      "order": 34,
+      "order": 35,
       "chars": 1150,
       "href": "yunxin-article.html?id=35-tang-shuangxiang"
     },
@@ -395,9 +406,174 @@
       "section": "prose",
       "section_title": "第三輯  散文",
       "num": "13",
-      "order": 35,
+      "order": 36,
       "chars": 336,
       "href": "yunxin-article.html?id=36-yi-tang"
+    },
+    {
+      "id": "37-xiyang-huanghun",
+      "zh": "夕陽與黃昏",
+      "title": "夕陽與黃昏",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "01",
+      "order": 37,
+      "chars": 253,
+      "href": "yunxin-article.html?id=37-xiyang-huanghun"
+    },
+    {
+      "id": "38-rensheng-zheli",
+      "zh": "人生哲理",
+      "title": "人生哲理",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "02",
+      "order": 38,
+      "chars": 427,
+      "href": "yunxin-article.html?id=38-rensheng-zheli"
+    },
+    {
+      "id": "39-rensheng-ganwu",
+      "zh": "人生感悟勵志錄",
+      "title": "人生感悟勵志錄",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "03",
+      "order": 39,
+      "chars": 307,
+      "href": "yunxin-article.html?id=39-rensheng-ganwu"
+    },
+    {
+      "id": "40-neikeng-zonghui",
+      "zh": "代香港內坑鎮聯鄉總會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "title": "代香港內坑鎮聯鄉總會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "04",
+      "order": 40,
+      "chars": 34,
+      "href": "yunxin-article.html?id=40-neikeng-zonghui"
+    },
+    {
+      "id": "41-liantan-neikeng",
+      "zh": "代蓮潭同鄉會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "title": "代蓮潭同鄉會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "05",
+      "order": 41,
+      "chars": 30,
+      "href": "yunxin-article.html?id=41-liantan-neikeng"
+    },
+    {
+      "id": "42-gezhou-neikeng",
+      "zh": "代葛州聯誼會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "title": "代葛州聯誼會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "06",
+      "order": 42,
+      "chars": 30,
+      "href": "yunxin-article.html?id=42-gezhou-neikeng"
+    },
+    {
+      "id": "43-bamin-yang",
+      "zh": "代香港八閩楊氏宗親聯合會撰贈賀全球楊氏祭祖盛會",
+      "title": "代香港八閩楊氏宗親聯合會撰贈賀全球楊氏祭祖盛會",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "07",
+      "order": 43,
+      "chars": 55,
+      "href": "yunxin-article.html?id=43-bamin-yang"
+    },
+    {
+      "id": "44-yangquyun-assoc",
+      "zh": "代香港楊衢雲紀念協會撰贈賀全球楊氏祭祖盛會",
+      "title": "代香港楊衢雲紀念協會撰贈賀全球楊氏祭祖盛會",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "08",
+      "order": 44,
+      "chars": 75,
+      "href": "yunxin-article.html?id=44-yangquyun-assoc"
+    },
+    {
+      "id": "45-liantan-yang",
+      "zh": "代蓮潭同鄉會撰贈賀全球楊氏祭祖盛會",
+      "title": "代蓮潭同鄉會撰贈賀全球楊氏祭祖盛會",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "09",
+      "order": 45,
+      "chars": 77,
+      "href": "yunxin-article.html?id=45-liantan-yang"
+    },
+    {
+      "id": "46-linhua-zupu",
+      "zh": "林樺撰賀香港葛州林氏暨族譜付梓",
+      "title": "林樺撰賀香港葛州林氏暨族譜付梓",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "10",
+      "order": 46,
+      "chars": 27,
+      "href": "yunxin-article.html?id=46-linhua-zupu"
+    },
+    {
+      "id": "47-gezhou-zupu",
+      "zh": "代葛州聯誼會撰賀香港葛州林氏暨族譜付梓",
+      "title": "代葛州聯誼會撰賀香港葛州林氏暨族譜付梓",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "11",
+      "order": 47,
+      "chars": 33,
+      "href": "yunxin-article.html?id=47-gezhou-zupu"
+    },
+    {
+      "id": "48-gelian-xiancai",
+      "zh": "林樺撰贊葛聯會賢才輩出",
+      "title": "林樺撰贊葛聯會賢才輩出",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "12",
+      "order": 48,
+      "chars": 33,
+      "href": "yunxin-article.html?id=48-gelian-xiancai"
+    },
+    {
+      "id": "49-feihua-taoyuan",
+      "zh": "代菲華桃園堂撰賀葛聯會廿六華誕",
+      "title": "代菲華桃園堂撰賀葛聯會廿六華誕",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "13",
+      "order": 49,
+      "chars": 23,
+      "href": "yunxin-article.html?id=49-feihua-taoyuan"
+    },
+    {
+      "id": "50-linhua-gelian26",
+      "zh": "林樺撰賀葛聯會廿六華誕",
+      "title": "林樺撰賀葛聯會廿六華誕",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "14",
+      "order": 50,
+      "chars": 25,
+      "href": "yunxin-article.html?id=50-linhua-gelian26"
+    },
+    {
+      "id": "51-bigan-hefu",
+      "zh": "林樺代葛聯會撰贈衛輝比干紀念會、衛輝比干廟加賀幅",
+      "title": "林樺代葛聯會撰贈衛輝比干紀念會、衛輝比干廟加賀幅",
+      "section": "notes",
+      "section_title": "第四輯  雜記",
+      "num": "15",
+      "order": 51,
+      "chars": 32,
+      "href": "yunxin-article.html?id=51-bigan-hefu"
     }
   ],
   "sections": [
@@ -669,6 +845,17 @@
           "order": 22,
           "chars": 82,
           "href": "yunxin-article.html?id=22-loyal-minister"
+        },
+        {
+          "id": "23-mantingfang",
+          "zh": "滿庭芳·葛聯會廿六華誕",
+          "title": "滿庭芳·葛聯會廿六華誕",
+          "section": "ci",
+          "section_title": "第二輯  詩詞",
+          "num": "15",
+          "order": 23,
+          "chars": 138,
+          "href": "yunxin-article.html?id=23-mantingfang"
         }
       ]
     },
@@ -683,7 +870,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "01",
-          "order": 23,
+          "order": 24,
           "chars": 2184,
           "href": "yunxin-article.html?id=24-weihui"
         },
@@ -694,7 +881,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "02",
-          "order": 24,
+          "order": 25,
           "chars": 996,
           "href": "yunxin-article.html?id=25-jiageng-qingming"
         },
@@ -705,7 +892,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "03",
-          "order": 25,
+          "order": 26,
           "chars": 1314,
           "href": "yunxin-article.html?id=26-yuanding"
         },
@@ -716,7 +903,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "04",
-          "order": 26,
+          "order": 27,
           "chars": 478,
           "href": "yunxin-article.html?id=27-gelian-zuzi"
         },
@@ -727,7 +914,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "05",
-          "order": 27,
+          "order": 28,
           "chars": 233,
           "href": "yunxin-article.html?id=28-gezhou"
         },
@@ -738,7 +925,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "06",
-          "order": 28,
+          "order": 29,
           "chars": 765,
           "href": "yunxin-article.html?id=29-zhongxiao"
         },
@@ -749,7 +936,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "07",
-          "order": 29,
+          "order": 30,
           "chars": 1289,
           "href": "yunxin-article.html?id=30-guishan"
         },
@@ -760,7 +947,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "08",
-          "order": 30,
+          "order": 31,
           "chars": 550,
           "href": "yunxin-article.html?id=31-feidao"
         },
@@ -771,7 +958,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "09",
-          "order": 31,
+          "order": 32,
           "chars": 711,
           "href": "yunxin-article.html?id=32-chunming"
         },
@@ -782,7 +969,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "10",
-          "order": 32,
+          "order": 33,
           "chars": 654,
           "href": "yunxin-article.html?id=33-yangquyun"
         },
@@ -793,7 +980,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "11",
-          "order": 33,
+          "order": 34,
           "chars": 931,
           "href": "yunxin-article.html?id=34-xiangjiang-haojiang"
         },
@@ -804,7 +991,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "12",
-          "order": 34,
+          "order": 35,
           "chars": 1150,
           "href": "yunxin-article.html?id=35-tang-shuangxiang"
         },
@@ -815,7 +1002,7 @@
           "section": "prose",
           "section_title": "第三輯  散文",
           "num": "13",
-          "order": 35,
+          "order": 36,
           "chars": 336,
           "href": "yunxin-article.html?id=36-yi-tang"
         }
@@ -824,9 +1011,173 @@
     {
       "id": "notes",
       "title": "第四輯  雜記",
-      "pending": true,
-      "note": "待發",
-      "articles": []
+      "articles": [
+        {
+          "id": "37-xiyang-huanghun",
+          "zh": "夕陽與黃昏",
+          "title": "夕陽與黃昏",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "01",
+          "order": 37,
+          "chars": 253,
+          "href": "yunxin-article.html?id=37-xiyang-huanghun"
+        },
+        {
+          "id": "38-rensheng-zheli",
+          "zh": "人生哲理",
+          "title": "人生哲理",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "02",
+          "order": 38,
+          "chars": 427,
+          "href": "yunxin-article.html?id=38-rensheng-zheli"
+        },
+        {
+          "id": "39-rensheng-ganwu",
+          "zh": "人生感悟勵志錄",
+          "title": "人生感悟勵志錄",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "03",
+          "order": 39,
+          "chars": 307,
+          "href": "yunxin-article.html?id=39-rensheng-ganwu"
+        },
+        {
+          "id": "40-neikeng-zonghui",
+          "zh": "代香港內坑鎮聯鄉總會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "title": "代香港內坑鎮聯鄉總會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "04",
+          "order": 40,
+          "chars": 34,
+          "href": "yunxin-article.html?id=40-neikeng-zonghui"
+        },
+        {
+          "id": "41-liantan-neikeng",
+          "zh": "代蓮潭同鄉會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "title": "代蓮潭同鄉會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "05",
+          "order": 41,
+          "chars": 30,
+          "href": "yunxin-article.html?id=41-liantan-neikeng"
+        },
+        {
+          "id": "42-gezhou-neikeng",
+          "zh": "代葛州聯誼會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "title": "代葛州聯誼會題辭賀內坑鎮僑聯會僑史館開館誌慶",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "06",
+          "order": 42,
+          "chars": 30,
+          "href": "yunxin-article.html?id=42-gezhou-neikeng"
+        },
+        {
+          "id": "43-bamin-yang",
+          "zh": "代香港八閩楊氏宗親聯合會撰贈賀全球楊氏祭祖盛會",
+          "title": "代香港八閩楊氏宗親聯合會撰贈賀全球楊氏祭祖盛會",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "07",
+          "order": 43,
+          "chars": 55,
+          "href": "yunxin-article.html?id=43-bamin-yang"
+        },
+        {
+          "id": "44-yangquyun-assoc",
+          "zh": "代香港楊衢雲紀念協會撰贈賀全球楊氏祭祖盛會",
+          "title": "代香港楊衢雲紀念協會撰贈賀全球楊氏祭祖盛會",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "08",
+          "order": 44,
+          "chars": 75,
+          "href": "yunxin-article.html?id=44-yangquyun-assoc"
+        },
+        {
+          "id": "45-liantan-yang",
+          "zh": "代蓮潭同鄉會撰贈賀全球楊氏祭祖盛會",
+          "title": "代蓮潭同鄉會撰贈賀全球楊氏祭祖盛會",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "09",
+          "order": 45,
+          "chars": 77,
+          "href": "yunxin-article.html?id=45-liantan-yang"
+        },
+        {
+          "id": "46-linhua-zupu",
+          "zh": "林樺撰賀香港葛州林氏暨族譜付梓",
+          "title": "林樺撰賀香港葛州林氏暨族譜付梓",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "10",
+          "order": 46,
+          "chars": 27,
+          "href": "yunxin-article.html?id=46-linhua-zupu"
+        },
+        {
+          "id": "47-gezhou-zupu",
+          "zh": "代葛州聯誼會撰賀香港葛州林氏暨族譜付梓",
+          "title": "代葛州聯誼會撰賀香港葛州林氏暨族譜付梓",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "11",
+          "order": 47,
+          "chars": 33,
+          "href": "yunxin-article.html?id=47-gezhou-zupu"
+        },
+        {
+          "id": "48-gelian-xiancai",
+          "zh": "林樺撰贊葛聯會賢才輩出",
+          "title": "林樺撰贊葛聯會賢才輩出",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "12",
+          "order": 48,
+          "chars": 33,
+          "href": "yunxin-article.html?id=48-gelian-xiancai"
+        },
+        {
+          "id": "49-feihua-taoyuan",
+          "zh": "代菲華桃園堂撰賀葛聯會廿六華誕",
+          "title": "代菲華桃園堂撰賀葛聯會廿六華誕",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "13",
+          "order": 49,
+          "chars": 23,
+          "href": "yunxin-article.html?id=49-feihua-taoyuan"
+        },
+        {
+          "id": "50-linhua-gelian26",
+          "zh": "林樺撰賀葛聯會廿六華誕",
+          "title": "林樺撰賀葛聯會廿六華誕",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "14",
+          "order": 50,
+          "chars": 25,
+          "href": "yunxin-article.html?id=50-linhua-gelian26"
+        },
+        {
+          "id": "51-bigan-hefu",
+          "zh": "林樺代葛聯會撰贈衛輝比干紀念會、衛輝比干廟加賀幅",
+          "title": "林樺代葛聯會撰贈衛輝比干紀念會、衛輝比干廟加賀幅",
+          "section": "notes",
+          "section_title": "第四輯  雜記",
+          "num": "15",
+          "order": 51,
+          "chars": 32,
+          "href": "yunxin-article.html?id=51-bigan-hefu"
+        }
+      ]
     }
   ]
 }
