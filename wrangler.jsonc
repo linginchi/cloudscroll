@@ -1,12 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cloudscroll",
-  // Pages Git：有 pages_build_output_dir 时以本文件为准，必须写明 build.command，
-  // 否则会 Skip build 且因仓库无 dist/ 而失败。
-  "pages_build_output_dir": "./dist",
-  "build": {
-    "command": "npm run build"
-  },
   "kv_namespaces": [
     {
       "binding": "CLOUDSCROLL_STATS",
