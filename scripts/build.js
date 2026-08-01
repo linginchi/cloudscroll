@@ -30,38 +30,44 @@ if (fs.existsSync(DIST_DIR)) {
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
 
-// Step 0: Run book extraction script (skipped when book/ is absent, e.g. Cloud Agents)
+const ON_CI = !!(process.env.CF_PAGES || process.env.CI);
+function runPython(label, script, opts) {
+  opts = opts || {};
+  if (ON_CI) {
+    console.warn('[' + label + '] CI/Pages — skipping Python step: ' + script);
+    return false;
+  }
+  try {
+    execSync('python ' + script, {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'inherit',
+      encoding: 'utf-8',
+      timeout: opts.timeout || 60000,
+    });
+    return true;
+  } catch (e) {
+    if (opts.fatal) {
+      console.error('[' + label + '] failed:', e.message);
+      process.exit(1);
+    }
+    console.warn('[' + label + '] skipped:', e.message);
+    return false;
+  }
+}
+
+// Step 0: Run book extraction script (skipped when book/ is absent, e.g. Cloud Agents / Pages)
 console.log('\n[Step 0] Extracting book content...');
 const BOOK_DIR = path.resolve(__dirname, '..', 'book');
 if (!fs.existsSync(BOOK_DIR)) {
   console.warn('[Step 0] book/ not found — skipping Word extraction (use committed src assets).');
-} else {
-  try {
-    execSync('python scripts/extract-book.py', {
-      cwd: path.resolve(__dirname, '..'),
-      stdio: 'inherit',
-      encoding: 'utf-8',
-      timeout: 120000,
-    });
-    console.log('[Step 0] Book extraction complete.\n');
-  } catch (e) {
-    console.error('[Step 0] Book extraction failed:', e.message);
-    process.exit(1);
-  }
+} else if (runPython('Step 0', 'scripts/extract-book.py', { timeout: 120000, fatal: true })) {
+  console.log('[Step 0] Book extraction complete.\n');
 }
 
 // Step 0.5: Generate EN translations
 console.log('\n[Step 0.5] Generating EN translations...');
-try {
-  execSync('python scripts/translate-en.py', {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: 'inherit',
-    encoding: 'utf-8',
-    timeout: 60000,
-  });
+if (runPython('Step 0.5', 'scripts/translate-en.py')) {
   console.log('[Step 0.5] EN translations ready.\n');
-} catch (e) {
-  console.warn('[Step 0.5] EN translations skipped:', e.message);
 }
 
 // Step 0.55: Copy custom cover images and avatar to dist/book/images/
@@ -84,16 +90,7 @@ customFiles.forEach(file => {
 console.log('\n[Step 0.56] Building Yunxin Wenji assets...');
 const yunxinSrcDir = path.resolve(__dirname, '..', 'book', '雲心文集');
 if (fs.existsSync(yunxinSrcDir)) {
-  try {
-    execSync('python scripts/extract-yunxin.py', {
-      cwd: path.resolve(__dirname, '..'),
-      stdio: 'inherit',
-      encoding: 'utf-8',
-      timeout: 60000,
-    });
-  } catch (e) {
-    console.warn('[Step 0.56] Yunxin extract warning:', e.message);
-  }
+  runPython('Step 0.56', 'scripts/extract-yunxin.py');
 } else {
   console.warn('[Step 0.56] book/雲心文集 not found — using committed src/yunxin/.');
 }
@@ -120,30 +117,14 @@ if (fs.existsSync(srcYunxin)) {
 
 // Step 0.6: Generate cover images
 console.log('\n[Step 0.6] Generating cover images...');
-try {
-  execSync('python scripts/generate-cover.py', {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: 'inherit',
-    encoding: 'utf-8',
-    timeout: 60000,
-  });
+if (runPython('Step 0.6', 'scripts/generate-cover.py')) {
   console.log('[Step 0.6] Cover images generated.\n');
-} catch (e) {
-  console.warn('[Step 0.6] Cover generation skipped:', e.message);
 }
 
 // Step 0.7: Generate icons and OG image
 console.log('\n[Step 0.7] Generating icons and OG image...');
-try {
-  execSync('python scripts/generate-icons.py', {
-    cwd: path.resolve(__dirname, '..'),
-    stdio: 'inherit',
-    encoding: 'utf-8',
-    timeout: 60000,
-  });
+if (runPython('Step 0.7', 'scripts/generate-icons.py')) {
   console.log('[Step 0.7] Icons and OG image generated.\n');
-} catch (e) {
-  console.warn('[Step 0.7] Icon generation skipped:', e.message);
 }
 
 // Step 1: Copy static assets (CSS, JS) to dist/

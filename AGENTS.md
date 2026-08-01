@@ -10,7 +10,12 @@ Static literary site for 林樺's works, deployed to Cloudflare Pages (`cloudscr
 
 ## Local / production deploy (author machine)
 
-Cloudflare Pages Git 会跑 `npm run build`（生产安装会省略 devDependencies，故 `marked` 必须在 `dependencies`）。Word 抽取等 Python 步骤在无 `book/` 时会跳过。本机完整发布仍建议：
+Cloudflare Pages Git 会跑 `npm run build`：
+- `marked` 必须在 `dependencies`（生产安装会省略 `devDependencies`）
+- 仅保留 `wrangler.jsonc`（含 `pages_build_output_dir`）；勿再放冲突的 `wrangler.toml`
+- `CF_PAGES`/`CI` 下跳过 Python 抽取步骤，使用已提交的 `src/` 资源
+
+本机完整发布仍建议：
 
 ```bash
 # 先补齐本地缺失媒体（线上已有则下载；本地已有绝不覆盖）
