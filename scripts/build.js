@@ -1,13 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const childProcess = require('child_process');
 
 const SRC_DIR = path.resolve(__dirname, '..', 'src');
 const CONTENT_DIR = path.resolve(__dirname, '..', 'content');
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
+const ON_PAGES = !!(process.env.CF_PAGES || process.env.CI);
+
+function execSync(cmd, opts) {
+  if (ON_PAGES && /^python\b/.test(String(cmd))) {
+    console.warn('[CI/Pages] skip:', cmd);
+    return Buffer.from('');
+  }
+  return childProcess.execSync(cmd, opts);
+}
 
 console.log('Cloudscroll build starting...');
+
 
 function copyRecursive(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
@@ -45,8 +55,7 @@ if (!fs.existsSync(BOOK_DIR)) {
     });
     console.log('[Step 0] Book extraction complete.\n');
   } catch (e) {
-    console.error('[Step 0] Book extraction failed:', e.message);
-    process.exit(1);
+    console.warn('[Step 0] Book extraction failed — continuing with committed assets:', e.message);
   }
 }
 
@@ -99,16 +108,17 @@ if (fs.existsSync(yunxinSrcDir)) {
 }
 const distImages = path.join(DIST_DIR, 'images');
 fs.mkdirSync(distImages, { recursive: true });
-const yunxinImages = ['cover_v5.jpg', 'yunxin-cover.jpg', 'yunxin-flyleaf.jpg', 'yunxin-flyleaf-bg.mp4', 'beijing-anim.mp4', 'yunxin-weihui-bigan.jpg', 'yunxin-guishan-autumn.jpg'];
-yunxinImages.forEach(file => {
-  const src = path.join(srcImages, file);
-  if (fs.existsSync(src)) {
-    fs.copyFileSync(src, path.join(distImages, file));
+if (fs.existsSync(srcImages)) {
+  const imageFiles = fs.readdirSync(srcImages).filter(function (f) {
+    return /\.(jpg|jpeg|png|webp|gif|mp4|webm|svg|ico)$/i.test(f);
+  });
+  imageFiles.forEach(function (file) {
+    fs.copyFileSync(path.join(srcImages, file), path.join(distImages, file));
     console.log('  Copied images/' + file);
-  } else {
-    console.log('  Skipped (not found): images/' + file);
-  }
-});
+  });
+} else {
+  console.warn('  src/images not found');
+}
 const srcYunxin = path.join(SRC_DIR, 'yunxin');
 const distYunxin = path.join(DIST_DIR, 'yunxin');
 if (fs.existsSync(srcYunxin)) {
@@ -164,7 +174,7 @@ if (fs.existsSync(assetsDir)) {
 
 // Copy JS files
 if (fs.existsSync(jsDir)) {
-  const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js'));
+  const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js') && f !== 'html2pdf.bundle.min.js');
   jsFiles.forEach(file => {
     fs.copyFileSync(path.join(jsDir, file), path.join(distJs, file));
     console.log('  Copied js/' + file);
@@ -189,7 +199,7 @@ if (fs.existsSync(manifestSrc)) {
   console.log('  Copied manifest.json');
 }
 
-// Copy _worker.js (Pages Functions entry)
+// Copy _worker.js (Pages Functions / Advanced Mode entry)
 const workerSrc = path.join(SRC_DIR, '_worker.js');
 const workerDist = path.join(DIST_DIR, '_worker.js');
 if (fs.existsSync(workerSrc)) {
@@ -209,16 +219,23 @@ const articlesDir = path.join(DIST_DIR, 'articles');
 fs.mkdirSync(articlesDir, { recursive: true });
 
 if (fs.existsSync(CONTENT_DIR)) {
-  const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
-  mdFiles.forEach(file => {
-    const mdContent = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
-    const { marked } = require('marked');
-    const htmlContent = marked(mdContent);
-    const articleName = path.basename(file, '.md');
-    const outPath = path.join(articlesDir, articleName + '.html');
-    fs.writeFileSync(outPath, htmlContent, 'utf-8');
-    console.log('  Converted content/' + file + ' -> articles/' + articleName + '.html');
-  });
+  var markedParse = null;
+  try {
+    markedParse = require('marked').marked;
+  } catch (e) {
+    console.warn('[Step 2] marked missing — skip md conversion:', e.message);
+  }
+  if (markedParse) {
+    const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
+    mdFiles.forEach(file => {
+      const mdContent = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
+      const htmlContent = markedParse(mdContent);
+      const articleName = path.basename(file, '.md');
+      const outPath = path.join(articlesDir, articleName + '.html');
+      fs.writeFileSync(outPath, htmlContent, 'utf-8');
+      console.log('  Converted content/' + file + ' -> articles/' + articleName + '.html');
+    });
+  }
 }
 
 // Step 3: Copy article metadata

@@ -1,0 +1,92 @@
+{
+  "id": "03-kuala-lumpur",
+  "file": "霧鎖雲頂  燈耀雙塔.docx",
+  "zh": "霧鎖雲頂  燈耀雙塔",
+  "en": "Cloud-Girt Genting, Twin Towers Aflame",
+  "subtitle": "驅車登頂踏雲紗，雙塔横空閃素華。嶺上煙嵐藏樂境，城間銀闕映流霞。",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【馬來西亞吉隆坡之行】     霧鎖雲頂  燈耀雙塔"
+    },
+    {
+      "type": "text",
+      "content": "驅車登頂踏雲紗，雙塔横空閃素華。嶺上煙嵐藏樂境，城間銀闕映流霞。"
+    },
+    {
+      "type": "text",
+      "content": "吉隆坡是馬來西亞首都和最大城市。是一座對東南亞具有極大影響力的國際大都會。"
+    },
+    {
+      "type": "text",
+      "content": "吉隆坡雲頂高原。是馬來西亞必遊之景點。雲頂高原海拔二千米。在高山頂上有大型休閑娛樂城、有龐大酒店式建筑群、吃喝玩樂賭俱全。還有美妙的仙境等美景。  2001年，由親戚驅車往雲頂高原遊覽美妙的蓬萊仙境等美景。"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_005.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "雲頂高原大酒店              親戚驅車             雲頂高原之景"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_008.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "雲頂蓬萊仙境             仙境：八仙過海            仙境：寿"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_009.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_010.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "仙境：緣      仙境：观音"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_011.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/03-kuala-lumpur_003.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "雙子塔（雙峰塔）        雙子塔景區             吉隆坡市中心"
+    }
+  ],
+  "stats": {
+    "chars": 224,
+    "unique_images": 11,
+    "paragraphs": 8
+  },
+  "en_subtitle": "A drive through the clouds to a mountain paradise, and twin "
+}

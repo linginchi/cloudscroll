@@ -1,0 +1,88 @@
+{
+  "id": "04-penang",
+  "file": "檳島親遊札記.docx",
+  "zh": "檳島親遊札記",
+  "en": "A Kinsman's Journey to Penang",
+  "subtitle": "遠赴檳城敘親緣，漫遊古巷覽風華。",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【檳城行】         檳島親遊札記"
+    },
+    {
+      "type": "text",
+      "content": "遠赴檳城敘親緣，漫遊古巷覽風華。"
+    },
+    {
+      "type": "text",
+      "content": "檳城（檳城州）是馬來西亞十三個聯邦州之一。位於馬來西亞半島西北的海岸邊。是馬來西亞第三個大城市之一。在該島上遍布檳榔樹，取名檳城。是一個風景迷人，而具有獨特風格的城市。有東方花園的美譽；有拍攝電影《雙城記》取景古巷 ；有獨特屋中屋建築美景。"
+    },
+    {
+      "type": "text",
+      "content": "2014年，我同家人首次探望親戚及遊覽具有獨特風格的檳城。"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_003.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "独特房屋建筑         槟城市中心             槟城市中心酒店"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_006.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "独特屋中屋           檳城市中心                     檳城市中心夜景"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_008.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "拍攝電影《雙城記》取景古巷             特色的檳城的小街"
+    },
+    {
+      "type": "image",
+      "src": "images/04-penang_009.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "高级麵包店"
+    },
+    {
+      "type": "text",
+      "content": "。"
+    }
+  ],
+  "stats": {
+    "chars": 210,
+    "unique_images": 9,
+    "paragraphs": 9
+  },
+  "en_subtitle": "Travelling far to Penang for family ties, and wandering thro"
+}

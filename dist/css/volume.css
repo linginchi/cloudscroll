@@ -1,0 +1,342 @@
+/* src/css/volume.css */
+/* Volume page: flaps (preface) → TOC, scrollable */
+
+/* Must override .page overflow:clip for inner scroll to work on mobile */
+#volume-page {
+  overflow: visible;
+}
+
+.volume-page-inner {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding: 0;
+  min-height: 0;
+}
+
+/* ===== Flaps 導航列 ===== */
+.flaps-navbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-page);
+}
+
+.flaps-navbar a {
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.flaps-navbar a:hover {
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+}
+
+/* ===== Flaps Section (author intro) ===== */
+.volume-flaps {
+  min-height: auto;
+  background: var(--color-page);
+  padding: 40px 24px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flaps-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--color-page);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  /* 雙線圓框 — 外圈淡墨、內圈留白 */
+  border: 2px solid var(--color-border);
+  box-shadow:
+    0 0 0 4px var(--color-page),
+    0 0 0 5px var(--color-border);
+}
+
+.flaps-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.flaps-author-name {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.25em;
+  /* 抵消 letter-spacing 右側空白，署名視覺正中 */
+  padding-left: 0.25em;
+  margin: 0 0 6px;
+}
+
+.flaps-author-desc {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+
+.flaps-divider-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  margin: 0 auto 24px;
+}
+
+.flaps-heading {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+
+.flaps-text {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  line-height: 2;
+  max-width: 480px;
+  letter-spacing: 0.05em;
+  text-align: justify;
+}
+
+.flaps-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 30px auto;
+}
+
+.flaps-scroll-hint {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.flaps-scroll-hint:hover {
+  color: var(--color-text-secondary);
+}
+
+/* 自序英文翻譯分隔線 */
+.flaps-en-divider {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 10px auto 20px;
+}
+
+.flaps-en-divider::before,
+.flaps-en-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-divider);
+}
+
+.flaps-en-divider-label {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--color-text-faint);
+  font-style: italic;
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
+}
+
+/* 自序英文翻譯正文 */
+.flaps-text-en {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  line-height: 2;
+  max-width: 480px;
+  letter-spacing: 0.03em;
+  text-align: justify;
+}
+
+/* 操作指示：點擊下方目錄文章標題即可開始閱讀 */
+.flaps-reader-hint {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  color: var(--color-text-primary);
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+/* ===== TOC Section ===== */
+.volume-toc {
+  background: var(--color-page);
+  padding: 16px 20px 40px;
+  min-height: 50vh;
+}
+
+.toc-section-header {
+  text-align: center;
+  padding: 16px 0 12px;
+}
+
+.toc-section-title {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.12em;
+}
+
+.toc-section-en {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--color-text-faint);
+  font-style: italic;
+  display: block;
+  margin-top: 4px;
+}
+
+.toc-section-divider {
+  width: 50px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 10px auto;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+}
+
+.toc-item {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 8px;
+  border-bottom: 1px solid var(--color-divider);
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 48px;
+  justify-content: center;
+}
+
+.toc-item:hover,
+.toc-item:active {
+  background: #ede4d6;
+}
+
+.toc-item-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.toc-item-num {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--color-text-faint);
+  flex-shrink: 0;
+  min-width: 24px;
+  text-align: right;
+}
+
+.toc-item-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+
+.toc-item-sub {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-faint);
+  line-height: 1.5;
+  margin-top: 4px;
+  margin-left: 32px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  letter-spacing: 0.03em;
+}
+
+.toc-bottom-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px;
+  margin-top: 8px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+}
+
+.toc-bottom-links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.toc-bottom-links a:hover {
+  color: var(--color-text-primary);
+}
+
+/* ===== Desktop: sidebar on left, main area scrolls ===== */
+@media (min-width: 1024px) {
+  .volume-page-inner > .desktop-main {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .volume-flaps {
+    padding: 80px 40px 60px;
+  }
+
+  .volume-toc {
+    display: flex;
+    gap: 0;
+    padding: 0;
+  }
+
+  .toc-section-header {
+    display: none;
+  }
+
+  .toc-list-wrapper {
+    flex: 1;
+    padding: 20px 40px 40px;
+  }
+}

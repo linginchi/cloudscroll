@@ -1,0 +1,1579 @@
+{
+  "title": "我的人生旅行",
+  "title_en": "A Life Unfolded in Miles",
+  "author": "林樺",
+  "author_en": "Lin Hua",
+  "total_articles": 63,
+  "total_chars": 36002,
+  "total_images": 1525,
+  "chapters": [
+    {
+      "zh": "第一輯 向世界出發",
+      "en": "Part I: To the World",
+      "articles": [
+        {
+          "id": "01-taiwan",
+          "zh": "台湾屢遊散記",
+          "en": "Wanderings in Taiwan",
+          "subtitle": "（4）台北101高樓、101高樓廣場、商場。",
+          "file": "台湾屢遊散記.docx",
+          "stats": {
+            "chars": 555,
+            "unique_images": 26,
+            "paragraphs": 15
+          },
+          "en_subtitle": "Six crossings of the Strait in search of old echoes; as many landings on that treasured isle to taste its hills and waters."
+        },
+        {
+          "id": "02-philippines",
+          "zh": "菲島情懷  春露秋霜",
+          "en": "The Philippine Isles: Dew and Frost",
+          "subtitle": "回溯十九世紀，正是中華民族動盪不安的年代。外敵入侵，內政混亂，",
+          "file": "菲岛情怀  春露秋霜.docx",
+          "stats": {
+            "chars": 1697,
+            "unique_images": 35,
+            "paragraphs": 40
+          },
+          "en_subtitle": "A son's journey to find his father, across decades and seas."
+        },
+        {
+          "id": "03-kuala-lumpur",
+          "zh": "霧鎖雲頂  燈耀雙塔",
+          "en": "Cloud-Girt Genting, Twin Towers Aflame",
+          "subtitle": "驅車登頂踏雲紗，雙塔横空閃素華。嶺上煙嵐藏樂境，城間銀闕映流霞。",
+          "file": "霧鎖雲頂  燈耀雙塔.docx",
+          "stats": {
+            "chars": 224,
+            "unique_images": 11,
+            "paragraphs": 8
+          },
+          "en_subtitle": "A drive through the clouds to a mountain paradise, and twin towers piercing the sky."
+        },
+        {
+          "id": "04-penang",
+          "zh": "檳島親遊札記",
+          "en": "A Kinsman's Journey to Penang",
+          "subtitle": "遠赴檳城敘親緣，漫遊古巷覽風華。",
+          "file": "檳島親遊札記.docx",
+          "stats": {
+            "chars": 210,
+            "unique_images": 9,
+            "paragraphs": 9
+          },
+          "en_subtitle": "Travelling far to Penang for family ties, and wandering through ancient lanes to savour its charms."
+        },
+        {
+          "id": "05-vietnam",
+          "zh": "麗星馳碧浪  郵旅覽越南",
+          "en": "Starlit Seas: A Cruise to Vietnam",
+          "subtitle": "麗星郵輪獅子星號豪華郵輪          荣幸與郵輪高級上司合影",
+          "file": "麗星驰碧浪，郵旅览越南.docx",
+          "stats": {
+            "chars": 404,
+            "unique_images": 20,
+            "paragraphs": 11
+          },
+          "en_subtitle": "Riding the emerald waves beneath a starry sky, bound for the legendary bay of Ha Long."
+        },
+        {
+          "id": "06-korea",
+          "zh": "長今尋蹤  韓地攬勝",
+          "en": "In the Footsteps of Dae Jang-geum: Korea's Charms",
+          "subtitle": "大韓民國簡稱：韓國。位于東亞朝鮮半島南部。首都首爾。是一個發達的資本主義國家。",
+          "file": "長今尋縱  韓地攬勝.docx",
+          "stats": {
+            "chars": 365,
+            "unique_images": 10,
+            "paragraphs": 14
+          },
+          "en_subtitle": "In search of the legendary physician's footsteps, roaming through Korea's ancient and modern wonders."
+        },
+        {
+          "id": "07-new-zealand",
+          "zh": "新西蘭奧克蘭遊目騁懷",
+          "en": "New Zealand: A Feast for the Eyes",
+          "subtitle": "我在新西蘭奧克蘭博見洽聞，介紹奧克蘭的逸事：",
+          "file": "新西蘭奧克蘭遊目騁懷.docx",
+          "stats": {
+            "chars": 1442,
+            "unique_images": 22,
+            "paragraphs": 21
+          },
+          "en_subtitle": "A month of quiet contentment in Auckland, with wide-eyed wonder at its museums, temples, and curious local tales."
+        },
+        {
+          "id": "08-usa",
+          "zh": "勝景怡人  馳目騁懷",
+          "en": "Fair Sights, Soaring Spirits: Travels in America",
+          "subtitle": "歷時十八天。",
+          "file": "勝景怡人馳目聘懷.docx",
+          "stats": {
+            "chars": 1682,
+            "unique_images": 70,
+            "paragraphs": 42
+          },
+          "en_subtitle": "Eighteen days across five great American cities, a family pilgrimage of pride and wonder."
+        },
+        {
+          "id": "09-macau",
+          "zh": "屢次澳門遊蹤紀",
+          "en": "Macau, Again and Again",
+          "subtitle": "自2000年起，吾已有記不清數次往一橋（港珠澳大橋）相通的澳門之遊。",
+          "file": "屢次澳門遊蹤紀.docx",
+          "stats": {
+            "chars": 846,
+            "unique_images": 36,
+            "paragraphs": 20
+          },
+          "en_subtitle": "Countless crossings of the Hong Kong-Zhuhai-Macau Bridge to a city of layered memories."
+        },
+        {
+          "id": "10-kinmen",
+          "zh": "浯洲遊蹤記",
+          "en": "Record of a Ramble in Kinmen",
+          "subtitle": "金門是台灣的一個外島，古代稱為浯洲。金門是廈門東邊的島。2017年，",
+          "file": "浯洲遊蹤記.docx",
+          "stats": {
+            "chars": 230,
+            "unique_images": 12,
+            "paragraphs": 8
+          },
+          "en_subtitle": "A thirty-minute ferry ride across the strait from Xiamen lands one in a different world."
+        }
+      ]
+    },
+    {
+      "zh": "第二輯 神州大地之行",
+      "en": "Part II: Journeys Across China",
+      "articles": [
+        {
+          "id": "v2-01",
+          "zh": "屢次京城勝跡記",
+          "en": "Chronicles of the Capital",
+          "subtitle": "頤和園（万寿山和昆明湖的总称）        仁寿殿",
+          "file": "屢次京城勝跡記.docx",
+          "stats": {
+            "chars": 1766,
+            "unique_images": 148,
+            "paragraphs": 61
+          },
+          "en_subtitle": "Many journeys to Beijing, the ancient capital, tracing its imperial past and modern pulse."
+        },
+        {
+          "id": "v2-02",
+          "zh": "東滬行遊雜筆",
+          "en": "Sketches of Shanghai",
+          "subtitle": "上海洋山深水港          站在石欄邊眺望洋山深水港      與侄合影",
+          "file": "東滬行遊雜筆.docx",
+          "stats": {
+            "chars": 550,
+            "unique_images": 49,
+            "paragraphs": 21
+          },
+          "en_subtitle": "A ramble through the Eastern Metropolis, where the Huangpu River meets the world."
+        },
+        {
+          "id": "v2-03",
+          "zh": "蘇城名山名鎮遊記",
+          "en": "Suzhou: Hills and Towns",
+          "subtitle": "初名妙利普明塔院；唐代高僧寒山、拾得駐錫此地，後更名寒山寺。",
+          "file": "蘇城名山名鎮遊記.docx",
+          "stats": {
+            "chars": 373,
+            "unique_images": 21,
+            "paragraphs": 10
+          },
+          "en_subtitle": "Wandering through famous mountains and ancient canal towns of Suzhou."
+        },
+        {
+          "id": "v2-04",
+          "zh": "遊覽杭郡千古勝",
+          "en": "Hangzhou: A Thousand Years of Splendour",
+          "subtitle": "1992年，我們乘坐班機往杭州之遊。參觀岳王廟; 遊覽西湖美景。",
+          "file": "遊覽杭郡千古勝.docx",
+          "stats": {
+            "chars": 165,
+            "unique_images": 9,
+            "paragraphs": 7
+          },
+          "en_subtitle": "Exploring the timeless beauty of Hangzhou, from West Lake to its storied hills."
+        },
+        {
+          "id": "v2-05",
+          "zh": "津門故里遊覽隨筆",
+          "en": "Tianjin: The Portal of the North",
+          "subtitle": "津門故里即天津文化街旅遊區，中國文化街區，是天津城市文化發源地，",
+          "file": "津門故里遊覽隨筆 .docx",
+          "stats": {
+            "chars": 280,
+            "unique_images": 7,
+            "paragraphs": 7
+          },
+          "en_subtitle": "A stroll through the old lanes and riverbanks of Tianjin."
+        },
+        {
+          "id": "v2-06",
+          "zh": "三亞山海遊覽小記",
+          "en": "Sanya: Between the Mountains and the Sea",
+          "subtitle": "踏浪遊三亞,飽覽南國風光。登鹿回頭觀滄海，漫步三亞椰夢長廊。",
+          "file": "三亞山海遊覽小記.docx",
+          "stats": {
+            "chars": 149,
+            "unique_images": 6,
+            "paragraphs": 6
+          },
+          "en_subtitle": "A southern sojourn to Sanya, where tropical seas embrace jade-green hills."
+        },
+        {
+          "id": "v2-07",
+          "zh": "遼寧三城紀行",
+          "en": "Three Cities of Liaoning",
+          "subtitle": "【大連】",
+          "file": "《 遼寧三城紀行 》.docx",
+          "stats": {
+            "chars": 612,
+            "unique_images": 28,
+            "paragraphs": 21
+          },
+          "en_subtitle": "Journeying through Dalian, Lushun, and Shenyang, where history meets the sea."
+        },
+        {
+          "id": "v2-08",
+          "zh": "北國雙城札記  遊歷長春吉林",
+          "en": "Twin Cities of the North",
+          "subtitle": "【長春】",
+          "file": "《北國雙城札記  遊歷長春吉林》.docx",
+          "stats": {
+            "chars": 394,
+            "unique_images": 27,
+            "paragraphs": 14
+          },
+          "en_subtitle": "Notes on Changchun and Jilin, two cities wrapped in northern snow and memory."
+        },
+        {
+          "id": "v2-09",
+          "zh": "閒寫冰城遊思",
+          "en": "Reflections on the Ice City",
+          "subtitle": "【哈爾濱】",
+          "file": "《 閒寫冰城遊思》.docx",
+          "stats": {
+            "chars": 306,
+            "unique_images": 19,
+            "paragraphs": 15
+          },
+          "en_subtitle": "Leisurely thoughts from Harbin, the city of ice and Russian echoes."
+        },
+        {
+          "id": "v2-10",
+          "zh": "一江珠水  万里花城",
+          "en": "City of the Pearl River",
+          "subtitle": "五羊銜穗留佳境",
+          "file": "一江珠水  萬里花城.docx",
+          "stats": {
+            "chars": 1050,
+            "unique_images": 81,
+            "paragraphs": 35
+          },
+          "en_subtitle": "Guangzhou: one river of pearl waters, ten thousand miles of flower city."
+        },
+        {
+          "id": "v2-11",
+          "zh": "鵬城遊歷雜記",
+          "en": "Notes on Shenzhen",
+          "subtitle": "濱海馳心遊勝地",
+          "file": "《鵬城遊歷雜記》.docx",
+          "stats": {
+            "chars": 820,
+            "unique_images": 66,
+            "paragraphs": 30
+          },
+          "en_subtitle": "A visit to the soaring city built from a fishing village in a single generation."
+        },
+        {
+          "id": "v2-12",
+          "zh": "中山行旅錄",
+          "en": "A Journey to Zhongshan",
+          "subtitle": "百載香山留偉跡",
+          "file": "《中山行旅錄》.docx",
+          "stats": {
+            "chars": 156,
+            "unique_images": 12,
+            "paragraphs": 8
+          },
+          "en_subtitle": "Travelling to the birthplace of Dr. Sun Yat-sen, amidst Lingnan charm."
+        },
+        {
+          "id": "v2-13",
+          "zh": "海隅珠海札記",
+          "en": "Zhuhai by the Sea",
+          "subtitle": "（一）珠海圓明新園:",
+          "file": "《海隅珠海札記》.docx",
+          "stats": {
+            "chars": 135,
+            "unique_images": 9,
+            "paragraphs": 7
+          },
+          "en_subtitle": "Notes from Zhuhai, a coastal garden city by the South China Sea."
+        },
+        {
+          "id": "v2-14",
+          "zh": "尋味廈門  鷺島遊錄",
+          "en": "In Search of Amoy",
+          "subtitle": "二．廈門大學、南普陀寺：",
+          "file": "《尋味廈門  鷺島遊錄》.docx",
+          "stats": {
+            "chars": 561,
+            "unique_images": 84,
+            "paragraphs": 27
+          },
+          "en_subtitle": "Savoring the tastes and scenes of Xiamen, the Isle of Egrets."
+        },
+        {
+          "id": "v2-15",
+          "zh": "杏壇戀廈門",
+          "en": "Cherishing Xiamen",
+          "subtitle": "（一）集美中學：二十世紀七十年代初，吾在集美中學任教。",
+          "file": "《杏壇戀廈門》.docx",
+          "stats": {
+            "chars": 844,
+            "unique_images": 64,
+            "paragraphs": 22
+          },
+          "en_subtitle": "Years of teaching in Xiamen, a city held dear in the heart."
+        },
+        {
+          "id": "v2-16",
+          "zh": "南平探亲閒遊  武夷山水留蹤",
+          "en": "Nanping and Wuyi Mountain",
+          "subtitle": "【南平】南平俗稱閩北，地處福建北部、閩浙贛三省交界，是閩江源頭，",
+          "file": "《南平探亲閒遊  武夷山水留蹤》.docx",
+          "stats": {
+            "chars": 470,
+            "unique_images": 44,
+            "paragraphs": 27
+          },
+          "en_subtitle": "A family visit to Nanping and a leisurely tour of the Wuyi Mountains."
+        },
+        {
+          "id": "v2-17",
+          "zh": "福師大訪學行",
+          "en": "A Visit to Fujian Normal University",
+          "subtitle": "百載開師道",
+          "file": "《福師大訪學行》.docx",
+          "stats": {
+            "chars": 145,
+            "unique_images": 9,
+            "paragraphs": 9
+          },
+          "en_subtitle": "An academic journey to Fuzhou and the halls of Fujian Normal University."
+        },
+        {
+          "id": "v2-18",
+          "zh": "山水藏靈秀  韶山仰偉人",
+          "en": "Zhangjiajie and Shaoshan",
+          "subtitle": "【張家界】張家界地處湖南西北部武陵山脈腹地，1988年因旅遊設市，1994年",
+          "file": "《山水藏靈秀  韶山仰偉人》.docx",
+          "stats": {
+            "chars": 440,
+            "unique_images": 23,
+            "paragraphs": 20
+          },
+          "en_subtitle": "The hidden splendour of Zhangjiajie and a pilgrimage to the birthplace of a great man."
+        },
+        {
+          "id": "v2-19",
+          "zh": "桂林山水行記",
+          "en": "A Journey to Guilin",
+          "subtitle": "桂林山水甲天下，玉碧罗青意可参。",
+          "file": "《桂林山水行記》.docx",
+          "stats": {
+            "chars": 282,
+            "unique_images": 15,
+            "paragraphs": 9
+          },
+          "en_subtitle": "Travelling through Guilin and Yangshuo, where the landscape is poetry in stone."
+        },
+        {
+          "id": "v2-20",
+          "zh": "商都覽勝  古廟謁忠",
+          "en": "Zhengzhou and Weihui",
+          "subtitle": "2018年5月，再次往河南鄭州、衛輝、洛陽、商丘等景點之遊。",
+          "file": "《商都覽勝  古廟謁忠》.docx",
+          "stats": {
+            "chars": 1129,
+            "unique_images": 43,
+            "paragraphs": 33
+          },
+          "en_subtitle": "Visiting the ancient Shang capital and paying homage at a loyal minister's temple."
+        },
+        {
+          "id": "v2-21",
+          "zh": "一場河洛夢  半部商丘史",
+          "en": "Luoyang and Shangqiu",
+          "subtitle": "參加河南衛輝全球性紀念比干誕辰3110周年盛會；往臥龍鎮·長林石室，",
+          "file": "《一場河洛夢  半部商丘史》.docx",
+          "stats": {
+            "chars": 625,
+            "unique_images": 34,
+            "paragraphs": 21
+          },
+          "en_subtitle": "A dream of the River Luo, and half the history of Shangqiu in a single journey."
+        },
+        {
+          "id": "v2-22",
+          "zh": "一方雲水謠  萬座土樓情",
+          "en": "Tulou and Yunshuiyao",
+          "subtitle": "承啟樓（土樓之王）              承啟樓圓樓內具有特色房間",
+          "file": "《一方雲水謠  萬座土樓情》.docx",
+          "stats": {
+            "chars": 281,
+            "unique_images": 15,
+            "paragraphs": 10
+          },
+          "en_subtitle": "A land of earthen fortresses and a ballad of clouds and water."
+        },
+        {
+          "id": "v2-23",
+          "zh": "一城風物  滿懷溫情",
+          "en": "The Charms of Zhangzhou",
+          "subtitle": "開元寺：開元寺是福建省最大的佛教寺院，始建唐垂拱二年（686年），",
+          "file": "《一城風物  滿懷溫情》.docx",
+          "stats": {
+            "chars": 536,
+            "unique_images": 22,
+            "paragraphs": 14
+          },
+          "en_subtitle": "A city of warm character and abiding affection."
+        },
+        {
+          "id": "v2-24",
+          "zh": "晋水涵千古  泉城載萬疆",
+          "en": "The Eternal City of Quanzhou",
+          "subtitle": "開元寺：開元寺是福建省最大的佛教寺院，始建唐垂拱二年（686年），",
+          "file": "《晋水涵千古  泉城載萬疆》.docx",
+          "stats": {
+            "chars": 364,
+            "unique_images": 11,
+            "paragraphs": 9
+          },
+          "en_subtitle": "Where Jin River flows through a thousand years, and the city carries ten thousand lands."
+        }
+      ]
+    },
+    {
+      "zh": "第三輯 中外覽勝錄",
+      "en": "Part III: Sights at Home and Abroad",
+      "articles": [
+        {
+          "id": "v3-01",
+          "zh": "鶴髮松姿遊獅城",
+          "en": "Silver Hair, Lingering Grace in the Lion City",
+          "subtitle": "【新加坡新建現代化圖書館】",
+          "file": "鶴髮松姿遊獅城.docx",
+          "stats": {
+            "chars": 1112,
+            "unique_images": 43,
+            "paragraphs": 26
+          },
+          "en_subtitle": "An elder traveller savours the sights and memories of Singapore."
+        },
+        {
+          "id": "v3-02",
+          "zh": "新加坡國立大學參觀隨筆",
+          "en": "A Visit to the National University of Singapore",
+          "subtitle": "孫女獨立宿舍                  六樓厨房公用",
+          "file": "新加坡國立大學參觀隨筆.docx",
+          "stats": {
+            "chars": 549,
+            "unique_images": 22,
+            "paragraphs": 9
+          },
+          "en_subtitle": "Wandering the halls of NUS, a bastion of learning in the tropics."
+        },
+        {
+          "id": "v3-03",
+          "zh": "再覽獅城華埠風光",
+          "en": "Revisiting the Sights of Singapore Chinatown",
+          "subtitle": "花八門，包羅萬象。",
+          "file": "再覽獅城華埠風光 .docx",
+          "stats": {
+            "chars": 825,
+            "unique_images": 29,
+            "paragraphs": 21
+          },
+          "en_subtitle": "A second tour through the bustling lanes and heritage of Chinatown."
+        },
+        {
+          "id": "v3-04",
+          "zh": "獅城星耀樟宜漫記",
+          "en": "Jewel Changi: A Leisurely Note",
+          "subtitle": "我們上二樓遊覽景色",
+          "file": "獅城星耀樟宜漫記.docx",
+          "stats": {
+            "chars": 231,
+            "unique_images": 19,
+            "paragraphs": 4
+          },
+          "en_subtitle": "Strolling through the shimmering wonder of Jewel Changi Airport."
+        },
+        {
+          "id": "v3-05",
+          "zh": "飽賞獅城奇花嘉木",
+          "en": "Admiring the Flora of Singapore",
+          "subtitle": "還有葉子園、橡膠園、民族植物園等……",
+          "file": "飽賞獅城奇花嘉木.docx",
+          "stats": {
+            "chars": 347,
+            "unique_images": 18,
+            "paragraphs": 10
+          },
+          "en_subtitle": "A feast of exotic flowers and rare trees in the Garden City."
+        },
+        {
+          "id": "v3-06",
+          "zh": "嘉義文化路夜市夜韻遊記",
+          "en": "A Night at Chiayi Culture Road Night Market",
+          "subtitle": "23．12.18—2024.1.13，我與內人再往台湾看望女兒，居一個月。",
+          "file": "嘉義文化路夜市夜韻遊記.docx",
+          "stats": {
+            "chars": 285,
+            "unique_images": 7,
+            "paragraphs": 4
+          },
+          "en_subtitle": "The sounds, smells, and tastes of Chiayi after dark."
+        },
+        {
+          "id": "v3-07",
+          "zh": "桃城影塔  射日風情",
+          "en": "Shadow Tower of Peach City, Under the Sun",
+          "subtitle": "阿薩姆奶茶、花生焦糖拿鐵等。每款式價錢都是台幣180元。",
+          "file": "桃城影塔  射日風情.docx",
+          "stats": {
+            "chars": 380,
+            "unique_images": 15,
+            "paragraphs": 9
+          },
+          "en_subtitle": "The iconic tower of Chiayi and the legend of the sun-shooting hero."
+        },
+        {
+          "id": "v3-08",
+          "zh": "漫遊嘉義經典景點之一",
+          "en": "Classic Sights of Chiayi, Part One",
+          "subtitle": "又是阿里山森林鐵路的重要據點。",
+          "file": "漫遊嘉义经典景点之一.docx",
+          "stats": {
+            "chars": 782,
+            "unique_images": 23,
+            "paragraphs": 18
+          },
+          "en_subtitle": "A guided ramble through Chiayi's most treasured landmarks."
+        },
+        {
+          "id": "v3-09",
+          "zh": "漫遊嘉義經典景點之二",
+          "en": "Classic Sights of Chiayi, Part Two",
+          "subtitle": "【經國新城】",
+          "file": "漫遊嘉义经典景点之二.docx",
+          "stats": {
+            "chars": 425,
+            "unique_images": 17,
+            "paragraphs": 14
+          },
+          "en_subtitle": "Continuing the journey through Chiayi's scenic and historic spots."
+        },
+        {
+          "id": "v3-10",
+          "zh": "探索布袋港的風情",
+          "en": "Exploring the Charm of Budai Harbour",
+          "subtitle": "布袋海景公園          高跟鞋教堂以鞋子為造型」的最大建築物",
+          "file": "探索布袋港的風情.docx",
+          "stats": {
+            "chars": 298,
+            "unique_images": 8,
+            "paragraphs": 7
+          },
+          "en_subtitle": "A day at the fishing port of Budai, where sea and sky meet."
+        },
+        {
+          "id": "v3-11",
+          "zh": "暮遊爾陀映月橋",
+          "en": "An Evening Stroll by the Moonlit Bridge",
+          "subtitle": "一趟桃城小遊，遇見爾陀映月絕景。綠映水漾公園  五光十色 彩色斑斕 美輪美奐。",
+          "file": "暮遊爾陀映月橋.docx",
+          "stats": {
+            "chars": 313,
+            "unique_images": 8,
+            "paragraphs": 6
+          },
+          "en_subtitle": "The gentle grace of a bridge bathed in twilight and moonbeams."
+        },
+        {
+          "id": "v3-12",
+          "zh": "暮遊月影潭心",
+          "en": "Moon Shadows on the Lake at Dusk",
+          "subtitle": "【月影潭心】      月落蘭潭鋪素影， 風摇水榭動清心。",
+          "file": "暮遊月影潭心.docx",
+          "stats": {
+            "chars": 399,
+            "unique_images": 9,
+            "paragraphs": 8
+          },
+          "en_subtitle": "Reflections of the moon upon a tranquil lake at eventide."
+        },
+        {
+          "id": "v3-13",
+          "zh": "閒逛嘉義彌陀夜市",
+          "en": "A Leisurely Walk Through Chiayi Mituo Night Market",
+          "subtitle": "彌陀夜市 「欣葉牛排焗烤館」有 牛扒、豬扒、雞扒、鱈魚等。",
+          "file": "閒逛嘉義彌陀夜市.docx",
+          "stats": {
+            "chars": 314,
+            "unique_images": 7,
+            "paragraphs": 6
+          },
+          "en_subtitle": "A relaxed evening among the stalls and lights of Mituo Night Market."
+        },
+        {
+          "id": "v3-14",
+          "zh": "難忘的2023年除夕夜",
+          "en": "An Unforgettable New Year's Eve, 2023",
+          "subtitle": "我們品味這幾道招牌菜的美味真是讓人難以忘懷，口感豐富，味道鮮美，讓人回味無窮。",
+          "file": "难忘的2023年除夕夜.docx",
+          "stats": {
+            "chars": 454,
+            "unique_images": 9,
+            "paragraphs": 10
+          },
+          "en_subtitle": "Ringing in the new year with family, warmth, and fond memories."
+        },
+        {
+          "id": "v3-15",
+          "zh": "嘉義元旦夜賞漫遊",
+          "en": "A New Year's Day Ramble in Chiayi",
+          "subtitle": "師傅操作燒烤                        師傅操作燒烤",
+          "file": "嘉義元旦夜賞漫遊.docx",
+          "stats": {
+            "chars": 436,
+            "unique_images": 13,
+            "paragraphs": 8
+          },
+          "en_subtitle": "Welcoming the first day of the year with a gentle wander through the city."
+        },
+        {
+          "id": "v3-16",
+          "zh": "國立嘉義大學參觀紀行",
+          "en": "A Visit to National Chiayi University",
+          "subtitle": "2024.1.5.我們走進南國書香秘境雲嘉學府，飽覽嘉大風華。",
+          "file": "國立嘉義大學參觀紀行.docx",
+          "stats": {
+            "chars": 665,
+            "unique_images": 32,
+            "paragraphs": 13
+          },
+          "en_subtitle": "A tour of the campus and its serene academic atmosphere."
+        },
+        {
+          "id": "v3-17",
+          "zh": "萬人逛湖美商展賞嘉義夜市風情",
+          "en": "Ten Thousand at the Lakeview Fair: Chiayi Night Market",
+          "subtitle": "湖美商盛，嘉邑夜繁；萬人觀展，嘉市尋香。",
+          "file": "萬人逛湖美商展賞嘉義夜市風情.docx",
+          "stats": {
+            "chars": 586,
+            "unique_images": 14,
+            "paragraphs": 10
+          },
+          "en_subtitle": "A bustling night market by the lake, alive with crowds and colour."
+        },
+        {
+          "id": "v3-18",
+          "zh": "暢遊鎮天宮  瞻仰桃園盟",
+          "en": "Zhentian Temple and the Oath of the Peach Garden",
+          "subtitle": "入廟埕，宽濶朗静，中間有香煙缭繞通法界，香火鼎盛；左建赤免玉馬祠； 右為金爐。",
+          "file": "暢遊鎮天宮  瞻仰桃園盟.docx",
+          "stats": {
+            "chars": 508,
+            "unique_images": 18,
+            "paragraphs": 11
+          },
+          "en_subtitle": "Paying homage at a temple that honours the legendary brotherhood."
+        },
+        {
+          "id": "v3-19",
+          "zh": "半天岩紫雲寺遊半天",
+          "en": "Half a Day at Ziyun Temple, Bantianyan",
+          "subtitle": "半峰天整灵岩秀",
+          "file": "半天岩紫雲寺遊半天.docx",
+          "stats": {
+            "chars": 623,
+            "unique_images": 22,
+            "paragraphs": 14
+          },
+          "en_subtitle": "A brief but memorable visit to the cliffside temple of Purple Clouds."
+        }
+      ]
+    },
+    {
+      "zh": "第四輯 旅遊天地",
+      "en": "Part IV: Traveller's Paradise",
+      "articles": [
+        {
+          "id": "v4-01",
+          "zh": "五星校友鹏城遊記",
+          "en": "Alumni Reunion in Pengcheng",
+          "subtitle": "佛光普照三千里，法水長流五大洲。宏法寺始建1982年，寺院占地三萬平方米。",
+          "file": "五星校友鵬城欢聚遊.docx",
+          "stats": {
+            "chars": 1288,
+            "unique_images": 0,
+            "paragraphs": 23
+          },
+          "en_subtitle": "Gathering of old schoolmates in Shenzhen, celebrating friendship and shared memories."
+        },
+        {
+          "id": "v4-02",
+          "zh": "慶回歸、敘鄉情、敬老獎學盛會",
+          "en": "A Gala of Homecoming and Honour",
+          "subtitle": "抽獎初啟，滿場千人共聚，內人幸運中獎 ，獲得一百元獎金。甚喜。",
+          "file": "慶回歸、敘鄉情、敬老獎學盛會.docx",
+          "stats": {
+            "chars": 430,
+            "unique_images": 6,
+            "paragraphs": 8
+          },
+          "en_subtitle": "Celebrating the return, renewing bonds of kinship, and honouring elders and scholars."
+        },
+        {
+          "id": "v4-03",
+          "zh": "殫見洽聞  通達古今",
+          "en": "Erudition: Bridging Past and Present",
+          "subtitle": "我們到達二樓參觀兩個館：首先參觀「器惟求新—當代設計對話古代工藝」之館。",
+          "file": "殫見洽聞 通達古今.docx",
+          "stats": {
+            "chars": 1251,
+            "unique_images": 4,
+            "paragraphs": 27
+          },
+          "en_subtitle": "Through wide learning and deep enquiry, one may know the ancient and the new."
+        },
+        {
+          "id": "v4-04",
+          "zh": "遊禪城鳳城隨筆",
+          "en": "Sketches of Chancheng and Fengcheng",
+          "subtitle": "智選假日酒店",
+          "file": "遊禪城鳳城隨筆.docx",
+          "stats": {
+            "chars": 1187,
+            "unique_images": 39,
+            "paragraphs": 28
+          },
+          "en_subtitle": "Casual notes from a ramble through the cities of the Zen and the Phoenix."
+        },
+        {
+          "id": "v4-05",
+          "zh": "重遊開元古刹  再悟泉郡千年",
+          "en": "Revisiting Kaiyuan Temple, Quanzhou",
+          "subtitle": "",
+          "file": "重遊開元古刹  再悟泉郡千年.docx",
+          "stats": {
+            "chars": 451,
+            "unique_images": 3,
+            "paragraphs": 6
+          },
+          "en_subtitle": "A return to the ancient monastery of Kaiyuan, and a second contemplation of a thousand years of Quanzhou."
+        },
+        {
+          "id": "v4-06",
+          "zh": "閒步觀天眼  蘩樓品清茶",
+          "en": "A Stroll by the Tianyan, Tea at Fanlou",
+          "subtitle": "大堂招牌示告",
+          "file": "閒步觀天眼  蘩樓品清茶.docx",
+          "stats": {
+            "chars": 488,
+            "unique_images": 7,
+            "paragraphs": 10
+          },
+          "en_subtitle": "A leisurely walk to behold the Eye of Heaven, and a cup of clear tea in the tower of plenty."
+        },
+        {
+          "id": "v4-07",
+          "zh": "鵬城守歲  萬象歡筵",
+          "en": "New Year's Eve Gala in Shenzhen",
+          "subtitle": "歲臨人間禎祥滿",
+          "file": "鵬城守歲  萬象歡筵 .docx",
+          "stats": {
+            "chars": 683,
+            "unique_images": 35,
+            "paragraphs": 18
+          },
+          "en_subtitle": "Welcoming the new year in Pengcheng, amid ten thousand scenes of joy and festivity."
+        }
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "id": "cover",
+      "zh": "我的人生旅行",
+      "en": "",
+      "subtitle": "(1980-2019)風雨人生旅日月伴吾行文/林 樺",
+      "file": "我的人生旅行  封面.docx",
+      "stats": {
+        "chars": 19,
+        "unique_images": 1,
+        "paragraphs": 2
+      }
+    },
+    {
+      "id": "toc",
+      "zh": "我的人生旅行目錄",
+      "en": "",
+      "subtitle": "第一輯  向世界出發一． 【台灣之行】《台灣屢次遊散記》",
+      "file": "《我的人生旅行》目錄第一輯.docx",
+      "stats": {
+        "chars": 163,
+        "unique_images": 0,
+        "paragraphs": 13
+      }
+    },
+    {
+      "id": "00-preface",
+      "zh": "自  序",
+      "en": "Preface",
+      "subtitle": "人生如途，步履不停，山水皆答卷，歲月皆歸途。",
+      "file": "自序20260703.docx",
+      "stats": {
+        "chars": 422,
+        "unique_images": 0,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "01-taiwan",
+      "zh": "台湾屢遊散記",
+      "en": "Wanderings in Taiwan",
+      "subtitle": "（4）台北101高樓、101高樓廣場、商場。",
+      "file": "台湾屢遊散記.docx",
+      "stats": {
+        "chars": 555,
+        "unique_images": 26,
+        "paragraphs": 15
+      }
+    },
+    {
+      "id": "02-philippines",
+      "zh": "菲島情懷  春露秋霜",
+      "en": "The Philippine Isles: Dew and Frost",
+      "subtitle": "回溯十九世紀，正是中華民族動盪不安的年代。外敵入侵，內政混亂，",
+      "file": "菲岛情怀  春露秋霜.docx",
+      "stats": {
+        "chars": 1697,
+        "unique_images": 35,
+        "paragraphs": 40
+      }
+    },
+    {
+      "id": "03-kuala-lumpur",
+      "zh": "霧鎖雲頂  燈耀雙塔",
+      "en": "Cloud-Girt Genting, Twin Towers Aflame",
+      "subtitle": "驅車登頂踏雲紗，雙塔横空閃素華。嶺上煙嵐藏樂境，城間銀闕映流霞。",
+      "file": "霧鎖雲頂  燈耀雙塔.docx",
+      "stats": {
+        "chars": 224,
+        "unique_images": 11,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "04-penang",
+      "zh": "檳島親遊札記",
+      "en": "A Kinsman's Journey to Penang",
+      "subtitle": "遠赴檳城敘親緣，漫遊古巷覽風華。",
+      "file": "檳島親遊札記.docx",
+      "stats": {
+        "chars": 210,
+        "unique_images": 9,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "05-vietnam",
+      "zh": "麗星馳碧浪  郵旅覽越南",
+      "en": "Starlit Seas: A Cruise to Vietnam",
+      "subtitle": "麗星郵輪獅子星號豪華郵輪          荣幸與郵輪高級上司合影",
+      "file": "麗星驰碧浪，郵旅览越南.docx",
+      "stats": {
+        "chars": 404,
+        "unique_images": 20,
+        "paragraphs": 11
+      }
+    },
+    {
+      "id": "06-korea",
+      "zh": "長今尋蹤  韓地攬勝",
+      "en": "In the Footsteps of Dae Jang-geum: Korea's Charms",
+      "subtitle": "大韓民國簡稱：韓國。位于東亞朝鮮半島南部。首都首爾。是一個發達的資本主義國家。",
+      "file": "長今尋縱  韓地攬勝.docx",
+      "stats": {
+        "chars": 365,
+        "unique_images": 10,
+        "paragraphs": 14
+      }
+    },
+    {
+      "id": "07-new-zealand",
+      "zh": "新西蘭奧克蘭遊目騁懷",
+      "en": "New Zealand: A Feast for the Eyes",
+      "subtitle": "我在新西蘭奧克蘭博見洽聞，介紹奧克蘭的逸事：",
+      "file": "新西蘭奧克蘭遊目騁懷.docx",
+      "stats": {
+        "chars": 1442,
+        "unique_images": 22,
+        "paragraphs": 21
+      }
+    },
+    {
+      "id": "08-usa",
+      "zh": "勝景怡人  馳目騁懷",
+      "en": "Fair Sights, Soaring Spirits: Travels in America",
+      "subtitle": "歷時十八天。",
+      "file": "勝景怡人馳目聘懷.docx",
+      "stats": {
+        "chars": 1682,
+        "unique_images": 70,
+        "paragraphs": 42
+      }
+    },
+    {
+      "id": "09-macau",
+      "zh": "屢次澳門遊蹤紀",
+      "en": "Macau, Again and Again",
+      "subtitle": "自2000年起，吾已有記不清數次往一橋（港珠澳大橋）相通的澳門之遊。",
+      "file": "屢次澳門遊蹤紀.docx",
+      "stats": {
+        "chars": 846,
+        "unique_images": 36,
+        "paragraphs": 20
+      }
+    },
+    {
+      "id": "10-kinmen",
+      "zh": "浯洲遊蹤記",
+      "en": "Record of a Ramble in Kinmen",
+      "subtitle": "金門是台灣的一個外島，古代稱為浯洲。金門是廈門東邊的島。2017年，",
+      "file": "浯洲遊蹤記.docx",
+      "stats": {
+        "chars": 230,
+        "unique_images": 12,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "v2-01",
+      "zh": "屢次京城勝跡記",
+      "en": "Chronicles of the Capital",
+      "subtitle": "頤和園（万寿山和昆明湖的总称）        仁寿殿",
+      "file": "屢次京城勝跡記.docx",
+      "stats": {
+        "chars": 1766,
+        "unique_images": 148,
+        "paragraphs": 61
+      }
+    },
+    {
+      "id": "v2-02",
+      "zh": "東滬行遊雜筆",
+      "en": "Sketches of Shanghai",
+      "subtitle": "上海洋山深水港          站在石欄邊眺望洋山深水港      與侄合影",
+      "file": "東滬行遊雜筆.docx",
+      "stats": {
+        "chars": 550,
+        "unique_images": 49,
+        "paragraphs": 21
+      }
+    },
+    {
+      "id": "v2-03",
+      "zh": "蘇城名山名鎮遊記",
+      "en": "Suzhou: Hills and Towns",
+      "subtitle": "初名妙利普明塔院；唐代高僧寒山、拾得駐錫此地，後更名寒山寺。",
+      "file": "蘇城名山名鎮遊記.docx",
+      "stats": {
+        "chars": 373,
+        "unique_images": 21,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v2-04",
+      "zh": "遊覽杭郡千古勝",
+      "en": "Hangzhou: A Thousand Years of Splendour",
+      "subtitle": "1992年，我們乘坐班機往杭州之遊。參觀岳王廟; 遊覽西湖美景。",
+      "file": "遊覽杭郡千古勝.docx",
+      "stats": {
+        "chars": 165,
+        "unique_images": 9,
+        "paragraphs": 7
+      }
+    },
+    {
+      "id": "v2-05",
+      "zh": "津門故里遊覽隨筆",
+      "en": "Tianjin: The Portal of the North",
+      "subtitle": "津門故里即天津文化街旅遊區，中國文化街區，是天津城市文化發源地，",
+      "file": "津門故里遊覽隨筆 .docx",
+      "stats": {
+        "chars": 280,
+        "unique_images": 7,
+        "paragraphs": 7
+      }
+    },
+    {
+      "id": "v2-06",
+      "zh": "三亞山海遊覽小記",
+      "en": "Sanya: Between the Mountains and the Sea",
+      "subtitle": "踏浪遊三亞,飽覽南國風光。登鹿回頭觀滄海，漫步三亞椰夢長廊。",
+      "file": "三亞山海遊覽小記.docx",
+      "stats": {
+        "chars": 149,
+        "unique_images": 6,
+        "paragraphs": 6
+      }
+    },
+    {
+      "id": "v2-07",
+      "zh": "遼寧三城紀行",
+      "en": "Three Cities of Liaoning",
+      "subtitle": "【大連】",
+      "file": "《 遼寧三城紀行 》.docx",
+      "stats": {
+        "chars": 612,
+        "unique_images": 28,
+        "paragraphs": 21
+      }
+    },
+    {
+      "id": "v2-08",
+      "zh": "北國雙城札記  遊歷長春吉林",
+      "en": "Twin Cities of the North",
+      "subtitle": "【長春】",
+      "file": "《北國雙城札記  遊歷長春吉林》.docx",
+      "stats": {
+        "chars": 394,
+        "unique_images": 27,
+        "paragraphs": 14
+      }
+    },
+    {
+      "id": "v2-09",
+      "zh": "閒寫冰城遊思",
+      "en": "Reflections on the Ice City",
+      "subtitle": "【哈爾濱】",
+      "file": "《 閒寫冰城遊思》.docx",
+      "stats": {
+        "chars": 306,
+        "unique_images": 19,
+        "paragraphs": 15
+      }
+    },
+    {
+      "id": "v2-10",
+      "zh": "一江珠水  万里花城",
+      "en": "City of the Pearl River",
+      "subtitle": "五羊銜穗留佳境",
+      "file": "一江珠水  萬里花城.docx",
+      "stats": {
+        "chars": 1050,
+        "unique_images": 81,
+        "paragraphs": 35
+      }
+    },
+    {
+      "id": "v2-11",
+      "zh": "鵬城遊歷雜記",
+      "en": "Notes on Shenzhen",
+      "subtitle": "濱海馳心遊勝地",
+      "file": "《鵬城遊歷雜記》.docx",
+      "stats": {
+        "chars": 820,
+        "unique_images": 66,
+        "paragraphs": 30
+      }
+    },
+    {
+      "id": "v2-12",
+      "zh": "中山行旅錄",
+      "en": "A Journey to Zhongshan",
+      "subtitle": "百載香山留偉跡",
+      "file": "《中山行旅錄》.docx",
+      "stats": {
+        "chars": 156,
+        "unique_images": 12,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "v2-13",
+      "zh": "海隅珠海札記",
+      "en": "Zhuhai by the Sea",
+      "subtitle": "（一）珠海圓明新園:",
+      "file": "《海隅珠海札記》.docx",
+      "stats": {
+        "chars": 135,
+        "unique_images": 9,
+        "paragraphs": 7
+      }
+    },
+    {
+      "id": "v2-14",
+      "zh": "尋味廈門  鷺島遊錄",
+      "en": "In Search of Amoy",
+      "subtitle": "二．廈門大學、南普陀寺：",
+      "file": "《尋味廈門  鷺島遊錄》.docx",
+      "stats": {
+        "chars": 561,
+        "unique_images": 84,
+        "paragraphs": 27
+      }
+    },
+    {
+      "id": "v2-15",
+      "zh": "杏壇戀廈門",
+      "en": "Cherishing Xiamen",
+      "subtitle": "（一）集美中學：二十世紀七十年代初，吾在集美中學任教。",
+      "file": "《杏壇戀廈門》.docx",
+      "stats": {
+        "chars": 844,
+        "unique_images": 64,
+        "paragraphs": 22
+      }
+    },
+    {
+      "id": "v2-16",
+      "zh": "南平探亲閒遊  武夷山水留蹤",
+      "en": "Nanping and Wuyi Mountain",
+      "subtitle": "【南平】南平俗稱閩北，地處福建北部、閩浙贛三省交界，是閩江源頭，",
+      "file": "《南平探亲閒遊  武夷山水留蹤》.docx",
+      "stats": {
+        "chars": 470,
+        "unique_images": 44,
+        "paragraphs": 27
+      }
+    },
+    {
+      "id": "v2-17",
+      "zh": "福師大訪學行",
+      "en": "A Visit to Fujian Normal University",
+      "subtitle": "百載開師道",
+      "file": "《福師大訪學行》.docx",
+      "stats": {
+        "chars": 145,
+        "unique_images": 9,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "v2-18",
+      "zh": "山水藏靈秀  韶山仰偉人",
+      "en": "Zhangjiajie and Shaoshan",
+      "subtitle": "【張家界】張家界地處湖南西北部武陵山脈腹地，1988年因旅遊設市，1994年",
+      "file": "《山水藏靈秀  韶山仰偉人》.docx",
+      "stats": {
+        "chars": 440,
+        "unique_images": 23,
+        "paragraphs": 20
+      }
+    },
+    {
+      "id": "v2-19",
+      "zh": "桂林山水行記",
+      "en": "A Journey to Guilin",
+      "subtitle": "桂林山水甲天下，玉碧罗青意可参。",
+      "file": "《桂林山水行記》.docx",
+      "stats": {
+        "chars": 282,
+        "unique_images": 15,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "v2-20",
+      "zh": "商都覽勝  古廟謁忠",
+      "en": "Zhengzhou and Weihui",
+      "subtitle": "2018年5月，再次往河南鄭州、衛輝、洛陽、商丘等景點之遊。",
+      "file": "《商都覽勝  古廟謁忠》.docx",
+      "stats": {
+        "chars": 1129,
+        "unique_images": 43,
+        "paragraphs": 33
+      }
+    },
+    {
+      "id": "v2-21",
+      "zh": "一場河洛夢  半部商丘史",
+      "en": "Luoyang and Shangqiu",
+      "subtitle": "參加河南衛輝全球性紀念比干誕辰3110周年盛會；往臥龍鎮·長林石室，",
+      "file": "《一場河洛夢  半部商丘史》.docx",
+      "stats": {
+        "chars": 625,
+        "unique_images": 34,
+        "paragraphs": 21
+      }
+    },
+    {
+      "id": "v2-22",
+      "zh": "一方雲水謠  萬座土樓情",
+      "en": "Tulou and Yunshuiyao",
+      "subtitle": "承啟樓（土樓之王）              承啟樓圓樓內具有特色房間",
+      "file": "《一方雲水謠  萬座土樓情》.docx",
+      "stats": {
+        "chars": 281,
+        "unique_images": 15,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v2-23",
+      "zh": "一城風物  滿懷溫情",
+      "en": "The Charms of Zhangzhou",
+      "subtitle": "開元寺：開元寺是福建省最大的佛教寺院，始建唐垂拱二年（686年），",
+      "file": "《一城風物  滿懷溫情》.docx",
+      "stats": {
+        "chars": 536,
+        "unique_images": 22,
+        "paragraphs": 14
+      }
+    },
+    {
+      "id": "v2-24",
+      "zh": "晋水涵千古  泉城載萬疆",
+      "en": "The Eternal City of Quanzhou",
+      "subtitle": "開元寺：開元寺是福建省最大的佛教寺院，始建唐垂拱二年（686年），",
+      "file": "《晋水涵千古  泉城載萬疆》.docx",
+      "stats": {
+        "chars": 364,
+        "unique_images": 11,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "v3-01",
+      "zh": "鶴髮松姿遊獅城",
+      "en": "Silver Hair, Lingering Grace in the Lion City",
+      "subtitle": "【新加坡新建現代化圖書館】",
+      "file": "鶴髮松姿遊獅城.docx",
+      "stats": {
+        "chars": 1112,
+        "unique_images": 43,
+        "paragraphs": 26
+      }
+    },
+    {
+      "id": "v3-02",
+      "zh": "新加坡國立大學參觀隨筆",
+      "en": "A Visit to the National University of Singapore",
+      "subtitle": "孫女獨立宿舍                  六樓厨房公用",
+      "file": "新加坡國立大學參觀隨筆.docx",
+      "stats": {
+        "chars": 549,
+        "unique_images": 22,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "v3-03",
+      "zh": "再覽獅城華埠風光",
+      "en": "Revisiting the Sights of Singapore Chinatown",
+      "subtitle": "花八門，包羅萬象。",
+      "file": "再覽獅城華埠風光 .docx",
+      "stats": {
+        "chars": 825,
+        "unique_images": 29,
+        "paragraphs": 21
+      }
+    },
+    {
+      "id": "v3-04",
+      "zh": "獅城星耀樟宜漫記",
+      "en": "Jewel Changi: A Leisurely Note",
+      "subtitle": "我們上二樓遊覽景色",
+      "file": "獅城星耀樟宜漫記.docx",
+      "stats": {
+        "chars": 231,
+        "unique_images": 19,
+        "paragraphs": 4
+      }
+    },
+    {
+      "id": "v3-05",
+      "zh": "飽賞獅城奇花嘉木",
+      "en": "Admiring the Flora of Singapore",
+      "subtitle": "還有葉子園、橡膠園、民族植物園等……",
+      "file": "飽賞獅城奇花嘉木.docx",
+      "stats": {
+        "chars": 347,
+        "unique_images": 18,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v3-06",
+      "zh": "嘉義文化路夜市夜韻遊記",
+      "en": "A Night at Chiayi Culture Road Night Market",
+      "subtitle": "23．12.18—2024.1.13，我與內人再往台湾看望女兒，居一個月。",
+      "file": "嘉義文化路夜市夜韻遊記.docx",
+      "stats": {
+        "chars": 285,
+        "unique_images": 7,
+        "paragraphs": 4
+      }
+    },
+    {
+      "id": "v3-07",
+      "zh": "桃城影塔  射日風情",
+      "en": "Shadow Tower of Peach City, Under the Sun",
+      "subtitle": "阿薩姆奶茶、花生焦糖拿鐵等。每款式價錢都是台幣180元。",
+      "file": "桃城影塔  射日風情.docx",
+      "stats": {
+        "chars": 380,
+        "unique_images": 15,
+        "paragraphs": 9
+      }
+    },
+    {
+      "id": "v3-08",
+      "zh": "漫遊嘉義經典景點之一",
+      "en": "Classic Sights of Chiayi, Part One",
+      "subtitle": "又是阿里山森林鐵路的重要據點。",
+      "file": "漫遊嘉义经典景点之一.docx",
+      "stats": {
+        "chars": 782,
+        "unique_images": 23,
+        "paragraphs": 18
+      }
+    },
+    {
+      "id": "v3-09",
+      "zh": "漫遊嘉義經典景點之二",
+      "en": "Classic Sights of Chiayi, Part Two",
+      "subtitle": "【經國新城】",
+      "file": "漫遊嘉义经典景点之二.docx",
+      "stats": {
+        "chars": 425,
+        "unique_images": 17,
+        "paragraphs": 14
+      }
+    },
+    {
+      "id": "v3-10",
+      "zh": "探索布袋港的風情",
+      "en": "Exploring the Charm of Budai Harbour",
+      "subtitle": "布袋海景公園          高跟鞋教堂以鞋子為造型」的最大建築物",
+      "file": "探索布袋港的風情.docx",
+      "stats": {
+        "chars": 298,
+        "unique_images": 8,
+        "paragraphs": 7
+      }
+    },
+    {
+      "id": "v3-11",
+      "zh": "暮遊爾陀映月橋",
+      "en": "An Evening Stroll by the Moonlit Bridge",
+      "subtitle": "一趟桃城小遊，遇見爾陀映月絕景。綠映水漾公園  五光十色 彩色斑斕 美輪美奐。",
+      "file": "暮遊爾陀映月橋.docx",
+      "stats": {
+        "chars": 313,
+        "unique_images": 8,
+        "paragraphs": 6
+      }
+    },
+    {
+      "id": "v3-12",
+      "zh": "暮遊月影潭心",
+      "en": "Moon Shadows on the Lake at Dusk",
+      "subtitle": "【月影潭心】      月落蘭潭鋪素影， 風摇水榭動清心。",
+      "file": "暮遊月影潭心.docx",
+      "stats": {
+        "chars": 399,
+        "unique_images": 9,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "v3-13",
+      "zh": "閒逛嘉義彌陀夜市",
+      "en": "A Leisurely Walk Through Chiayi Mituo Night Market",
+      "subtitle": "彌陀夜市 「欣葉牛排焗烤館」有 牛扒、豬扒、雞扒、鱈魚等。",
+      "file": "閒逛嘉義彌陀夜市.docx",
+      "stats": {
+        "chars": 314,
+        "unique_images": 7,
+        "paragraphs": 6
+      }
+    },
+    {
+      "id": "v3-14",
+      "zh": "難忘的2023年除夕夜",
+      "en": "An Unforgettable New Year's Eve, 2023",
+      "subtitle": "我們品味這幾道招牌菜的美味真是讓人難以忘懷，口感豐富，味道鮮美，讓人回味無窮。",
+      "file": "难忘的2023年除夕夜.docx",
+      "stats": {
+        "chars": 454,
+        "unique_images": 9,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v3-15",
+      "zh": "嘉義元旦夜賞漫遊",
+      "en": "A New Year's Day Ramble in Chiayi",
+      "subtitle": "師傅操作燒烤                        師傅操作燒烤",
+      "file": "嘉義元旦夜賞漫遊.docx",
+      "stats": {
+        "chars": 436,
+        "unique_images": 13,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "v3-16",
+      "zh": "國立嘉義大學參觀紀行",
+      "en": "A Visit to National Chiayi University",
+      "subtitle": "2024.1.5.我們走進南國書香秘境雲嘉學府，飽覽嘉大風華。",
+      "file": "國立嘉義大學參觀紀行.docx",
+      "stats": {
+        "chars": 665,
+        "unique_images": 32,
+        "paragraphs": 13
+      }
+    },
+    {
+      "id": "v3-17",
+      "zh": "萬人逛湖美商展賞嘉義夜市風情",
+      "en": "Ten Thousand at the Lakeview Fair: Chiayi Night Market",
+      "subtitle": "湖美商盛，嘉邑夜繁；萬人觀展，嘉市尋香。",
+      "file": "萬人逛湖美商展賞嘉義夜市風情.docx",
+      "stats": {
+        "chars": 586,
+        "unique_images": 14,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v3-18",
+      "zh": "暢遊鎮天宮  瞻仰桃園盟",
+      "en": "Zhentian Temple and the Oath of the Peach Garden",
+      "subtitle": "入廟埕，宽濶朗静，中間有香煙缭繞通法界，香火鼎盛；左建赤免玉馬祠； 右為金爐。",
+      "file": "暢遊鎮天宮  瞻仰桃園盟.docx",
+      "stats": {
+        "chars": 508,
+        "unique_images": 18,
+        "paragraphs": 11
+      }
+    },
+    {
+      "id": "v3-19",
+      "zh": "半天岩紫雲寺遊半天",
+      "en": "Half a Day at Ziyun Temple, Bantianyan",
+      "subtitle": "半峰天整灵岩秀",
+      "file": "半天岩紫雲寺遊半天.docx",
+      "stats": {
+        "chars": 623,
+        "unique_images": 22,
+        "paragraphs": 14
+      }
+    },
+    {
+      "id": "v4-01",
+      "zh": "五星校友鹏城遊記",
+      "en": "Alumni Reunion in Pengcheng",
+      "subtitle": "佛光普照三千里，法水長流五大洲。宏法寺始建1982年，寺院占地三萬平方米。",
+      "file": "五星校友鵬城欢聚遊.docx",
+      "stats": {
+        "chars": 1288,
+        "unique_images": 0,
+        "paragraphs": 23
+      }
+    },
+    {
+      "id": "v4-02",
+      "zh": "慶回歸、敘鄉情、敬老獎學盛會",
+      "en": "A Gala of Homecoming and Honour",
+      "subtitle": "抽獎初啟，滿場千人共聚，內人幸運中獎 ，獲得一百元獎金。甚喜。",
+      "file": "慶回歸、敘鄉情、敬老獎學盛會.docx",
+      "stats": {
+        "chars": 430,
+        "unique_images": 6,
+        "paragraphs": 8
+      }
+    },
+    {
+      "id": "v4-03",
+      "zh": "殫見洽聞  通達古今",
+      "en": "Erudition: Bridging Past and Present",
+      "subtitle": "我們到達二樓參觀兩個館：首先參觀「器惟求新—當代設計對話古代工藝」之館。",
+      "file": "殫見洽聞 通達古今.docx",
+      "stats": {
+        "chars": 1251,
+        "unique_images": 4,
+        "paragraphs": 27
+      }
+    },
+    {
+      "id": "v4-04",
+      "zh": "遊禪城鳳城隨筆",
+      "en": "Sketches of Chancheng and Fengcheng",
+      "subtitle": "智選假日酒店",
+      "file": "遊禪城鳳城隨筆.docx",
+      "stats": {
+        "chars": 1187,
+        "unique_images": 39,
+        "paragraphs": 28
+      }
+    },
+    {
+      "id": "v4-05",
+      "zh": "重遊開元古刹  再悟泉郡千年",
+      "en": "Revisiting Kaiyuan Temple, Quanzhou",
+      "subtitle": "",
+      "file": "重遊開元古刹  再悟泉郡千年.docx",
+      "stats": {
+        "chars": 451,
+        "unique_images": 3,
+        "paragraphs": 6
+      }
+    },
+    {
+      "id": "v4-06",
+      "zh": "閒步觀天眼  蘩樓品清茶",
+      "en": "A Stroll by the Tianyan, Tea at Fanlou",
+      "subtitle": "大堂招牌示告",
+      "file": "閒步觀天眼  蘩樓品清茶.docx",
+      "stats": {
+        "chars": 488,
+        "unique_images": 7,
+        "paragraphs": 10
+      }
+    },
+    {
+      "id": "v4-07",
+      "zh": "鵬城守歲  萬象歡筵",
+      "en": "New Year's Eve Gala in Shenzhen",
+      "subtitle": "歲臨人間禎祥滿",
+      "file": "鵬城守歲  萬象歡筵 .docx",
+      "stats": {
+        "chars": 683,
+        "unique_images": 35,
+        "paragraphs": 18
+      }
+    }
+  ],
+  "covers": {
+    "v1": "images/cover_v1.jpg",
+    "v2": "images/cover_v2.jpg",
+    "v3": "images/cover_v3.jpg",
+    "v4": "images/cover_v4.jpg"
+  }
+}

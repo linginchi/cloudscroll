@@ -1,0 +1,72 @@
+{
+  "id": "v2-05",
+  "file": "津門故里遊覽隨筆 .docx",
+  "zh": "津門故里遊覽隨筆",
+  "en": "Tianjin: The Portal of the North",
+  "subtitle": "津門故里即天津文化街旅遊區，中國文化街區，是天津城市文化發源地，",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【天津遊】           津門故里遊覽隨筆"
+    },
+    {
+      "type": "text",
+      "content": "津門故里即天津文化街旅遊區，中國文化街區，是天津城市文化發源地，"
+    },
+    {
+      "type": "text",
+      "content": "素有「先有天后宮，後有天津衛」之稱。"
+    },
+    {
+      "type": "text",
+      "content": "久聞天津津門故里藏盡沽上民俗風光。  2002年，由長子從北京驅車專程帶領我們往天津津門故里之遊:古物市場、市區；自駕遊美食，到臨海小區享受豐盛味道鮮美的海鮮午餐；然後，到一家狗不理包鋪，是全國聞名的傳統風味小吃。品賞狗不理包子的美味。"
+    },
+    {
+      "type": "text",
+      "content": "甫至街口，青磚飞檐的仿古牌矗立眼前，「津門故里」四字古樸厚重。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_002.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "津門故里牌樓                     天津:古物市場我們驅車專程赴海河之畔，享受豐盛鮮美的海鮮午餐。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_005.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "沿街閒逛，聞得一陣濃郁麥香與肉鮮，便是聞名遐邇的不理包子舖。這間百年老字號分店。不理包子舖是全國聞名的傳統風味小吃。我們品賞狗不理包子的美味。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-05_007.jpeg"
+    }
+  ],
+  "stats": {
+    "chars": 280,
+    "unique_images": 7,
+    "paragraphs": 7
+  },
+  "en_subtitle": "A stroll through the old lanes and riverbanks of Tianjin."
+}

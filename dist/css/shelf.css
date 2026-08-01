@@ -1,0 +1,624 @@
+/* src/css/shelf.css — 案頭三卷：實體書冊陳列 */
+
+/* === 桌面背景 === */
+
+/* Override .page overflow:clip so shelf content is not cut off */
+#shelf-page {
+  overflow: visible;
+  align-items: flex-start;
+}
+
+.shelf-page-inner {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+  background:
+    /* 深色木紋桌案 */
+    linear-gradient(178deg, #f6f1e8 0%, #efe7d8 30%, #e8dfcd 100%);
+  position: relative;
+}
+
+/* 淡化木紋肌理 */
+.shelf-desk-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(110, 85, 55, 0.12) 2px,
+      rgba(110, 85, 55, 0.12) 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(110, 85, 55, 0.06) 1px,
+      rgba(110, 85, 55, 0.06) 2px
+    );
+}
+
+/* === 頂部標頭 === */
+.shelf-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 8px 16px 6px;
+}
+
+.shelf-home-link {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+.shelf-home-link:hover { color: var(--color-accent); }
+
+.shelf-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.shelf-title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.18em;
+}
+
+.shelf-subtitle {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+}
+
+/* === 自序入口 === */
+.shelf-preface-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 12px 28px;
+  background: #f5efe4;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 24px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.shelf-preface-entry:hover {
+  background: #fdf2ed;
+  border-color: #c05040;
+}
+
+.preface-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-page);
+  border: 1.5px solid var(--color-border);
+  box-shadow: 0 0 0 2px var(--color-page), 0 0 0 2.5px var(--color-border);
+  color: var(--color-text-secondary);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.preface-label {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+}
+
+/* ================================================
+   案頭三卷 — 實體書冊
+   ================================================ */
+
+.shelf-books {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 16px 24px 80px;
+}
+
+/* === 書槽：封面 + 分享入口 === */
+.book-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 72%;
+  max-width: 280px;
+}
+
+.book-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.book-meta-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.1em;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.book-share-btn {
+  appearance: none;
+  border: 1.5px solid var(--color-border);
+  background: #f5efe4;
+  color: var(--color-text-primary);
+  border-radius: 999px;
+  padding: 10px 20px;
+  min-height: 44px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.book-share-btn:hover {
+  background: #fdf2ed;
+  border-color: var(--color-accent);
+}
+
+.book-share-btn:active {
+  transform: scale(0.97);
+}
+
+/* === 書本卡片（含透視傾斜） === */
+.book-card {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 0.35s ease;
+  /* 微傾斜 + 輕微透視，讓書不呆板平放 */
+  transform: perspective(800px) rotateY(-2deg) rotateX(1deg);
+}
+
+.book-card:hover {
+  transform: perspective(800px) rotateY(-0.5deg) rotateX(0deg) translateY(-4px);
+}
+
+.book-card.reserved-book {
+  cursor: pointer;
+}
+
+.book-card:active {
+  transform: perspective(800px) rotateY(-2deg) rotateX(1deg) scale(0.97);
+}
+
+/* ── 書脊（左側彩條） ── */
+.book-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  z-index: 3;
+  border-radius: 2px 0 0 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.book-card.v1 .book-spine {
+  background: linear-gradient(180deg, #5c4a3a 0%, #7a6856 25%, #9b8a7a 50%, #7a6856 75%, #5c4a3a 100%);
+}
+.book-card.v2 .book-spine {
+  background: linear-gradient(180deg, #6b8f5e 0%, #8ab878 25%, #9dcb8c 50%, #8ab878 75%, #6b8f5e 100%);
+}
+.book-card.v3 .book-spine {
+  background: linear-gradient(180deg, #2d3a6e 0%, #3a4a8c 25%, #4a5aa0 50%, #3a4a8c 75%, #2d3a6e 100%);
+}
+.book-card.v4 .book-spine {
+  background: linear-gradient(180deg, #6e3d5c 0%, #9a5a82 25%, #b96e9c 50%, #9a5a82 75%, #6e3d5c 100%);
+}
+.book-card.v5 .book-spine {
+  /* 《雲心文集》封面山巒青灰／霧藍 */
+  background: linear-gradient(180deg, #5a7378 0%, #7a9498 25%, #9cb2b2 50%, #7a9498 75%, #5a7378 100%);
+}
+.book-card.v6 .book-spine {
+  background: linear-gradient(180deg, #3d4e6e 0%, #5a72a0 25%, #6e8cb9 50%, #5a72a0 75%, #3d4e6e 100%);
+}
+
+/* 書脊裝訂橫線（竹節） */
+.spine-ridge {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+  margin: 6px 0;
+}
+
+/* 書脊標籤文字 */
+.spine-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.2em;
+  padding: 8px 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── 書本主體（封面 + 紙邊） ── */
+.book-body {
+  position: relative;
+  margin-left: 12px;
+  margin-right: 10px;
+  border-radius: 0 2px 2px 0;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  background: #1a1a16;
+  box-shadow: 0 2px 10px rgba(20, 15, 10, 0.16);
+}
+
+/* ── 封面 — 保持 800:1200 比例 ── */
+.book-cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-color: #1a1a16;
+}
+
+/* 封面微光澤（書衣反光） */
+.cover-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(0, 0, 0, 0.10) 100%
+  );
+  pointer-events: none;
+}
+
+.book-reserved-badge {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 4px 8px;
+  border: 1px solid rgba(145, 62, 52, 0.5);
+  background: rgba(253, 244, 239, 0.82);
+  color: #913e34;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* ── 紙邊（右側頁緣，模擬書頁堆疊） ── */
+.book-pages {
+  position: absolute;
+  right: -8px;
+  top: 1px;
+  bottom: 1px;
+  width: 8px;
+  background: linear-gradient(
+    90deg,
+    #faf6ef 0%,
+    #f2ece0 30%,
+    #ede4d6 60%,
+    #e8dfcd 100%
+  );
+  border-radius: 0 2px 2px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 4px 1px;
+  box-sizing: border-box;
+}
+
+/* 頁間細線（模擬一疊紙） */
+.page-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(180, 160, 140, 0.35);
+  flex-shrink: 0;
+}
+
+/* ── 案頭陰影（投在木桌上的影子） ── */
+.book-shadow {
+  position: absolute;
+  left: 6%;
+  right: -8px;
+  bottom: -12px;
+  height: 14px;
+  background: radial-gradient(
+    ellipse at 30% 0%,
+    rgba(20, 15, 10, 0.22) 0%,
+    rgba(20, 15, 10, 0.10) 50%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.book-card:hover .book-shadow {
+  transform: translateY(2px) scale(0.95);
+  opacity: 0.65;
+}
+
+/* === 底部 === */
+.shelf-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 16px 16px 48px;
+}
+
+.shelf-footer-link {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  padding: 8px 12px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.shelf-footer-link:hover { color: var(--color-accent); }
+
+/* ================================================
+   響應式：桌面端 — 案頭橫向陳列
+   ================================================ */
+
+@media (min-width: 768px) {
+  #shelf-page {
+    overflow: clip;
+  }
+
+  .shelf-page-inner {
+    min-height: 100dvh;
+    height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .shelf-header {
+    padding: 10px 16px 8px;
+  }
+
+  .shelf-title {
+    font-size: 20px;
+  }
+
+  .shelf-subtitle {
+    font-size: 11px;
+  }
+
+  .shelf-preface-entry {
+    margin-top: 4px;
+    padding: 4px 16px;
+  }
+
+  .preface-label {
+    font-size: 12px;
+  }
+
+  .shelf-books {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(132px, 1fr));
+    width: min(680px, calc(100vw - 96px));
+    margin: 16px auto 0;
+    justify-items: center;
+    align-items: flex-start;
+    gap: 16px 12px;
+    padding: 4px 16px 10px;
+  }
+
+  .book-slot {
+    width: min(100%, 132px);
+    max-width: none;
+    gap: 10px;
+  }
+
+  .book-meta-title {
+    font-size: 12px;
+  }
+
+  .book-share-btn {
+    padding: 8px 12px;
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .book-card {
+    width: 100%;
+    max-width: none;
+    transform: none;
+  }
+
+  .book-spine {
+    width: 6px;
+  }
+
+  .spine-ridge {
+    margin: 3px 0;
+  }
+
+  .spine-label {
+    font-size: 8px;
+  }
+
+  .book-body {
+    margin-left: 6px;
+    margin-right: 4px;
+  }
+
+  .book-pages {
+    right: -4px;
+    width: 4px;
+  }
+
+  .book-shadow {
+    right: -4px;
+    bottom: -4px;
+    height: 5px;
+  }
+
+  .shelf-footer {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shelf-header {
+    padding: 12px 16px 10px;
+  }
+
+  .shelf-preface-entry {
+    margin-top: 6px;
+    padding: 5px 18px;
+  }
+
+  .preface-label {
+    font-size: 13px;
+  }
+
+  .shelf-books {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+    width: min(820px, calc(100vw - 120px));
+    margin-top: 18px;
+    gap: 24px 16px;
+    padding: 8px 24px 14px;
+  }
+
+  .book-slot {
+    width: min(100%, 160px);
+  }
+
+  .book-card {
+    width: 100%;
+  }
+
+  .book-spine {
+    width: 8px;
+  }
+
+  .spine-label {
+    font-size: 9px;
+  }
+
+  .book-body {
+    margin-left: 8px;
+    margin-right: 5px;
+  }
+
+  .book-pages {
+    right: -5px;
+    width: 5px;
+  }
+
+  .book-shadow {
+    right: -5px;
+    bottom: -5px;
+    height: 6px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .shelf-header {
+    padding: 12px 16px 10px;
+  }
+
+  .shelf-preface-entry {
+    margin-top: 6px;
+    padding: 5px 18px;
+  }
+
+  .preface-label {
+    font-size: 13px;
+  }
+
+  .shelf-books {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    width: min(900px, calc(100vw - 160px));
+    margin-top: 18px;
+    gap: 32px 20px;
+    padding: 12px 32px 18px;
+  }
+
+  .book-slot {
+    width: min(100%, 180px);
+  }
+
+  .book-card {
+    width: 100%;
+  }
+
+  .book-spine {
+    width: 10px;
+  }
+
+  .spine-label {
+    font-size: 10px;
+  }
+
+  .book-body {
+    margin-left: 10px;
+    margin-right: 6px;
+  }
+
+  .book-pages {
+    right: -6px;
+    width: 6px;
+  }
+
+  .book-shadow {
+    right: -6px;
+    bottom: -6px;
+    height: 8px;
+  }
+}

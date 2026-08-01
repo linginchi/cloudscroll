@@ -1,0 +1,27 @@
+{
+  "id": "cover",
+  "file": "我的人生旅行  封面.docx",
+  "zh": "我的人生旅行",
+  "en": "",
+  "subtitle": "(1980-2019)風雨人生旅日月伴吾行文/林 樺",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "image",
+      "src": "images/cover_001.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "我的人生旅行"
+    },
+    {
+      "type": "text",
+      "content": "(1980-2019)風雨人生旅日月伴吾行文/林 樺"
+    }
+  ],
+  "stats": {
+    "chars": 19,
+    "unique_images": 1,
+    "paragraphs": 2
+  }
+}

@@ -10,14 +10,28 @@ Static literary site for 林樺's works, deployed to Cloudflare Pages (`cloudscr
 
 ## Local / production deploy (author machine)
 
-Cloudflare Pages Git auto-build fails (missing Python deps on CI). Always:
+构建注意：
+- `marked` 必须在 `dependencies`（Pages/CI 生产安装可能省略 devDependencies）
+- `CF_PAGES`/`CI` 下 `npm run build` 会跳过 Python 抽取，使用已提交的 `src/` 资源
+- **`wrangler.jsonc` 不要写 `pages_build_output_dir`**：一旦写入，Pages Git 会以该文件为准且**忽略**仪表盘的 Build command，出现 `No build command specified` → 跳过构建 → `dist` 不存在而失败。本机发布仍用：`npx wrangler pages deploy dist ...`
+- GitHub Actions `Build` 用于验证构建
+
+本机完整发布仍建议：
 
 ```bash
+# 先补齐本地缺失媒体（线上已有则下载；本地已有绝不覆盖）
+node scripts/sync-prod-assets.js
 npm run build
+# 部署前再把线上已有、仓库未收录的媒体补进 dist（仍不覆盖本地已有文件）
+node scripts/sync-prod-assets.js --dest dist/images
 npx wrangler pages deploy dist --project-name cloudscroll --branch main --commit-dirty=true
 ```
 
 PowerShell: use `; if ($LASTEXITCODE -eq 0) { ... }` instead of `&&`.
+
+**重要：`wrangler pages deploy` 会用整包 `dist` 替换线上站点。**  
+部分图／视频只存在于生产、未进 git。若用残缺 `dist` 直接部署，会删掉线上已有媒体。  
+部署前务必跑 `sync-prod-assets.js`；该脚本**只补缺失、从不覆盖**已有文件。云端代理无完整媒体时**禁止**对生产执行 wrangler deploy。
 
 ## Cursor Cloud specific instructions
 

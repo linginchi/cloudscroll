@@ -1,0 +1,64 @@
+{
+  "id": "v2-06",
+  "file": "三亞山海遊覽小記.docx",
+  "zh": "三亞山海遊覽小記",
+  "en": "Sanya: Between the Mountains and the Sea",
+  "subtitle": "踏浪遊三亞,飽覽南國風光。登鹿回頭觀滄海，漫步三亞椰夢長廊。",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【海南三亞遊】      三亞山海遊覽小記"
+    },
+    {
+      "type": "text",
+      "content": "海南三亞：三亞位于中國海南島的最南端。有絕美的海濱風光，成為中國最著名的海濱度假勝地，享有“東方夏威夷”的美譽。 2001年，長子邀請我們乘麗星郵輪獅子星號往海南三亞觀賞天涯海角的美景。"
+    },
+    {
+      "type": "text",
+      "content": "踏浪遊三亞,飽覽南國風光。登鹿回頭觀滄海，漫步三亞椰夢長廊。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_002.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "天涯黎苗歡樂寨                   天涯海角廣場"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_004.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "南天一柱                   遊天涯海角题詞"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-06_006.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "天涯海角                   三亞遊"
+    }
+  ],
+  "stats": {
+    "chars": 149,
+    "unique_images": 6,
+    "paragraphs": 6
+  },
+  "en_subtitle": "A southern sojourn to Sanya, where tropical seas embrace jad"
+}

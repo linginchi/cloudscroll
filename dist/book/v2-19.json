@@ -1,0 +1,112 @@
+{
+  "id": "v2-19",
+  "file": "《桂林山水行記》.docx",
+  "zh": "桂林山水行記",
+  "en": "A Journey to Guilin",
+  "subtitle": "桂林山水甲天下，玉碧罗青意可参。",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "桂林山水行記"
+    },
+    {
+      "type": "text",
+      "content": "桂林山水甲天下，玉碧罗青意可参。"
+    },
+    {
+      "type": "text",
+      "content": "【桂林】桂林是中國著名的風景遊覽城市和歷史文化名城，享有山水甲天下之美譽。馳名中外的山青、水秀、洞奇、石美的桂林山水。桂林的山，平地拔起，千姿百態；漓江的水，蜿蜒曲折，明洁如鏡；山多有洞，洞幽景奇，瑰麗壯觀；洞中怪石，鬼斧神工，琳瑯滿目，自古就有山水甲天下之贊譽。"
+    },
+    {
+      "type": "text",
+      "content": "2016年4月，參加香港內坑鎮聯鄉總會舉行組團遊桂林。遊桂林之后，寫文章《槐花四月桂林遊》發表在福建社團聯會《會訊》旅遊天地刊上。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_008.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "桂林山水漓江"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_009.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_010.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "漓江                      乘遊艇望江畔風景"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_011.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_012.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "象鼻山                        七星岩（七座大山狀如七星）"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_013.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_014.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_015.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_003.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "聚龍潭                聚龍潭景區            參觀奇石宮大榕樹景區                           遊覽桂林山水甲天下"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-19_007.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "參觀桂林圖騰古道                     圖騰古登上山峰 高瞻遠矚                    與導遊合影贊桂林山水冠絕天下，青峰如玉，江水如青綢。"
+    }
+  ],
+  "stats": {
+    "chars": 282,
+    "unique_images": 15,
+    "paragraphs": 9
+  },
+  "en_subtitle": "Travelling through Guilin and Yangshuo, where the landscape "
+}
