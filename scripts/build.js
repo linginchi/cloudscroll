@@ -211,16 +211,23 @@ const articlesDir = path.join(DIST_DIR, 'articles');
 fs.mkdirSync(articlesDir, { recursive: true });
 
 if (fs.existsSync(CONTENT_DIR)) {
-  const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
-  mdFiles.forEach(file => {
-    const mdContent = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
-    const { marked } = require('marked');
-    const htmlContent = marked(mdContent);
-    const articleName = path.basename(file, '.md');
-    const outPath = path.join(articlesDir, articleName + '.html');
-    fs.writeFileSync(outPath, htmlContent, 'utf-8');
-    console.log('  Converted content/' + file + ' -> articles/' + articleName + '.html');
-  });
+  var markedParse = null;
+  try {
+    markedParse = require('marked').marked;
+  } catch (e) {
+    console.warn('[Step 2] marked not installed — skipping markdown conversion:', e.message);
+  }
+  if (markedParse) {
+    const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
+    mdFiles.forEach(file => {
+      const mdContent = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
+      const htmlContent = markedParse(mdContent);
+      const articleName = path.basename(file, '.md');
+      const outPath = path.join(articlesDir, articleName + '.html');
+      fs.writeFileSync(outPath, htmlContent, 'utf-8');
+      console.log('  Converted content/' + file + ' -> articles/' + articleName + '.html');
+    });
+  }
 }
 
 // Step 3: Copy article metadata

@@ -10,7 +10,7 @@ Static literary site for 林樺's works, deployed to Cloudflare Pages (`cloudscr
 
 ## Local / production deploy (author machine)
 
-Cloudflare Pages Git auto-build fails (missing Python deps on CI). Always:
+Cloudflare Pages Git 会跑 `npm run build`（生产安装会省略 devDependencies，故 `marked` 必须在 `dependencies`）。Word 抽取等 Python 步骤在无 `book/` 时会跳过。本机完整发布仍建议：
 
 ```bash
 # 先补齐本地缺失媒体（线上已有则下载；本地已有绝不覆盖）

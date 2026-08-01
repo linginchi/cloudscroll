@@ -8,7 +8,7 @@
     "sync:assets": "node scripts/sync-prod-assets.js",
     "sync:assets:dist": "node scripts/sync-prod-assets.js --dest dist/images"
   },
-  "devDependencies": {
+  "dependencies": {
     "marked": "^12.0.2"
   }
 }
