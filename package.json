@@ -2,7 +2,7 @@
   "name": "cloudscroll",
   "version": "1.0.0",
   "private": true,
-  "description": "雲箋文舍 - Lin Hua's literary works",
+  "description": "\u96f2\u7b8b\u6587\u820d - Lin Hua's literary works",
   "scripts": {
     "build": "node scripts/build.js",
     "sync:assets": "node scripts/sync-prod-assets.js",

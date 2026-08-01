@@ -1,13 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const childProcess = require('child_process');
 
 const SRC_DIR = path.resolve(__dirname, '..', 'src');
 const CONTENT_DIR = path.resolve(__dirname, '..', 'content');
 const DATA_DIR = path.resolve(__dirname, '..', 'data');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
+const ON_PAGES = !!(process.env.CF_PAGES || process.env.CI);
+
+function execSync(cmd, opts) {
+  if (ON_PAGES && /^python\b/.test(String(cmd))) {
+    console.warn('[CI/Pages] skip:', cmd);
+    return Buffer.from('');
+  }
+  return childProcess.execSync(cmd, opts);
+}
 
 console.log('Cloudscroll build starting...');
+
 
 function copyRecursive(src, dest) {
   fs.mkdirSync(dest, { recursive: true });
@@ -30,41 +40,37 @@ if (fs.existsSync(DIST_DIR)) {
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
 
-const ON_CI = !!(process.env.CF_PAGES || process.env.CI);
-function runPython(label, script, opts) {
-  opts = opts || {};
-  if (ON_CI) {
-    console.warn('[' + label + '] CI/Pages — skipping Python step: ' + script);
-    return false;
-  }
-  try {
-    execSync('python ' + script, {
-      cwd: path.resolve(__dirname, '..'),
-      stdio: 'inherit',
-      encoding: 'utf-8',
-      timeout: opts.timeout || 60000,
-    });
-    return true;
-  } catch (e) {
-    // Never fail the Pages/Git build on Python tooling — use committed assets instead
-    console.warn('[' + label + '] skipped:', e.message);
-    return false;
-  }
-}
-
-// Step 0: Run book extraction script (skipped when book/ is absent, e.g. Cloud Agents / Pages)
+// Step 0: Run book extraction script (skipped when book/ is absent, e.g. Cloud Agents)
 console.log('\n[Step 0] Extracting book content...');
 const BOOK_DIR = path.resolve(__dirname, '..', 'book');
 if (!fs.existsSync(BOOK_DIR)) {
   console.warn('[Step 0] book/ not found — skipping Word extraction (use committed src assets).');
-} else if (runPython('Step 0', 'scripts/extract-book.py', { timeout: 120000, fatal: true })) {
-  console.log('[Step 0] Book extraction complete.\n');
+} else {
+  try {
+    execSync('python scripts/extract-book.py', {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'inherit',
+      encoding: 'utf-8',
+      timeout: 120000,
+    });
+    console.log('[Step 0] Book extraction complete.\n');
+  } catch (e) {
+    console.warn('[Step 0] Book extraction failed — continuing with committed assets:', e.message);
+  }
 }
 
 // Step 0.5: Generate EN translations
 console.log('\n[Step 0.5] Generating EN translations...');
-if (runPython('Step 0.5', 'scripts/translate-en.py')) {
+try {
+  execSync('python scripts/translate-en.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
   console.log('[Step 0.5] EN translations ready.\n');
+} catch (e) {
+  console.warn('[Step 0.5] EN translations skipped:', e.message);
 }
 
 // Step 0.55: Copy custom cover images and avatar to dist/book/images/
@@ -87,13 +93,21 @@ customFiles.forEach(file => {
 console.log('\n[Step 0.56] Building Yunxin Wenji assets...');
 const yunxinSrcDir = path.resolve(__dirname, '..', 'book', '雲心文集');
 if (fs.existsSync(yunxinSrcDir)) {
-  runPython('Step 0.56', 'scripts/extract-yunxin.py');
+  try {
+    execSync('python scripts/extract-yunxin.py', {
+      cwd: path.resolve(__dirname, '..'),
+      stdio: 'inherit',
+      encoding: 'utf-8',
+      timeout: 60000,
+    });
+  } catch (e) {
+    console.warn('[Step 0.56] Yunxin extract warning:', e.message);
+  }
 } else {
   console.warn('[Step 0.56] book/雲心文集 not found — using committed src/yunxin/.');
 }
 const distImages = path.join(DIST_DIR, 'images');
 fs.mkdirSync(distImages, { recursive: true });
-// 复制 src/images 全部媒体（含线上已有、后来补进仓库的图／视频），避免部署时漏文件覆盖生产
 if (fs.existsSync(srcImages)) {
   const imageFiles = fs.readdirSync(srcImages).filter(function (f) {
     return /\.(jpg|jpeg|png|webp|gif|mp4|webm|svg|ico)$/i.test(f);
@@ -114,14 +128,30 @@ if (fs.existsSync(srcYunxin)) {
 
 // Step 0.6: Generate cover images
 console.log('\n[Step 0.6] Generating cover images...');
-if (runPython('Step 0.6', 'scripts/generate-cover.py')) {
+try {
+  execSync('python scripts/generate-cover.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
   console.log('[Step 0.6] Cover images generated.\n');
+} catch (e) {
+  console.warn('[Step 0.6] Cover generation skipped:', e.message);
 }
 
 // Step 0.7: Generate icons and OG image
 console.log('\n[Step 0.7] Generating icons and OG image...');
-if (runPython('Step 0.7', 'scripts/generate-icons.py')) {
+try {
+  execSync('python scripts/generate-icons.py', {
+    cwd: path.resolve(__dirname, '..'),
+    stdio: 'inherit',
+    encoding: 'utf-8',
+    timeout: 60000,
+  });
   console.log('[Step 0.7] Icons and OG image generated.\n');
+} catch (e) {
+  console.warn('[Step 0.7] Icon generation skipped:', e.message);
 }
 
 // Step 1: Copy static assets (CSS, JS) to dist/
@@ -142,11 +172,9 @@ if (fs.existsSync(assetsDir)) {
   });
 }
 
-// Copy JS files (skip bulky html2pdf bundle — loaded from CDN at runtime)
+// Copy JS files
 if (fs.existsSync(jsDir)) {
-  const jsFiles = fs.readdirSync(jsDir).filter(function (f) {
-    return f.endsWith('.js') && f !== 'html2pdf.bundle.min.js';
-  });
+  const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js') && f !== 'html2pdf.bundle.min.js');
   jsFiles.forEach(file => {
     fs.copyFileSync(path.join(jsDir, file), path.join(distJs, file));
     console.log('  Copied js/' + file);
@@ -172,14 +200,11 @@ if (fs.existsSync(manifestSrc)) {
 }
 
 // Copy _worker.js (Pages Functions entry)
-// Note: if Pages fails compiling Advanced Mode worker, set CF_PAGES_SKIP_WORKER=1 to isolate.
 const workerSrc = path.join(SRC_DIR, '_worker.js');
 const workerDist = path.join(DIST_DIR, '_worker.js');
-if (fs.existsSync(workerSrc) && process.env.CF_PAGES_SKIP_WORKER !== '1') {
+if (fs.existsSync(workerSrc)) {
   fs.copyFileSync(workerSrc, workerDist);
   console.log('  Copied _worker.js');
-} else if (process.env.CF_PAGES_SKIP_WORKER === '1') {
-  console.warn('  Skipped _worker.js (CF_PAGES_SKIP_WORKER=1)');
 }
 
 // Remove functions/ dir if exists (we use _worker.js instead)
@@ -196,16 +221,9 @@ fs.mkdirSync(articlesDir, { recursive: true });
 if (fs.existsSync(CONTENT_DIR)) {
   var markedParse = null;
   try {
-    // Prefer vendored copy so Cloudflare Pages builds do not depend on npm install layout
-    var markedMod = require(path.join(__dirname, 'vendor', 'marked'));
-    markedParse = markedMod.marked || markedMod;
-  } catch (e1) {
-    try {
-      var markedNpm = require('marked');
-      markedParse = markedNpm.marked || markedNpm;
-    } catch (e2) {
-      console.warn('[Step 2] marked not available — skipping markdown conversion:', e2.message);
-    }
+    markedParse = require('marked').marked;
+  } catch (e) {
+    console.warn('[Step 2] marked missing — skip md conversion:', e.message);
   }
   if (markedParse) {
     const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));
