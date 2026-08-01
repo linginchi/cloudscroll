@@ -1,0 +1,96 @@
+{
+  "id": "v2-12",
+  "file": "《中山行旅錄》.docx",
+  "zh": "中山行旅錄",
+  "en": "A Journey to Zhongshan",
+  "subtitle": "百載香山留偉跡",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【中山遊】             中山行旅錄"
+    },
+    {
+      "type": "text",
+      "content": "百載香山留偉跡"
+    },
+    {
+      "type": "text",
+      "content": "一江碧水繞名城"
+    },
+    {
+      "type": "text",
+      "content": "【中山】中山古稱“香山”，又稱中山古鎮、中山城。中山市是廣東"
+    },
+    {
+      "type": "text",
+      "content": "省轄地級市；是一代偉人孫中山先生的故鄉。 1998年，往中山古鎮觀賞孫中山先生故居、孫中山紀念館、中山詹園、孫文紀念公園、中山古鎮風景。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_009.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "中山城                        中山城市風光                中山遊孫中山故居                     孫中山紀念館                  中山詹園"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_010.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_011.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_012.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "孫文紀念公園                孫中山先生造像            中山古鎮"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-12_004.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "中山古鎮                    民風門俗                民俗風情"
+    }
+  ],
+  "stats": {
+    "chars": 156,
+    "unique_images": 12,
+    "paragraphs": 8
+  },
+  "en_subtitle": "Travelling to the birthplace of Dr. Sun Yat-sen, amidst Ling"
+}

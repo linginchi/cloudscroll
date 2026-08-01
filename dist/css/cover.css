@@ -1,0 +1,266 @@
+.cover-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  border: 2px solid var(--color-border);
+  background: #ece4d5;
+}
+
+.cover-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cloud breathing animation */
+.cloud-1 { animation: cloudBreathe 5s ease-in-out infinite; }
+.cloud-2 { animation: cloudBreathe 4s ease-in-out 1s infinite; }
+.cloud-3 { animation: cloudBreathe 6s ease-in-out 2s infinite; }
+
+@keyframes cloudBreathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Geese flying right with flapping wings */
+.geese-group {
+  animation: geeseFly 35s linear infinite;
+}
+
+@keyframes geeseFly {
+  from { transform: translateX(-200px); }
+  to   { transform: translateX(480px); }
+}
+
+/* Wing flap animation — each goose group has left/right wings */
+.goose {
+  display: inline-block;
+}
+
+.wing-left {
+  animation: wingFlap 0.6s ease-in-out infinite alternate;
+  transform-origin: 4px 0px;
+}
+
+.wing-right {
+  animation: wingFlap 0.6s ease-in-out infinite alternate-reverse;
+  transform-origin: 4px 0px;
+}
+
+/* Second V: smaller geese need adjusted origin */
+.goose-5 .wing-left, .goose-5 .wing-right,
+.goose-6 .wing-left, .goose-6 .wing-right,
+.goose-7 .wing-left, .goose-7 .wing-right {
+  transform-origin: 3px 0px;
+}
+
+@keyframes wingFlap {
+  0%   { transform: rotate(-35deg) scaleY(1); }
+  50%  { transform: rotate(15deg)  scaleY(0.8); }
+  100% { transform: rotate(-35deg) scaleY(1); }
+}
+
+/* Slow parallax drift on mountains */
+.layer-mountains-far {
+  animation: driftSlow 60s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.layer-mountains-mid {
+  animation: driftSlow 45s ease-in-out 5s infinite alternate;
+  will-change: transform;
+}
+.layer-mountains-near {
+  animation: driftSlow 55s ease-in-out 3s infinite alternate;
+  will-change: transform;
+}
+.layer-sunset-glow {
+  will-change: transform;
+}
+
+@keyframes driftSlow {
+  from { transform: translateX(-8px); }
+  to   { transform: translateX(8px); }
+}
+
+/* ── 雲箋文舍標識 — 正中完全居中 ── */
+.cover-site-brand {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+  opacity: 0;
+  animation: brandFadeIn 2s ease-out forwards;
+}
+
+@keyframes brandFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-cn {
+  font-family: 'LiSu', '隸書', '隶书', var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.4em;
+}
+
+.site-en {
+  font-family: 'LiSu', '隸書', '隶书', var(--font-serif);
+  font-size: 11px;
+  color: var(--color-text-primary);
+  letter-spacing: 0.2em;
+  margin-top: 4px;
+}
+
+/* ── 底部區域：按鈕 + 日期標記 ── */
+.cover-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 32px;
+}
+
+/* Enter bookshelf button */
+.cover-enter-btn {
+  display: inline-block;
+  padding: 14px 44px;
+  background: rgba(44, 36, 22, 0.06);
+  border: 1.5px solid rgba(44, 36, 22, 0.22);
+  border-radius: 28px;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 48px;
+  min-width: 180px;
+  text-align: center;
+}
+
+.cover-enter-btn:hover {
+  background: rgba(44, 36, 22, 0.10);
+  border-color: rgba(44, 36, 22, 0.35);
+}
+
+/* ── 日期標記 — 置於按鈕下方 ── */
+.cover-credits {
+  text-align: center;
+  padding-top: 20px;
+  pointer-events: none;
+}
+
+.credit-zh {
+  font-family: 'FangSong', '仿宋', 'FZFS', serif;
+  font-size: 11px;
+  color: #a89880;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.credit-en {
+  font-family: 'Calibri', 'Candara', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #a89880;
+  letter-spacing: 0.05em;
+  margin: 2px 0 0;
+}
+
+/* ── 手機端調整 ── */
+@media (max-width: 1023px) {
+  .cover-site-brand {
+    padding: 0 24px;
+  }
+
+  .site-cn {
+    font-size: 22px;
+    letter-spacing: 0.3em;
+  }
+
+  .site-en {
+    font-size: 10px;
+  }
+
+  .cover-bottom {
+    padding: 0 24px 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cover-enter-btn {
+    padding: 13px 36px;
+    font-size: 16px;
+    min-width: 160px;
+  }
+}
+
+/* ── 小屏手機 (≤375px) ── */
+@media (max-width: 375px) {
+  .site-cn {
+    font-size: 20px;
+    letter-spacing: 0.25em;
+  }
+
+  .site-en {
+    font-size: 9px;
+  }
+
+  .cover-enter-btn {
+    padding: 12px 28px;
+    font-size: 15px;
+    min-width: 140px;
+  }
+
+  .cover-bottom {
+    padding: 0 16px 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ── 桌面端 (≥1024px) — 限制封面最大寬度，保持藝術比例 ── */
+@media (min-width: 1024px) {
+  .cover-inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .cover-site-brand {
+    padding: 0 40px;
+  }
+
+  .site-cn {
+    font-size: 28px;
+    letter-spacing: 0.45em;
+  }
+
+  .site-en {
+    font-size: 12px;
+  }
+
+  .cover-bottom {
+    padding: 0 32px 36px;
+  }
+
+  .cover-enter-btn {
+    padding: 15px 48px;
+    font-size: 18px;
+  }
+}

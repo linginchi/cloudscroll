@@ -1,0 +1,96 @@
+{
+  "id": "10-kinmen",
+  "file": "浯洲遊蹤記.docx",
+  "zh": "浯洲遊蹤記",
+  "en": "Record of a Ramble in Kinmen",
+  "subtitle": "金門是台灣的一個外島，古代稱為浯洲。金門是廈門東邊的島。2017年，",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【金門遊】           浯洲遊蹤記"
+    },
+    {
+      "type": "text",
+      "content": "金門是台灣的一個外島，古代稱為浯洲。金門是廈門東邊的島。2017年，"
+    },
+    {
+      "type": "text",
+      "content": "吾與家人由廈門五通碼頭乘客船往一水之隔的金門之遊。由廈門五通碼頭到金門水頭碼頭，全程30分鐘。"
+    },
+    {
+      "type": "text",
+      "content": "遊覽金門著名的景點：當你一到金門水頭商港旅客服務中心大樓，就看到：“金門歡迎您”的大字。暢覽金門莒光樓：是金門的標志性建筑。仿古代麒麟閣三層式建筑，外觀雄偉，氣宇非凡。遊覽金門國家公園、金門特色的景物。"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_006.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "廈門五通港旅客服務中心          金門水頭商港旅客服務中心   金門馳名高梁酒"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_009.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "炮樓                      金門地標：莒光樓                  莒光樓"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_010.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_011.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_012.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "金門國家公園                     翟山坑道                金門防空洞"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/10-kinmen_004.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "飛機群                           炮群一                  炮群二"
+    }
+  ],
+  "stats": {
+    "chars": 230,
+    "unique_images": 12,
+    "paragraphs": 8
+  },
+  "en_subtitle": "A thirty-minute ferry ride across the strait from Xiamen lan"
+}

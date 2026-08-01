@@ -1,0 +1,852 @@
+{
+  "id": "v2-01",
+  "file": "屢次京城勝跡記.docx",
+  "zh": "屢次京城勝跡記",
+  "en": "Chronicles of the Capital",
+  "subtitle": "頤和園（万寿山和昆明湖的总称）        仁寿殿",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "第二輯 神州大地之行"
+    },
+    {
+      "type": "text",
+      "content": "【北京之行】           屢次京城勝跡記"
+    },
+    {
+      "type": "text",
+      "content": "北京是一座有三千多年歷史的古都。古稱燕京、北平，是中華人民共和國首都。自1992年起，已有數次往歷史悠久的古都─北京之行。"
+    },
+    {
+      "type": "text",
+      "content": "第一集：1992年，參觀北京亞運村。1990年9月22日—10月7日，在北京舉行第十一屆亞運會。這是中國舉辦的第一次綜合性的國際體育大賽。"
+    },
+    {
+      "type": "text",
+      "content": "亞運村於1990年為迎接第十一屆亞運會而興建。各國參賽體育代表團人員下榻的亞運村。亞運村位於北京朝陽區西北部。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_061.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_072.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京亚运村                   亚运村升旗廣場           亚运村熊貓台"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_083.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_094.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_105.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "代表團團長會議廳        亞運村村長辦公室        亞運村圖片及禮品展覽第二集：1992年，遊覽北京名勝古跡：天安門廣場、毛主席紀念堂、人民大會堂、人民英雄紀念碑、中國歷史博物館、中山公園、午門、鼓宮、太和殿、中和殿、保和殿、皇帝昇座、景山公園、北海公園、明十三陵、昭陵、陵恩殿、定陵、八達嶺長城、石佛寺、蒙古成吉思汗行宮、北京大學、清華大學等景點。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_116.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_127.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_138.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "天安門廣場             毛主席紀念堂             人民大會堂"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_013.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_024.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "中國歷史博物館                 中山公園               午門（故宮正門）"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_035.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_046.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "故宮（紫禁城）                                         太和殿"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_056.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_057.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_058.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_059.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_060.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "皇帝昇座                     故宮博物館            十三位皇帝的陵墓群"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_062.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_063.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "景山公園                                                    北海公園"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_064.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_065.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_066.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_067.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "昭陵           陵恩殿    定陵是明朝第13位皇帝       定陵地下寶殿皇帝朱翔鈞及兩位皇后的陵寢"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_068.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_069.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_070.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "长城脚下石佛寺          八達嶺長城                 登上長城證書"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_071.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_073.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京大学                                   清华大学第三集：1992年，遊覽頤和園頤和園：仁寿殿、樂寿堂、宜芸館德和園大戲樓；雍和宮：佛香閣、排雲門、排雲殿、萬壽山、昆明湖、圆明園等。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_074.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_075.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "頤和園（万寿山和昆明湖的总称）        仁寿殿"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_076.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_077.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_078.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "樂寿堂                      宜芸館             德和園大戲樓"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_079.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_080.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_081.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_082.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_084.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_085.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "颐和园扮相皇帝      慈禧光緒后妃居住之處        佛香閣「雲輝玉宇」"
+    },
+    {
+      "type": "text",
+      "content": "排雲門                        排雲殿                  萬壽山上畫中遊"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_086.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_087.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_088.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "昆明湖                    圆明园                    陶淵明第四集：1992年，遊覽雍和宮（是北京最大的喇嘛廟）、雍正宮、天壇、香山、孫中山先生逝世的灵柩放在北京香山碧雲寺「能仁寂照」之處。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_089.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_090.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_091.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "雍和宮：北京最大的喇嘛廟             雍正宮                 萬福閣"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_092.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_093.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_095.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "天壇：是皇帝祭天的地方            天壇               白石台基"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_096.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_097.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_098.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京香山公園                 眼鏡湖                    玻璃塔"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_099.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_100.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_101.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "滿山紅遍牌门                 滿山紅遍              香山碧雲寺"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_102.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "孫中山靈柩在「能仁寂照」之處。"
+    },
+    {
+      "type": "text",
+      "content": "第五集：2002年重行北京城。參觀北京SMI公司（長子的公司）；遊覽東方新天地廣場、天安門廣場、北京舊火車站等。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_103.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_104.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_106.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京SMI接待处         北京SMI公司           会议室"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_107.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_108.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_109.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "会议室             董事长办公室              东方新天地广场酒店"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_110.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_111.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_112.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_113.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_114.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "第六集：2002年遊覽北京中華民族園。中華民族園是中華各民族風格的主題公園，園內有仿造各民族特色的房屋、寺院、廣場等建築。我們漫步感受各民族的特色風情。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_115.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_117.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_118.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "中華民族園               藏族景区                  祈求运气"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_119.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_120.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_121.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_122.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "台湾景区           傣族景区                白族景区         鼓楼"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_123.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_124.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_125.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "大理三塔           钊川石窟                      云南山第七集：2002年遊覽北京中國現代文學館、中國國家圖書館、中國人民大學等。中國現代文學館成立1985年，是中國現當代文學的資料中心，集文學展覽館、文學圖書館、文學理論研究、文學交流功能于一身。榮幸與數位現當代作家造像合照。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_126.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_128.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_129.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_130.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_131.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_132.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "艾青                葉圣陶 曹禺 老舍             冰心"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_133.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_134.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_135.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "沈從文                     茅盾                   巴金"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_136.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_137.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_139.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_140.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_141.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_142.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "朱自清                    丁玲                  趙樹理魯迅           大花瓶有無數作家簽名         巴金題詞第八集：2002年遊覽蘆溝橋、參觀中央電視台中國影視城。"
+    },
+    {
+      "type": "text",
+      "content": "（一）遊覽蘆溝橋：蘆溝橋始建於1189年，1192年建成。是北京最古老的石制連拱橋。全長266．5米，寬7.5米。下分11個涵孔。橋上雕有形態各異的大小石獅501個。「蘆溝曉月」是著名的“燕京八大景”之一。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_143.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_144.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_145.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "蘆溝曉月             有形態各異的大小石獅501個        蘆溝橋"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_146.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_147.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "蘆溝曉月是“燕京八大景”之一           我們在蘆溝橋上（二）參觀中央電視台中國影視城。中國影視城是由影視拍攝基地發展而成為是專業從事影視劇拍攝制作景區。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_148.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_009.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_010.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_011.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "三碗不過崗"
+    },
+    {
+      "type": "text",
+      "content": "演習推磨                  快活林酒家第九集：2002年遊覽紅樓夢大觀園。原名蓬萊仙境。大觀園園內主要建筑有大觀樓、怡紅院（賈寶玉住所）、瀟湘館（林黛玉寄居榮國府的住所）、秋爽斎、滴翠亭、大觀園仙境湖心亭、稻香村、恭王府、園里花園等。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_012.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_014.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_015.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "大觀樓                       大觀園                 怡紅院"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_016.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_017.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_018.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "怡紅院（賈寶玉住所）   瀟湘館（林黛玉寄居榮國府的住所）    恭王府"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_019.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_020.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_021.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "秋爽斎                大觀園仙境湖心亭      滴翠亭"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_022.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_023.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_025.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "第十集：2002年遊覽雍和宮、國子監、孔廟：孔子—萬世師表。"
+    },
+    {
+      "type": "text",
+      "content": "（一）重遊雍和宮，是次觀賞雍和宮特色的景物：雍和宮牌坊、雍和門、雍和宮殿、永佑殿、法輪殿、萬福閣等景點。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_026.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_027.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_028.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_029.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "牌門                  大鐘                     祈求運氣"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_030.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_031.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_032.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "永佑殿                法輪殿           雍和門（二）遊覽北京國子監（考狀元）、孔廟：孔子—萬世師表、地壇食府等。"
+    },
+    {
+      "type": "text",
+      "content": "國子監：又稱北監、北雍。是元、明、清三代國家設立的最高學府（太學）和管理教育行政機構，是中國唯一保存完整的古代最高學府校址。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_033.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_034.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京國子監                        北京國子監（考狀元）"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_036.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_037.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_038.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "步入集賢門考狀元            國子監大門                國子監內景北京孔廟：又名先師廟。始建1302年，1306年建成，1411年重建。"
+    },
+    {
+      "type": "text",
+      "content": "為中國古代元、明、清三朝祭祀孔子的場所。規模龐的的孔廟，依次進入孔廟有先師門、大成門、大成殿、崇聖門、崇聖祠。主體建筑都覆以黃色玻璃。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_039.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_040.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_041.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京孔廟                                孔子             孔子—萬世師表"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_042.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_043.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_044.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "大成門                      大成殿                    孔廟大成殿第十一集：2002年參觀北京航空航天大學、享受北京馳名食府的美食（大宅門食府、地壇食府：都是高檔有氣派，消費昂貴的食府。設有京劇、"
+    },
+    {
+      "type": "text",
+      "content": "相聲、變面譜等表演。）"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_045.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_047.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "北京航空航天大學                    北京航空航天大學逸夫科學館"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_048.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_049.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_050.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "大宅門食府       大宅門食府-仙境湖心亭         與男服務員合照"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_051.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_052.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "與女服務員合照"
+    },
+    {
+      "type": "text",
+      "content": "北京地壇食府：北京地壇食府是北京馳名食府之一。是高檔有氣派，"
+    },
+    {
+      "type": "text",
+      "content": "消費又是昂貴。設有京劇、相聲、變面譜等表演。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_053.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_054.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "京劇表演                           相聲表演"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-01_055.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "有相聲及變面譜表演"
+    }
+  ],
+  "stats": {
+    "chars": 1766,
+    "unique_images": 148,
+    "paragraphs": 61
+  },
+  "en_subtitle": "Many journeys to Beijing, the ancient capital, tracing its i"
+}

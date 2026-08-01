@@ -1,0 +1,88 @@
+{
+  "id": "v2-17",
+  "file": "《福師大訪學行》.docx",
+  "zh": "福師大訪學行",
+  "en": "A Visit to Fujian Normal University",
+  "subtitle": "百載開師道",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【福建師範大學】         福師大訪學行"
+    },
+    {
+      "type": "text",
+      "content": "百載開師道"
+    },
+    {
+      "type": "text",
+      "content": "一園滿書香"
+    },
+    {
+      "type": "text",
+      "content": "福建師范大學，自古素有「海濱鄒魯」美稱，是國內建校最早的百年師範學府之一。漫步又玄館，靜嘗師大書光。走進福師大，感受滿園書香。"
+    },
+    {
+      "type": "text",
+      "content": "1014年10月，往福州福建師范大學探望侄女（她是博士后、教授）。参觀福建師范大學。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_002.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-17_009.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "圖書館大樓"
+    },
+    {
+      "type": "text",
+      "content": "參觀訪學感懷："
+    },
+    {
+      "type": "text",
+      "content": "閒訪閩都聖學宮，旗山煙樹沐春風。"
+    },
+    {
+      "type": "text",
+      "content": "一堂知誠傳儒脈，萬樹桃李鬱蔥蘢。"
+    }
+  ],
+  "stats": {
+    "chars": 145,
+    "unique_images": 9,
+    "paragraphs": 9
+  },
+  "en_subtitle": "An academic journey to Fuzhou and the halls of Fujian Normal"
+}

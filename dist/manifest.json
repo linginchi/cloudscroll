@@ -1,0 +1,30 @@
+{
+  "name": "雲箋文舍 — Cloudscroll",
+  "short_name": "雲箋文舍",
+  "description": "林樺先生的旅行文學作品集《我的人生旅行》",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F5F0E6",
+  "theme_color": "#F5F0E6",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

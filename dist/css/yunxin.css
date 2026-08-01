@@ -1,0 +1,512 @@
+/* src/css/yunxin.css — 《雲心文集》專用樣式（封面/扉頁/自序補充） */
+
+#yunxin-page {
+  overflow: auto;
+  align-items: flex-start;
+  background: var(--color-page);
+}
+
+.yunxin-page-inner {
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 0 28px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 封面 / 扉頁主區（設計保持不變） ===== */
+.yunxin-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px 20px;
+}
+
+.yunxin-stage-cover {
+  justify-content: center;
+}
+
+.yunxin-plate {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  border: 1px solid #d9cfbf;
+  box-shadow: 0 10px 28px rgba(40, 30, 20, 0.12);
+  background: #fcfaf6;
+}
+
+/* ===== 扉頁：動圖背景 + 疊字 ===== */
+.yunxin-flyleaf-frame {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid #d9cfbf;
+  box-shadow: 0 10px 28px rgba(40, 30, 20, 0.12);
+  background: #f7f1e6;
+}
+
+.yunxin-flyleaf-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 輕柔遮罩：極淡，幾乎不擋動圖 */
+.yunxin-flyleaf-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+}
+
+.yunxin-flyleaf-text {
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: min(86%, 300px);
+  padding: 22px 18px 20px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.yunxin-flyleaf-quote {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 5.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.55;
+  color: #1a222c;
+  /* 僅細白描邊，不造半透明底框感 */
+  text-shadow:
+    1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff,
+    1px 1px 0 #fff,
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff;
+}
+
+.yunxin-flyleaf-meta {
+  margin: 10px 0 0;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: #2f3842;
+  text-shadow:
+    1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff;
+}
+
+.yunxin-flyleaf-note {
+  margin: 8px 0 0;
+  font-family: var(--font-serif);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: #3a4450;
+  text-shadow:
+    1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff;
+}
+
+.yunxin-flyleaf-rule {
+  width: 48px;
+  height: 1px;
+  margin: 18px auto;
+  background: rgba(40, 50, 60, 0.55);
+  box-shadow: none;
+}
+
+/* ===== 自序正文（嵌在 reader 結構內） ===== */
+.yunxin-article {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 8px 0 24px;
+}
+
+.yunxin-author-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin: 12px auto 8px;
+}
+
+.yunxin-author-block .flaps-avatar {
+  margin: 0 auto 18px;
+  flex-shrink: 0;
+}
+
+.yunxin-author-block .flaps-author-name {
+  /* 抵消 letter-spacing 右側空白，讓「林樺」視覺正中 */
+  padding-left: 0.25em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.yunxin-author-block .flaps-divider-dot {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.yunxin-article-title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.28em;
+  text-align: center;
+  /* 抵消字距右側空白，標題視覺正中 */
+  padding-left: 0.28em;
+  margin: 8px 0 28px;
+}
+
+.yunxin-article-hero {
+  margin: 0 0 20px;
+  padding: 0;
+  text-align: center;
+}
+
+.yunxin-article-hero[hidden] {
+  display: none !important;
+}
+
+.yunxin-article-hero-img {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: min(100%, 420px);
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(120, 100, 70, 0.22);
+  box-shadow: 0 8px 22px rgba(40, 30, 20, 0.1);
+  background: #f7f1e6;
+}
+
+/* 篇内嵌入图／视频：始终不超出阅读栏，手机不横向撑破 */
+.yunxin-article-embed {
+  margin: 0 0 22px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.yunxin-article-embed[hidden] {
+  display: none !important;
+}
+
+.yunxin-article-embed-img,
+.yunxin-article-embed-video {
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(120, 100, 70, 0.22);
+  box-shadow: 0 8px 22px rgba(40, 30, 20, 0.1);
+  background: #f7f1e6;
+}
+
+.yunxin-article-embed-img {
+  max-width: min(100%, 420px);
+}
+
+.yunxin-article-embed-video {
+  width: 100%;
+  max-width: min(100%, 520px);
+}
+
+/* JS 标记 scale:0.5 的图：桌面偏小展示，窄屏仍可读 */
+.yunxin-article-embed-img.is-half,
+.yunxin-article-embed-video.is-half {
+  max-width: min(100%, 240px);
+}
+
+.yunxin-article-body {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 2;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.yunxin-article-body p {
+  margin: 0 0 1.4em;
+  text-indent: 2em;
+}
+
+.yunxin-article-body p.is-lead {
+  text-indent: 0;
+  text-align: center;
+  color: var(--color-text-primary);
+  letter-spacing: 0.12em;
+  font-family: var(--font-heading);
+  font-size: 1.05em;
+  margin: 1.8em 0 1em;
+}
+
+/* 詩前注釋／題記：較小、不同字體，與詩詞主體區隔 */
+.yunxin-note-block {
+  margin: 0 0 1.8em;
+  padding: 0 0 1.2em;
+  border-bottom: 1px solid rgba(120, 100, 70, 0.18);
+}
+
+.yunxin-article-body p.is-note {
+  text-indent: 0;
+  text-align: justify;
+  font-family: 'Source Han Sans TC', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  font-size: 14px;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  color: var(--color-text-faint, #8a7d6b);
+  margin: 0 0 0.55em;
+}
+
+.yunxin-article-body p.is-note:last-child {
+  margin-bottom: 0;
+}
+
+.yunxin-article-body p.is-note-end {
+  margin-top: 1.6em;
+  text-align: left;
+  font-style: normal;
+}
+
+.yunxin-article-sign {
+  margin-top: 28px;
+  text-align: right;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  color: var(--color-text-primary);
+}
+
+/* ===== 目錄分輯 ===== */
+.yunxin-toc-section {
+  margin: 8px 0 28px;
+}
+
+.yunxin-toc-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 8px 10px;
+}
+
+.yunxin-toc-section-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-text-primary);
+}
+
+.yunxin-toc-pending {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--color-accent);
+  letter-spacing: 0.12em;
+}
+
+.yunxin-toc-pending-note,
+.yunxin-toc-loading {
+  text-align: center;
+  padding: 8px 16px 16px;
+  color: var(--color-text-faint);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+
+/* ===== 目錄預留提示（舊） ===== */
+.yunxin-toc-reserve {
+  text-align: center;
+  padding: 20px 16px;
+  margin: 8px 8px 0;
+  border: 1px dashed #cbbda9;
+  border-radius: 8px;
+  background: rgba(255, 252, 246, 0.75);
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+}
+
+.yunxin-toc-reserve p + p {
+  margin-top: 4px;
+}
+
+/* ===== 明確翻頁按鈕（封面/扉頁/自序） ===== */
+.yunxin-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px 4px;
+  margin-top: auto;
+}
+
+.yunxin-pager-inline {
+  margin: 12px 0 24px;
+  padding: 0;
+}
+
+.yunxin-pager-label {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--color-text-faint);
+}
+
+.yunxin-pager-btn {
+  min-width: 108px;
+  text-align: center;
+  padding: 10px 16px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 22px;
+  background: #fdf8f2;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.yunxin-pager-btn:hover {
+  background: #fdf2ed;
+  border-color: #c05040;
+  color: #c05040;
+}
+
+.yunxin-pager-btn.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  border-color: var(--color-border);
+  color: var(--color-text-faint);
+  background: transparent;
+}
+
+.share-wx-tip {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin: 0 0 16px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  padding: 12px 14px;
+  background: rgba(40, 30, 20, 0.05);
+  border-radius: 10px;
+}
+
+.yunxin-toast {
+  position: fixed;
+  left: 50%;
+  top: 28%;
+  bottom: auto;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 3000;
+  max-width: min(86vw, 360px);
+  padding: 14px 22px;
+  border-radius: 14px;
+  background: rgba(40, 30, 20, 0.92);
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  line-height: 1.6;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.yunxin-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 480px) {
+  .yunxin-article-hero-img,
+  .yunxin-article-embed-img {
+    width: auto;
+    max-width: min(100%, 280px);
+    max-height: min(48vh, 320px);
+    object-fit: contain;
+  }
+
+  .yunxin-article-embed-img.is-half {
+    max-width: min(72vw, 220px);
+    max-height: min(36vh, 240px);
+  }
+
+  .yunxin-article-embed-video,
+  .yunxin-article-embed-video.is-half {
+    width: 100%;
+    max-width: 100%;
+    max-height: min(40vh, 280px);
+  }
+}
+
+@media (min-width: 768px) {
+  .yunxin-plate,
+  .yunxin-flyleaf-frame {
+    width: min(100%, 460px);
+  }
+
+  .yunxin-flyleaf-text {
+    top: 15%;
+    width: min(78%, 320px);
+    padding: 26px 22px 24px;
+  }
+
+  .yunxin-flyleaf-quote {
+    font-size: 30px;
+  }
+
+  .yunxin-article-title {
+    font-size: 32px;
+  }
+
+  .yunxin-article-body {
+    font-size: 19px;
+  }
+}

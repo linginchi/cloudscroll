@@ -1,0 +1,80 @@
+{
+  "id": "v2-04",
+  "file": "遊覽杭郡千古勝.docx",
+  "zh": "遊覽杭郡千古勝",
+  "en": "Hangzhou: A Thousand Years of Splendour",
+  "subtitle": "1992年，我們乘坐班機往杭州之遊。參觀岳王廟; 遊覽西湖美景。",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【杭州之遊】           遊覽杭郡千古勝"
+    },
+    {
+      "type": "text",
+      "content": "1992年，我們乘坐班機往杭州之遊。參觀岳王廟; 遊覽西湖美景。"
+    },
+    {
+      "type": "text",
+      "content": "岳王廟(亦稱岳廟) 坐落於杭州西湖棲霞嶺南麓。是紀念南宋民族英雄岳飛的丶祠墓合一建築。1221年正式建廟。全廟分三大区域：忠烈祠、啟忠祠、"
+    },
+    {
+      "type": "text",
+      "content": "墓園、古木環繞，氣氛肅穆。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_002.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "岳飛精忠報國                          岳王廟"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_004.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_005.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "岳飛造像           雲林禪寺           岳王廟"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_006.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_007.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "宋岳鄂王墓                    岳飛墓園杭州西湖  素有“人間天堂”美譽。蘇軾名句：“欲把西湖比西子，淡妝濃抹總相宜”道盡四季風釆。"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-04_009.jpeg"
+    }
+  ],
+  "stats": {
+    "chars": 165,
+    "unique_images": 9,
+    "paragraphs": 7
+  },
+  "en_subtitle": "Exploring the timeless beauty of Hangzhou, from West Lake to"
+}

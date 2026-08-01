@@ -1,0 +1,80 @@
+{
+  "id": "v2-13",
+  "file": "《海隅珠海札記》.docx",
+  "zh": "海隅珠海札記",
+  "en": "Zhuhai by the Sea",
+  "subtitle": "（一）珠海圓明新園:",
+  "author": "林樺",
+  "blocks": [
+    {
+      "type": "text",
+      "content": "【珠海遊】              海隅珠海札記"
+    },
+    {
+      "type": "text",
+      "content": "【珠海】珠海是中國的五個經濟特區之一。珠海環境優美，山清水秀，海域廣闊，有一百多個海島，素有“百島之市”美稱。1998年，遊覽珠海圓明新園、南海觀音寺等景點。"
+    },
+    {
+      "type": "text",
+      "content": "（一）珠海圓明新園:"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_001.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_002.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "珠海城市風光                    珠海圓明新園"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_003.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_004.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "圓明新園一                   圓明新園二"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_005.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_006.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "圓明新園三                    圓明新園四（二）南海觀音寺:"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_007.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_008.jpeg"
+    },
+    {
+      "type": "image",
+      "src": "images/v2-13_009.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "南海觀音寺         南海觀音寺廣場           南海觀音寺大佛"
+    }
+  ],
+  "stats": {
+    "chars": 135,
+    "unique_images": 9,
+    "paragraphs": 7
+  },
+  "en_subtitle": "Notes from Zhuhai, a coastal garden city by the South China "
+}

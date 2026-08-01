@@ -2,7 +2,8 @@
 node_modules/
 
 # Build output
-dist/
+# dist/ is committed so Cloudflare Pages Git can deploy when the dashboard
+# has no Build command (wrangler pages_build_output_dir + skip build).
 _output/
 
 # Python
@@ -28,5 +29,5 @@ Thumbs.db
 node_modules/
 package-lock.json
 
-# Original source documents
-book/
+# Original Word sources at repo root only (do not ignore dist/book/)
+/book/
