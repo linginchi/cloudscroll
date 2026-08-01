@@ -13,7 +13,8 @@ Static literary site for 林樺's works, deployed to Cloudflare Pages (`cloudscr
 构建注意：
 - `marked` 必须在 `dependencies`（Pages/CI 生产安装可能省略 devDependencies）
 - `CF_PAGES`/`CI` 下 `npm run build` 会跳过 Python 抽取，使用已提交的 `src/` 资源
-- GitHub Actions `Build` workflow 验证构建；Cloudflare Pages Git 检查若仍失败，请到仪表盘查看部署日志（需登录），并优先用本机 wrangler 发布
+- **`wrangler.jsonc` 不要写 `pages_build_output_dir`**：一旦写入，Pages Git 会以该文件为准且**忽略**仪表盘的 Build command，出现 `No build command specified` → 跳过构建 → `dist` 不存在而失败。本机发布仍用：`npx wrangler pages deploy dist ...`
+- GitHub Actions `Build` 用于验证构建
 
 本机完整发布仍建议：
 
