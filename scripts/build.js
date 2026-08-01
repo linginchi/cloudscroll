@@ -199,12 +199,16 @@ if (fs.existsSync(manifestSrc)) {
   console.log('  Copied manifest.json');
 }
 
-// Copy _worker.js (Pages Functions entry)
+// Copy _worker.js (Pages Functions / Advanced Mode entry)
 const workerSrc = path.join(SRC_DIR, '_worker.js');
 const workerDist = path.join(DIST_DIR, '_worker.js');
-if (fs.existsSync(workerSrc)) {
+// Temporary isolation: CF Pages Git has been failing at deploy; skip worker on Pages
+// so we can confirm whether Advanced Mode compilation is the failure point.
+if (fs.existsSync(workerSrc) && !ON_PAGES) {
   fs.copyFileSync(workerSrc, workerDist);
   console.log('  Copied _worker.js');
+} else if (ON_PAGES) {
+  console.warn('  Skipped _worker.js on CF_PAGES/CI (deploy isolation)');
 }
 
 // Remove functions/ dir if exists (we use _worker.js instead)
