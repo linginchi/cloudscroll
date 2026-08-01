@@ -99,16 +99,18 @@ if (fs.existsSync(yunxinSrcDir)) {
 }
 const distImages = path.join(DIST_DIR, 'images');
 fs.mkdirSync(distImages, { recursive: true });
-const yunxinImages = ['cover_v5.jpg', 'yunxin-cover.jpg', 'yunxin-flyleaf.jpg', 'yunxin-flyleaf-bg.mp4', 'beijing-anim.mp4', 'yunxin-weihui-bigan.jpg', 'yunxin-guishan-autumn.jpg'];
-yunxinImages.forEach(file => {
-  const src = path.join(srcImages, file);
-  if (fs.existsSync(src)) {
-    fs.copyFileSync(src, path.join(distImages, file));
+// 复制 src/images 全部媒体（含线上已有、后来补进仓库的图／视频），避免部署时漏文件覆盖生产
+if (fs.existsSync(srcImages)) {
+  const imageFiles = fs.readdirSync(srcImages).filter(function (f) {
+    return /\.(jpg|jpeg|png|webp|gif|mp4|webm|svg|ico)$/i.test(f);
+  });
+  imageFiles.forEach(function (file) {
+    fs.copyFileSync(path.join(srcImages, file), path.join(distImages, file));
     console.log('  Copied images/' + file);
-  } else {
-    console.log('  Skipped (not found): images/' + file);
-  }
-});
+  });
+} else {
+  console.warn('  src/images not found');
+}
 const srcYunxin = path.join(SRC_DIR, 'yunxin');
 const distYunxin = path.join(DIST_DIR, 'yunxin');
 if (fs.existsSync(srcYunxin)) {
