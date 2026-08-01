@@ -194,9 +194,16 @@ fs.mkdirSync(articlesDir, { recursive: true });
 if (fs.existsSync(CONTENT_DIR)) {
   var markedParse = null;
   try {
-    markedParse = require('marked').marked;
-  } catch (e) {
-    console.warn('[Step 2] marked not installed — skipping markdown conversion:', e.message);
+    // Prefer vendored copy so Cloudflare Pages builds do not depend on npm install layout
+    var markedMod = require(path.join(__dirname, 'vendor', 'marked'));
+    markedParse = markedMod.marked || markedMod;
+  } catch (e1) {
+    try {
+      var markedNpm = require('marked');
+      markedParse = markedNpm.marked || markedNpm;
+    } catch (e2) {
+      console.warn('[Step 2] marked not available — skipping markdown conversion:', e2.message);
+    }
   }
   if (markedParse) {
     const mdFiles = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.md'));

@@ -1,10 +1,7 @@
 {
-  // Pages Git 构建请用仪表盘的 Build command = `npm run build`、Output = `dist`。
-  // 此处故意不设 pages_build_output_dir，避免本文件覆盖仪表盘并导致未跑 build 就失败。
-  // 本机仍用：npx wrangler pages deploy dist --project-name cloudscroll
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cloudscroll",
-  "compatibility_date": "2026-07-31",
+  "pages_build_output_dir": "./dist",
   "kv_namespaces": [
     {
       "binding": "CLOUDSCROLL_STATS",
