@@ -29,7 +29,9 @@
       return;
     }
     var script = document.createElement('script');
-    script.src = 'js/html2pdf.bundle.min.js';
+    // Load from CDN so Pages Git builds are not blocked by the large vendored bundle
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    script.crossOrigin = 'anonymous';
     script.async = true;
     script.setAttribute('data-cloudscroll-html2pdf', '1');
     script.onload = function () { callback(null); };

@@ -46,10 +46,7 @@ function runPython(label, script, opts) {
     });
     return true;
   } catch (e) {
-    if (opts.fatal) {
-      console.error('[' + label + '] failed:', e.message);
-      process.exit(1);
-    }
+    // Never fail the Pages/Git build on Python tooling — use committed assets instead
     console.warn('[' + label + '] skipped:', e.message);
     return false;
   }
@@ -145,9 +142,11 @@ if (fs.existsSync(assetsDir)) {
   });
 }
 
-// Copy JS files
+// Copy JS files (skip bulky html2pdf bundle — loaded from CDN at runtime)
 if (fs.existsSync(jsDir)) {
-  const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js'));
+  const jsFiles = fs.readdirSync(jsDir).filter(function (f) {
+    return f.endsWith('.js') && f !== 'html2pdf.bundle.min.js';
+  });
   jsFiles.forEach(file => {
     fs.copyFileSync(path.join(jsDir, file), path.join(distJs, file));
     console.log('  Copied js/' + file);
@@ -173,11 +172,14 @@ if (fs.existsSync(manifestSrc)) {
 }
 
 // Copy _worker.js (Pages Functions entry)
+// Note: if Pages fails compiling Advanced Mode worker, set CF_PAGES_SKIP_WORKER=1 to isolate.
 const workerSrc = path.join(SRC_DIR, '_worker.js');
 const workerDist = path.join(DIST_DIR, '_worker.js');
-if (fs.existsSync(workerSrc)) {
+if (fs.existsSync(workerSrc) && process.env.CF_PAGES_SKIP_WORKER !== '1') {
   fs.copyFileSync(workerSrc, workerDist);
   console.log('  Copied _worker.js');
+} else if (process.env.CF_PAGES_SKIP_WORKER === '1') {
+  console.warn('  Skipped _worker.js (CF_PAGES_SKIP_WORKER=1)');
 }
 
 // Remove functions/ dir if exists (we use _worker.js instead)
