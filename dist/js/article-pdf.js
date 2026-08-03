@@ -165,6 +165,11 @@
       '.cs-pdf-ol{margin:0;padding-left:1.35em;}' +
       '.cs-pdf-ol li{margin:5px 0;font-size:14px;letter-spacing:0.02em;line-height:1.55;}' +
       '.cs-pdf-foot{margin-top:24px;padding-top:12px;border-top:1px solid #e0d6c6;font-size:12px;color:#8a7a66;letter-spacing:0.06em;}' +
+      '.cs-pdf-cover{position:relative;width:' + PDF_WIDTH + 'px;height:990px;margin:0;padding:0;overflow:hidden;background:#1a1510;page-break-inside:avoid;break-inside:avoid;}' +
+      '.cs-pdf-cover-img{display:block;width:' + PDF_WIDTH + 'px;height:990px;object-fit:cover;}' +
+      '.cs-pdf-notice{font-size:15px;line-height:1.9;margin:24px 0;text-align:justify;}' +
+      '.cs-pdf-figure{margin:14px 0 18px;border:1px solid #e0d6c6;border-radius:3px;overflow:hidden;background:#efe8dc;page-break-inside:avoid;}' +
+      '.cs-pdf-figure img{display:block;width:100%;height:auto;}' +
       '</style></head><body></body></html>'
     );
     doc.close();
@@ -184,6 +189,147 @@
     // Force layout in iframe
     void wrap.offsetHeight;
     return wrap;
+  }
+
+  function waitForImages(root, timeoutMs) {
+    var imgs = root ? root.querySelectorAll('img') : [];
+    if (!imgs.length) return Promise.resolve();
+
+    return new Promise(function (resolve) {
+      var done = false;
+      var remaining = imgs.length;
+      var cleanups = [];
+      var timeout = setTimeout(finish, timeoutMs || 12000);
+
+      function finish() {
+        if (done) return;
+        done = true;
+        clearTimeout(timeout);
+        for (var c = 0; c < cleanups.length; c++) cleanups[c]();
+        resolve();
+      }
+
+      function markDone() {
+        if (done) return;
+        remaining -= 1;
+        if (remaining <= 0) finish();
+      }
+
+      function decodeThenDone(img) {
+        if (typeof img.decode === 'function' && img.naturalWidth) {
+          Promise.resolve(img.decode()).catch(function () {}).then(markDone);
+          return;
+        }
+        markDone();
+      }
+
+      for (var i = 0; i < imgs.length; i++) {
+        (function (img) {
+          if (img.complete) {
+            decodeThenDone(img);
+            return;
+          }
+
+          function onLoad() {
+            remove();
+            decodeThenDone(img);
+          }
+
+          function onError() {
+            remove();
+            markDone();
+          }
+
+          function remove() {
+            img.removeEventListener('load', onLoad);
+            img.removeEventListener('error', onError);
+          }
+
+          cleanups.push(remove);
+          img.addEventListener('load', onLoad);
+          img.addEventListener('error', onError);
+        })(imgs[i]);
+      }
+    });
+  }
+
+  function isSameOriginUrl(url) {
+    try {
+      var loc = global.location;
+      if (!loc || !loc.origin) return false;
+      var resolved = new URL(url, loc.href || document.baseURI);
+      return resolved.origin === loc.origin;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function compressImageSrc(url, maxEdge, quality) {
+    var src = String(url || '').trim();
+    if (!src || !isSameOriginUrl(src)) return Promise.resolve(src);
+
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          var edge = maxEdge || 900;
+          if (!w || !h) {
+            resolve(src);
+            return;
+          }
+
+          var scale = Math.min(1, edge / Math.max(w, h));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(w * scale));
+          canvas.height = Math.max(1, Math.round(h * scale));
+          var ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(src);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', quality || 0.82));
+        } catch (e) {
+          resolve(src);
+        }
+      };
+      img.onerror = function () { resolve(src); };
+      img.src = src;
+    });
+  }
+
+  function prepareBookChunk(chunk) {
+    if (!chunk || !chunk.items || !chunk.items.length) return Promise.resolve(chunk);
+
+    var jobs = [];
+    for (var i = 0; i < chunk.items.length; i++) {
+      (function (item) {
+        if (!item || item.kind !== 'image' || !item.src) {
+          jobs.push(Promise.resolve(item));
+          return;
+        }
+        jobs.push(compressImageSrc(item.src, 900, 0.82).then(function (compressedSrc) {
+          if (compressedSrc === item.src) return item;
+          var copy = {};
+          for (var key in item) {
+            if (Object.prototype.hasOwnProperty.call(item, key)) copy[key] = item[key];
+          }
+          copy.src = compressedSrc;
+          return copy;
+        }));
+      })(chunk.items[i]);
+    }
+
+    return Promise.all(jobs).then(function (items) {
+      var copy = {};
+      for (var key in chunk) {
+        if (Object.prototype.hasOwnProperty.call(chunk, key)) copy[key] = chunk[key];
+      }
+      copy.items = items;
+      return copy;
+    });
   }
 
   function createRootShell(doc) {
@@ -257,21 +403,42 @@
   }
 
   function buildBookChunkRoot(doc, chunk) {
+    if (chunk.kind === 'cover') {
+      if (!chunk.coverSrc) {
+        var textWrap = createRootShell(doc);
+        if (chunk.showBrand !== false) appendBrand(doc, textWrap);
+        textWrap.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-title'));
+        if (chunk.subtitle) {
+          textWrap.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-sub'));
+        }
+        textWrap.appendChild(el(
+          doc,
+          'p',
+          (chunk.author || '林樺') + ' · 雲箋文舍',
+          'cs-pdf-sub'
+        ));
+        appendFooter(doc, textWrap);
+        return mountRoot(doc, textWrap);
+      }
+
+      // Full-bleed shelf cover art only (artwork already has title/author).
+      // Avoid absolute text overlays — html2pdf pagebreaks were orphaning them.
+      var cover = doc.createElement('section');
+      cover.className = 'cs-pdf-cover';
+      var coverImg = doc.createElement('img');
+      coverImg.className = 'cs-pdf-cover-img';
+      coverImg.src = chunk.coverSrc;
+      coverImg.alt = chunk.title || '文集';
+      cover.appendChild(coverImg);
+      return mountRoot(doc, cover);
+    }
+
     var wrap = createRootShell(doc);
     if (chunk.showBrand !== false) appendBrand(doc, wrap);
 
-    if (chunk.kind === 'cover') {
-      wrap.appendChild(el(doc, 'h1', chunk.title || '文集', 'cs-pdf-title'));
-      if (chunk.subtitle) {
-        wrap.appendChild(el(doc, 'p', chunk.subtitle, 'cs-pdf-sub'));
-      }
-      wrap.appendChild(el(
-        doc,
-        'p',
-        (chunk.author || '林樺') + ' · 雲箋文舍',
-        'cs-pdf-sub'
-      ));
-      wrap.appendChild(el(doc, 'p', '全文 PDF（文字版）', 'cs-pdf-sub'));
+    if (chunk.kind === 'notice') {
+      wrap.appendChild(el(doc, 'h2', '說明', 'cs-pdf-h2'));
+      wrap.appendChild(el(doc, 'p', chunk.text || '', 'cs-pdf-notice'));
       appendFooter(doc, wrap);
       return mountRoot(doc, wrap);
     }
@@ -294,10 +461,28 @@
     if (chunk.sectionTitle) {
       wrap.appendChild(el(doc, 'p', chunk.sectionTitle, 'cs-pdf-sub'));
     }
-    var paras = chunk.paragraphs || [];
-    for (var i = 0; i < paras.length; i++) {
-      if (!paras[i]) continue;
-      wrap.appendChild(el(doc, 'p', paras[i], 'cs-pdf-p'));
+    var items = chunk.items || [];
+    if (items.length) {
+      for (var i = 0; i < items.length; i++) {
+        if (!items[i]) continue;
+        if (items[i].kind === 'image' && items[i].src) {
+          var figure = doc.createElement('div');
+          figure.className = 'cs-pdf-figure';
+          var img = doc.createElement('img');
+          img.src = items[i].src;
+          img.alt = chunk.title || '文章配圖';
+          figure.appendChild(img);
+          wrap.appendChild(figure);
+        } else if (items[i].kind === 'text' && items[i].text) {
+          wrap.appendChild(el(doc, 'p', items[i].text, 'cs-pdf-p'));
+        }
+      }
+    } else {
+      var paras = chunk.paragraphs || [];
+      for (var p = 0; p < paras.length; p++) {
+        if (!paras[p]) continue;
+        wrap.appendChild(el(doc, 'p', paras[p], 'cs-pdf-p'));
+      }
     }
     appendFooter(doc, wrap);
     return mountRoot(doc, wrap);
@@ -434,6 +619,10 @@
     var onError = opts.onError;
     var title = opts.title || '';
     var filename = opts.filename;
+    var illustrated = !!opts.illustrated;
+    var progressPrefix = illustrated
+      ? '正在生成精选图文 PDF…（含封面与照片，请稍候）'
+      : '正在生成 PDF…';
     var opt = pdfOptions(filename);
 
     if (!chunks.length) {
@@ -476,25 +665,27 @@
         }
 
         var progress = Math.round((i / chunks.length) * 100);
-        toastWithOverlay(toast, '正在生成 PDF… ' + progress + '%');
+        toastWithOverlay(toast, progressPrefix + ' ' + progress + '%');
 
-        var root = buildBookChunkRoot(doc, chunks[i]);
-
-        if (i === 0) {
-          worker = worker.from(root).toPdf();
-        } else {
-          worker = worker.get('pdf').then(function (pdf) {
-            pdf.addPage();
-          }).from(root).toContainer().toCanvas().toPdf();
-        }
-
-        Promise.resolve(worker).then(function () {
+        prepareBookChunk(chunks[i]).then(function (chunk) {
+          var root = buildBookChunkRoot(doc, chunk);
+          return waitForImages(root, 12000).then(function () {
+            if (i === 0) {
+              worker = worker.from(root).toPdf();
+            } else {
+              worker = worker.get('pdf').then(function (pdf) {
+                pdf.addPage();
+              }).from(root).toContainer().toCanvas().toPdf();
+            }
+            return Promise.resolve(worker);
+          });
+        }).then(function () {
           i += 1;
           setTimeout(step, 30);
         }).catch(fail);
       }
 
-      showPdfOverlay('正在生成 PDF…');
+      showPdfOverlay(progressPrefix);
       step();
     });
   }
@@ -558,60 +749,97 @@
     return out;
   }
 
+  var pdfHelpersPromise = null;
+
+  function ensurePdfHelpers(callback) {
+    if (global.CloudscrollPdfHelpers) {
+      callback(null);
+      return;
+    }
+    if (!pdfHelpersPromise) {
+      pdfHelpersPromise = import('./pdf-book-helpers.js').then(function (mod) {
+        global.CloudscrollPdfHelpers = mod;
+        return mod;
+      }).catch(function (err) {
+        pdfHelpersPromise = null;
+        throw err;
+      });
+    }
+    pdfHelpersPromise.then(function () {
+      callback(null);
+    }).catch(function (err) {
+      callback(err);
+    });
+  }
+
   function loadTravelVolumeBook(volume) {
     var vol = parseInt(volume, 10) || 1;
-    return fetchJson('book/data.json').then(function (data) {
-      var chapters = data.chapters || [];
-      var ch = chapters[vol - 1];
-      if (!ch) throw new Error('volume not found');
-
-      var list = ch.articles || [];
-      var title = ch.zh || ('第' + vol + '輯');
-      var jobs = [];
-
-      if (vol === 1) {
-        jobs.push(
-          fetchJson('book/00-preface.json').then(function (pref) {
-            return {
-              title: pref.zh || '自序',
-              sectionTitle: '自序',
-              paragraphs: blocksToParagraphs(pref.blocks)
-            };
-          }).catch(function () { return null; })
-        );
-      }
-
-      for (var i = 0; i < list.length; i++) {
-        (function (art) {
-          jobs.push(
-            fetchJson('book/' + art.id + '.json').then(function (full) {
-              return {
-                title: art.zh || full.zh || art.id,
-                sectionTitle: title,
-                paragraphs: blocksToParagraphs(full.blocks)
-              };
-            }).catch(function () {
-              return {
-                title: art.zh || art.id,
-                sectionTitle: title,
-                paragraphs: [art.subtitle || '（本文暫未能載入）']
-              };
-            })
-          );
-        })(list[i]);
-      }
-
-      return Promise.all(jobs).then(function (articles) {
-        var cleaned = [];
-        for (var j = 0; j < articles.length; j++) {
-          if (articles[j]) cleaned.push(articles[j]);
+    return new Promise(function (resolve, reject) {
+      ensurePdfHelpers(function (err) {
+        if (err) {
+          reject(err);
+          return;
         }
-        return {
-          title: '我的人生旅行 · ' + title,
-          subtitle: data.title_en || '',
-          author: data.author || '林樺',
-          articles: cleaned
-        };
+        var H = global.CloudscrollPdfHelpers;
+        fetchJson('book/data.json').then(function (data) {
+          var chapters = data.chapters || [];
+          var ch = chapters[vol - 1];
+          if (!ch) throw new Error('volume not found');
+
+          var list = ch.articles || [];
+          var title = ch.zh || ('第' + vol + '輯');
+          var jobs = [];
+
+          if (vol === 1) {
+            jobs.push(
+              fetchJson('book/00-preface.json').then(function (pref) {
+                return {
+                  title: pref.zh || '自序',
+                  sectionTitle: '自序',
+                  paragraphs: blocksToParagraphs(pref.blocks),
+                  images: H.pickArticleImages(pref.blocks)
+                };
+              }).catch(function () { return null; })
+            );
+          }
+
+          for (var i = 0; i < list.length; i++) {
+            (function (art) {
+              jobs.push(
+                fetchJson('book/' + art.id + '.json').then(function (full) {
+                  return {
+                    title: art.zh || full.zh || art.id,
+                    sectionTitle: title,
+                    paragraphs: blocksToParagraphs(full.blocks),
+                    images: H.pickArticleImages(full.blocks)
+                  };
+                }).catch(function () {
+                  return {
+                    title: art.zh || art.id,
+                    sectionTitle: title,
+                    paragraphs: [art.subtitle || '（本文暫未能載入）'],
+                    images: []
+                  };
+                })
+              );
+            })(list[i]);
+          }
+
+          return Promise.all(jobs).then(function (articles) {
+            var cleaned = [];
+            for (var j = 0; j < articles.length; j++) {
+              if (articles[j]) cleaned.push(articles[j]);
+            }
+            return {
+              title: '我的人生旅行 · ' + title,
+              subtitle: data.title_en || '',
+              author: data.author || '林樺',
+              volume: vol,
+              coverSrc: H.volumeCoverSrc(vol),
+              articles: cleaned
+            };
+          });
+        }).then(resolve).catch(reject);
       });
     });
   }
@@ -659,13 +887,27 @@
   function buildBookChunks(book) {
     var articles = book.articles || [];
     var chunks = [];
+    var H = global.CloudscrollPdfHelpers || {};
+    var hasCoverImage = !!book.coverSrc;
+    var noticeText = H.NOTICE_TEXT ||
+      '本 PDF 为精选图文版，便于分享阅读。完整配图与排版请在手机打开 cloudscroll.net 在线阅读。';
 
     chunks.push({
       kind: 'cover',
       title: book.title,
       subtitle: book.subtitle,
-      author: book.author
+      author: book.author,
+      coverSrc: book.coverSrc || '',
+      showBrand: !hasCoverImage
     });
+
+    if (hasCoverImage) {
+      chunks.push({
+        kind: 'notice',
+        text: noticeText,
+        showBrand: true
+      });
+    }
 
     var titles = [];
     for (var i = 0; i < articles.length; i++) {
@@ -686,23 +928,41 @@
     for (var a = 0; a < articles.length; a++) {
       var art = articles[a];
       var paras = art.paragraphs || [];
-      var batch = 16;
-      if (!paras.length) {
+      var images = art.images || [];
+      var interleave = H.interleaveTextAndImages;
+      var items = typeof interleave === 'function'
+        ? interleave(paras, images)
+        : [];
+      var batch = images.length ? 10 : 16;
+      if (!items.length && !paras.length) {
         chunks.push({
           kind: 'article',
           title: art.title,
           sectionTitle: art.sectionTitle,
+          items: [{ kind: 'text', text: '（無正文）' }],
           paragraphs: ['（無正文）']
         });
         continue;
       }
-      for (var p = 0; p < paras.length; p += batch) {
+      if (!items.length) {
+        for (var p = 0; p < paras.length; p += batch) {
+          chunks.push({
+            kind: 'article',
+            title: p === 0 ? art.title : (art.title + '（續）'),
+            sectionTitle: p === 0 ? (art.sectionTitle || '') : '',
+            paragraphs: paras.slice(p, p + batch),
+            showBrand: p === 0
+          });
+        }
+        continue;
+      }
+      for (var itemStart = 0; itemStart < items.length; itemStart += batch) {
         chunks.push({
           kind: 'article',
-          title: p === 0 ? art.title : (art.title + '（續）'),
-          sectionTitle: p === 0 ? (art.sectionTitle || '') : '',
-          paragraphs: paras.slice(p, p + batch),
-          showBrand: p === 0
+          title: itemStart === 0 ? art.title : (art.title + '（續）'),
+          sectionTitle: itemStart === 0 ? (art.sectionTitle || '') : '',
+          items: items.slice(itemStart, itemStart + batch),
+          showBrand: itemStart === 0
         });
       }
     }
@@ -719,7 +979,15 @@
 
     var loader = opts.kind === 'yunxin'
       ? loadYunxinBook()
-      : loadTravelVolumeBook(opts.volume);
+      : new Promise(function (resolve, reject) {
+          ensurePdfHelpers(function (err) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            loadTravelVolumeBook(opts.volume).then(resolve).catch(reject);
+          });
+        });
 
     loader.then(function (book) {
       if (!book.articles || !book.articles.length) {
@@ -738,13 +1006,17 @@
         }
 
         var chunks = buildBookChunks(book);
-        toastWithOverlay(toast, '正在生成 PDF（分段渲染，請稍候）…');
+        var illustrated = opts.kind !== 'yunxin' && !!book.coverSrc;
+        toastWithOverlay(toast, illustrated
+          ? '正在生成精选图文 PDF…（含封面与照片，请稍候）…'
+          : '正在生成 PDF…');
         renderBookChunksToPdf(chunks, {
           toast: toast,
           onDone: onDone,
           onError: onError,
           title: book.title,
-          filename: sanitizeFilename(book.title || 'book')
+          filename: sanitizeFilename(book.title || 'book'),
+          illustrated: illustrated
         });
       });
     }).catch(function (e) {
